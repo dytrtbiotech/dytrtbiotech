@@ -1235,6 +1235,14 @@
   margin-bottom: 0;
 }
 
+.checkout-summary-section p {
+  margin-bottom: 0;
+}
+
+.checkout-summary-section p + p {
+  margin-top: 4px;
+}
+
 .checkout-summary-section + .checkout-summary-section {
   margin-top: 28px;
   padding-top: 0;
@@ -1295,7 +1303,7 @@
 .checkout-summary-total-row {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: flex-start;
   gap: 12px;
 }
 
