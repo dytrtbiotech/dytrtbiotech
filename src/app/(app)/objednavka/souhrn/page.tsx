@@ -114,14 +114,14 @@ export default function CheckoutPage() {
         nikam nezadávají.
       </p>
 
-      <div className="summary-block checkout-shell">
+      <div className="checkout-layout">
         <section
-          className="checkout-details"
+          className="summary-block checkout-details"
           aria-labelledby="summary-details"
         >
           <h2 id="summary-details">Vaše údaje</h2>
-          <div className="checkout-fields checkout-fields--triple">
-            <div className="checkout-field checkout-field--name">
+          <div className="checkout-fields">
+            <div className="checkout-field">
               <label htmlFor="checkout-name">Jméno a příjmení</label>
               <input
                 id="checkout-name"
@@ -131,7 +131,7 @@ export default function CheckoutPage() {
                 autoComplete="name"
               />
             </div>
-            <div className="checkout-field checkout-field--email">
+            <div className="checkout-field">
               <label htmlFor="checkout-email">E-mail</label>
               <input
                 id="checkout-email"
@@ -141,7 +141,7 @@ export default function CheckoutPage() {
                 readOnly
               />
             </div>
-            <div className="checkout-field checkout-field--phone">
+            <div className="checkout-field">
               <label htmlFor="checkout-phone">Telefon</label>
               <input
                 id="checkout-phone"
@@ -158,18 +158,18 @@ export default function CheckoutPage() {
           {error ? <p className="app-error">{error}</p> : null}
           <p className="checkout-legal">
             Pokračováním potvrzujete údaje objednávky a souhlasíte s předáním
-            potřebných informací laboratoři a zvolenému lékaři.
-            <br />
-            Ostré platební a právní znění doplníme později.
+            potřebných informací laboratoři a zvolenému lékaři. Ostré platební a
+            právní znění doplníme později.
           </p>
         </section>
 
         <aside
-          className="checkout-summary"
+          className="summary-block checkout-summary"
           aria-labelledby="checkout-summary-title"
         >
           <h2 id="checkout-summary-title">Shrnutí objednávky</h2>
-          <div className="checkout-summary-row">
+
+          <div className="checkout-summary-body">
             <div className="checkout-summary-section">
               <div className="summary-block-head">
                 <h3>Laboratorní vyšetření</h3>
@@ -190,28 +190,29 @@ export default function CheckoutPage() {
               </p>
             </div>
 
-            <div className="checkout-summary-total">
-              <div className="checkout-summary-total-row">
-                <span>Celkem k úhradě</span>
-                <strong className="summary-price">
-                  {formatCzk(panel.priceCzk)}
-                </strong>
-              </div>
+            <div className="checkout-summary-section checkout-summary-total">
+              <h3>Celkem k úhradě</h3>
+              <p className="summary-price">{formatCzk(panel.priceCzk)}</p>
               <p className="checkout-summary-note">
                 Cena laboratorního panelu. Konzultace u lékaře se řeší zvlášť.
               </p>
             </div>
           </div>
-        </aside>
-      </div>
 
-      <div className="order-actions">
-        <Link className="button order-back" href="/objednavka/lekar">
-          Zpět k výběru lékaře
-        </Link>
-        <button className="button" type="button" onClick={pay}>
-          Objednat a zaplatit {formatCzk(panel.priceCzk)}
-        </button>
+          <button
+            className="button checkout-summary-cta"
+            type="button"
+            onClick={pay}
+          >
+            Objednat a zaplatit {formatCzk(panel.priceCzk)}
+          </button>
+        </aside>
+
+        <div className="checkout-col-actions">
+          <Link className="button order-back" href="/objednavka/lekar">
+            Zpět k výběru lékaře
+          </Link>
+        </div>
       </div>
     </>
   );
