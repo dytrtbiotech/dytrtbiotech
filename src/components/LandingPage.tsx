@@ -196,7 +196,7 @@ export default function LandingPage() {
           </div>
           <div className="hero-image">
             <Image
-              src="/hero.png"
+              src="/hero.webp"
               alt="Muž si rukou prohrabuje krátké hnědé vlasy"
               width={1024}
               height={1280}
