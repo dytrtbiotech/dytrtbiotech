@@ -210,8 +210,7 @@ export default function CheckoutPage() {
                 Cena laboratorního panelu. Konzultace u lékaře se řeší zvlášť.
               </p>
             </div>
-          </aside>
-          <div className="checkout-col-actions checkout-col-actions--end">
+
             <button
               className="button checkout-summary-cta"
               type="button"
@@ -219,7 +218,7 @@ export default function CheckoutPage() {
             >
               Objednat a zaplatit {formatCzk(panel.priceCzk)}
             </button>
-          </div>
+          </aside>
         </div>
       </div>
     </>
