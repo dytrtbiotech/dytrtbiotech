@@ -115,64 +115,61 @@ export default function CheckoutPage() {
       </p>
 
       <div className="summary-block checkout-shell">
-        <div className="checkout-layout">
-          <section
-            className="checkout-details"
-            aria-labelledby="summary-details"
-          >
-            <h2 id="summary-details">Vaše údaje</h2>
-            <div className="checkout-fields">
-              <div className="checkout-field">
-                <label htmlFor="checkout-name">Jméno a příjmení</label>
-                <input
-                  id="checkout-name"
-                  className="app-input"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  autoComplete="name"
-                />
-              </div>
-              <div className="checkout-fields-row">
-                <div className="checkout-field">
-                  <label htmlFor="checkout-email">E-mail</label>
-                  <input
-                    id="checkout-email"
-                    className="app-input"
-                    type="email"
-                    value={email}
-                    readOnly
-                  />
-                </div>
-                <div className="checkout-field">
-                  <label htmlFor="checkout-phone">Telefon</label>
-                  <input
-                    id="checkout-phone"
-                    className="app-input"
-                    type="tel"
-                    inputMode="tel"
-                    placeholder="+420 …"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    autoComplete="tel"
-                  />
-                </div>
-              </div>
+        <section
+          className="checkout-details"
+          aria-labelledby="summary-details"
+        >
+          <h2 id="summary-details">Vaše údaje</h2>
+          <div className="checkout-fields checkout-fields--triple">
+            <div className="checkout-field checkout-field--name">
+              <label htmlFor="checkout-name">Jméno a příjmení</label>
+              <input
+                id="checkout-name"
+                className="app-input"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                autoComplete="name"
+              />
             </div>
-            {error ? <p className="app-error">{error}</p> : null}
-            <p className="checkout-legal">
-              Pokračováním potvrzujete údaje objednávky a souhlasíte s předáním
-              potřebných informací laboratoři a zvolenému lékaři.
-              <br />
-              Ostré platební a právní znění doplníme později.
-            </p>
-          </section>
+            <div className="checkout-field checkout-field--email">
+              <label htmlFor="checkout-email">E-mail</label>
+              <input
+                id="checkout-email"
+                className="app-input"
+                type="email"
+                value={email}
+                readOnly
+              />
+            </div>
+            <div className="checkout-field checkout-field--phone">
+              <label htmlFor="checkout-phone">Telefon</label>
+              <input
+                id="checkout-phone"
+                className="app-input"
+                type="tel"
+                inputMode="tel"
+                placeholder="+420 …"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                autoComplete="tel"
+              />
+            </div>
+          </div>
+          {error ? <p className="app-error">{error}</p> : null}
+          <p className="checkout-legal">
+            Pokračováním potvrzujete údaje objednávky a souhlasíte s předáním
+            potřebných informací laboratoři a zvolenému lékaři.
+            <br />
+            Ostré platební a právní znění doplníme později.
+          </p>
+        </section>
 
-          <aside
-            className="checkout-summary"
-            aria-labelledby="checkout-summary-title"
-          >
-            <h2 id="checkout-summary-title">Shrnutí objednávky</h2>
-
+        <aside
+          className="checkout-summary"
+          aria-labelledby="checkout-summary-title"
+        >
+          <h2 id="checkout-summary-title">Shrnutí objednávky</h2>
+          <div className="checkout-summary-row">
             <div className="checkout-summary-section">
               <div className="summary-block-head">
                 <h3>Laboratorní vyšetření</h3>
@@ -204,8 +201,8 @@ export default function CheckoutPage() {
                 Cena laboratorního panelu. Konzultace u lékaře se řeší zvlášť.
               </p>
             </div>
-          </aside>
-        </div>
+          </div>
+        </aside>
       </div>
 
       <div className="order-actions">

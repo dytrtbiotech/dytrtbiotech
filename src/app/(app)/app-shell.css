@@ -1176,20 +1176,16 @@
   margin-top: 8px;
   margin-bottom: 0;
   padding: 28px;
-}
-
-.checkout-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.9fr);
-  gap: 32px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .checkout-details {
   margin: 0;
   min-width: 0;
-  padding-right: 32px;
-  border-right: 1px solid var(--line);
+  padding: 0;
+  border: 0;
 }
 
 .checkout-details h2,
@@ -1203,23 +1199,62 @@
   width: 100%;
 }
 
-.checkout-fields-row {
+.checkout-fields--triple {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.15fr) minmax(0, 0.9fr);
   gap: 16px;
 }
 
 .checkout-summary {
-  margin: 0;
+  margin: 28px 0 0;
+  padding: 28px 0 0;
+  border-top: 1px solid var(--line);
   min-width: 0;
-  height: fit-content;
+  height: auto;
   display: flex;
   flex-direction: column;
 }
 
-.checkout-summary-section {
-  padding-bottom: 0;
-  margin-bottom: 0;
+.checkout-summary-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  align-items: start;
+}
+
+.checkout-summary-section,
+.checkout-summary-total {
+  min-width: 0;
+  margin: 0;
+  padding: 0 24px;
+  position: relative;
+  border: 0;
+}
+
+.checkout-summary-section:first-child {
+  padding-left: 0;
+}
+
+.checkout-summary-total {
+  padding-right: 0;
+}
+
+.checkout-summary-section + .checkout-summary-section,
+.checkout-summary-section + .checkout-summary-total {
+  margin-top: 0;
+}
+
+.checkout-summary-section + .checkout-summary-section::before,
+.checkout-summary-section + .checkout-summary-total::before,
+.checkout-summary-total::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  height: auto;
+  background: var(--line);
 }
 
 .checkout-summary-section p {
@@ -1228,21 +1263,6 @@
 
 .checkout-summary-section p + p {
   margin-top: 4px;
-}
-
-.checkout-summary-section + .checkout-summary-section {
-  margin-top: 22px;
-  position: relative;
-}
-
-.checkout-summary-section + .checkout-summary-section::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -11px;
-  height: 1px;
-  background: var(--line);
 }
 
 .checkout-summary-section .summary-block-head {
@@ -1263,43 +1283,28 @@
   font-size: 16px;
 }
 
-.checkout-summary-total {
-  margin-top: 22px;
-  padding-top: 0;
-  position: relative;
-  border-top: none;
-}
-
-.checkout-summary-total::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -11px;
-  height: 1px;
-  background: var(--line);
-}
-
 .checkout-summary-total-row {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: 6px;
 }
 
 .checkout-summary-total-row span {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--ink);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .checkout-summary-total-row .summary-price {
   margin: 0;
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .checkout-summary-note {
-  margin: 8px 0 0 !important;
+  margin: 10px 0 0 !important;
   font-size: 13px !important;
 }
 
@@ -1324,20 +1329,40 @@
     padding: 22px 18px;
   }
 
-  .checkout-layout {
+  .checkout-fields--triple {
     grid-template-columns: 1fr;
-    gap: 28px;
   }
 
-  .checkout-details {
-    border-right: 0;
-    padding-right: 0;
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--line);
+  .checkout-summary {
+    margin-top: 24px;
+    padding-top: 24px;
   }
 
-  .checkout-fields-row {
+  .checkout-summary-row {
     grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .checkout-summary-section,
+  .checkout-summary-total {
+    padding: 0;
+  }
+
+  .checkout-summary-section + .checkout-summary-section::before,
+  .checkout-summary-section + .checkout-summary-total::before,
+  .checkout-summary-total::before {
+    left: 0;
+    right: 0;
+    top: -11px;
+    bottom: auto;
+    width: auto;
+    height: 1px;
+  }
+
+  .checkout-summary-section + .checkout-summary-section,
+  .checkout-summary-section + .checkout-summary-total {
+    margin-top: 22px;
+    padding-top: 0;
   }
 }
 
