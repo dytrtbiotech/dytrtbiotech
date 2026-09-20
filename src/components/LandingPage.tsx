@@ -436,14 +436,9 @@ export default function LandingPage() {
               </article>
             </div>
             <p className="price-footnote">
-              <span className="price-footnote-line">
-                Screening ani obrazová analýza nenahrazují osobní posouzení
-                lékařem.
-              </span>
-              <br />
-              <span className="price-footnote-line">
-                Samotným vyplněním nevzniká objednávka vyšetření ani programu.
-              </span>
+              Screening ani obrazová analýza nenahrazují osobní posouzení
+              lékařem. Samotným vyplněním nevzniká objednávka vyšetření ani
+              programu.
             </p>
           </div>
         </section>

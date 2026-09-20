@@ -700,9 +700,6 @@ p {
   color: var(--muted);
   margin: 28px auto 0;
   text-align: center;
-}
-
-.price-footnote-line {
   white-space: nowrap;
 }
 
@@ -1349,8 +1346,6 @@ dialog::backdrop {
   }
   .price-footnote {
     font-size: 13px;
-  }
-  .price-footnote-line {
     white-space: normal;
   }
   .faq-trigger {
