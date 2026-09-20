@@ -694,21 +694,6 @@ p {
   color: white;
 }
 
-.price-card-cta {
-  align-self: flex-start;
-  margin-top: 28px;
-  background: #fff;
-  border-color: #fff;
-  color: var(--teal);
-}
-
-.price-card-cta:hover {
-  background: #f3f8f9;
-  border-color: #f3f8f9;
-  color: var(--teal);
-  box-shadow: none;
-}
-
 .price-footnote {
   font-size: 14px;
   line-height: 1.65;

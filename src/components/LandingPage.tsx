@@ -414,9 +414,6 @@ export default function LandingPage() {
                   Sedm částí screeningu a orientační shrnutí vašich odpovědí.
                   Pro zobrazení výsledku stačí zadat e-mail.
                 </p>
-                <Link className="button price-card-cta" href="/dotaznik">
-                  Zahájit screening
-                </Link>
               </article>
               <article className="price-card">
                 <span className="price-caption">Doplnění vašeho profilu</span>
