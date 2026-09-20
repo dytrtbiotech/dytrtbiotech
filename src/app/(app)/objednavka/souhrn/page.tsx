@@ -165,7 +165,7 @@ export default function CheckoutPage() {
           </section>
           <div className="checkout-col-actions">
             <Link className="button order-back" href="/objednavka/lekar">
-              Zpět
+              Zpět k výběru lékaře
             </Link>
           </div>
         </div>

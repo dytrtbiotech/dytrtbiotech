@@ -1158,10 +1158,17 @@
 
 .checkout-legal {
   margin: 20px 0 8px;
-  max-width: 640px;
+  max-width: none;
+  width: 100%;
   font-size: 13px;
   line-height: 1.65;
   color: var(--muted);
+}
+
+.checkout-details .checkout-legal {
+  margin-top: 20px;
+  padding-top: 0;
+  max-width: none;
 }
 
 .checkout-layout {
@@ -1185,11 +1192,6 @@
 .checkout-details .checkout-fields {
   max-width: none;
   width: 100%;
-}
-
-.checkout-details .checkout-legal {
-  margin-top: 20px;
-  padding-top: 0;
 }
 
 .checkout-col-actions {
