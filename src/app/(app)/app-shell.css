@@ -1168,7 +1168,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.9fr);
   gap: 24px;
-  align-items: stretch;
+  align-items: start;
   margin-top: 8px;
 }
 
@@ -1176,17 +1176,10 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  min-height: 100%;
 }
 
-.checkout-details,
-.checkout-summary {
+.checkout-details {
   margin: 0;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  box-sizing: border-box;
 }
 
 .checkout-details .checkout-fields {
@@ -1195,19 +1188,14 @@
 }
 
 .checkout-details .checkout-legal {
-  margin-top: auto;
-  padding-top: 20px;
+  margin-top: 20px;
+  padding-top: 0;
 }
 
 .checkout-col-actions {
   display: flex;
   align-items: center;
   margin-top: 16px;
-  min-height: 54px;
-}
-
-.checkout-col-actions--end {
-  justify-content: stretch;
 }
 
 .checkout-col-actions .button.order-back {
@@ -1220,6 +1208,16 @@
   background: var(--teal);
   border-color: var(--teal);
   color: #fff;
+}
+
+.checkout-summary {
+  margin: 0;
+  height: fit-content;
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 .checkout-summary > h2 {
@@ -1238,7 +1236,7 @@
 }
 
 .checkout-summary-section + .checkout-summary-section {
-  margin-top: 32px;
+  margin-top: 28px;
   padding-top: 0;
   border-top: none;
   position: relative;
@@ -1249,7 +1247,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: -16px;
+  top: -14px;
   height: 1px;
   background: var(--line);
 }
@@ -1273,8 +1271,8 @@
 }
 
 .checkout-summary-bottom {
-  margin-top: auto;
-  padding-top: 32px;
+  margin-top: 28px;
+  padding-top: 0;
   position: relative;
 }
 
@@ -1283,7 +1281,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 16px;
+  top: -14px;
   height: 1px;
   background: var(--line);
 }
@@ -1319,7 +1317,7 @@
 
 .checkout-summary-cta {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 18px;
   min-height: 44px;
   padding: 11px 20px;
   font-size: 14px;
@@ -1331,8 +1329,8 @@
     gap: 16px;
   }
 
-  .checkout-col-actions {
-    min-height: 0;
+  .checkout-summary {
+    position: static;
   }
 
   .checkout-summary-cta {
