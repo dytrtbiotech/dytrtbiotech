@@ -233,7 +233,7 @@ export default function LandingPage() {
               aria-hidden="true"
             >
               <path
-                d="M21.5 50C29 86 38 86 50 50C62 14 71 14 78.5 50"
+                d="M2.9 50C16 86 34 86 50 50C66 14 84 14 97.1 50"
                 stroke="currentColor"
                 strokeWidth="1.4"
                 pathLength="100"

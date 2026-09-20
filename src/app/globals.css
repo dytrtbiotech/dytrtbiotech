@@ -364,6 +364,7 @@ summary:focus-visible {
 
 .process-board {
   position: relative;
+  width: 100%;
 }
 
 .process-wave {
@@ -376,7 +377,7 @@ summary:focus-visible {
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 0;
+  column-gap: clamp(28px, 4vw, 72px);
   row-gap: 24px;
   width: 100%;
   position: relative;
@@ -388,7 +389,18 @@ summary:focus-visible {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 18px;
+  padding: 0;
+  min-width: 0;
+}
+
+.process-step:first-child {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.process-step:last-child {
+  align-items: flex-end;
+  text-align: right;
 }
 
 .process-icon {
@@ -420,7 +432,8 @@ summary:focus-visible {
 
 .process-step p {
   margin: 0;
-  max-width: 300px;
+  max-width: none;
+  width: 100%;
   font-size: 15px;
   line-height: 1.65;
   color: var(--muted);
@@ -1223,7 +1236,9 @@ dialog::backdrop {
     grid-template-columns: 1fr;
     gap: 28px;
   }
-  .process-step {
+  .process-step,
+  .process-step:first-child,
+  .process-step:last-child {
     align-items: flex-start;
     text-align: left;
     flex-direction: row;
