@@ -88,114 +88,126 @@ export default function CheckoutPage() {
     );
   }
 
+  const pay = () => {
+    if (!fullName.trim()) {
+      setError("Zadejte jméno a příjmení.");
+      return;
+    }
+    if (!phone.trim() || phone.trim().length < 9) {
+      setError("Zadejte telefonní číslo.");
+      return;
+    }
+    setError("");
+    saveCheckoutDetails({
+      fullName: fullName.trim(),
+      phone: phone.trim(),
+    });
+    markOrderPaid();
+    router.push("/prehled");
+  };
+
   return (
     <>
       <h1>Souhrn objednávky</h1>
       <p className="app-lead app-lead--nowrap">
-        Zkontrolujte údaje. Platba v této verzi je simulovaná - kartové údaje se nikam nezadávají.
+        Zkontrolujte údaje. Platba v této verzi je simulovaná - kartové údaje se
+        nikam nezadávají.
       </p>
 
-      <section className="summary-block" aria-labelledby="summary-panel">
-        <div className="summary-block-head">
-          <h2 id="summary-panel">Laboratorní panel</h2>
-          <Link href="/objednavka/panel">Upravit</Link>
-        </div>
-        <p className="summary-strong">{panel.name}</p>
-        <p>{panel.collection}</p>
-        <p className="summary-price">{formatCzk(panel.priceCzk)}</p>
-      </section>
-
-      <section className="summary-block" aria-labelledby="summary-doctor">
-        <div className="summary-block-head">
-          <h2 id="summary-doctor">Lékař</h2>
-          <Link href="/objednavka/lekar">Upravit</Link>
-        </div>
-        <p className="summary-strong">{doctor.name}</p>
-        <p>
-          {doctor.specialty} · {doctor.city}
-        </p>
-        <p>{doctor.address}</p>
-      </section>
-
-      <section className="summary-block" aria-labelledby="summary-total">
-        <h2 id="summary-total">Celkem k úhradě</h2>
-        <p className="summary-price">{formatCzk(panel.priceCzk)}</p>
-        <p>Cena laboratorního panelu. Konzultace u lékaře se řeší zvlášť.</p>
-      </section>
-
-      <section className="summary-block" aria-labelledby="summary-details">
-        <h2 id="summary-details">Vaše údaje</h2>
-        <div className="checkout-fields">
-          <div className="checkout-field">
-            <label htmlFor="checkout-name">Jméno a příjmení</label>
-            <input
-              id="checkout-name"
-              className="app-input"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              autoComplete="name"
-            />
-          </div>
-          <div className="checkout-field">
-            <label htmlFor="checkout-email">E-mail</label>
-            <input
-              id="checkout-email"
-              className="app-input"
-              type="email"
-              value={email}
-              readOnly
-            />
-          </div>
-          <div className="checkout-field">
-            <label htmlFor="checkout-phone">Telefon</label>
-            <input
-              id="checkout-phone"
-              className="app-input"
-              type="tel"
-              inputMode="tel"
-              placeholder="+420 …"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              autoComplete="tel"
-            />
-          </div>
-        </div>
-        {error ? <p className="app-error">{error}</p> : null}
-      </section>
-
-      <p className="checkout-legal">
-        Pokračováním potvrzujete údaje objednávky a souhlasíte s předáním
-        potřebných informací laboratoři a zvolenému lékaři. Ostré platební a
-        právní znění doplníme později.
-      </p>
-
-      <div className="order-actions">
-        <Link className="text-link" href="/objednavka/lekar">
-          Zpět
-        </Link>
-        <button
-          className="button"
-          type="button"
-          onClick={() => {
-            if (!fullName.trim()) {
-              setError("Zadejte jméno a příjmení.");
-              return;
-            }
-            if (!phone.trim() || phone.trim().length < 9) {
-              setError("Zadejte telefonní číslo.");
-              return;
-            }
-            setError("");
-            saveCheckoutDetails({
-              fullName: fullName.trim(),
-              phone: phone.trim(),
-            });
-            markOrderPaid();
-            router.push("/prehled");
-          }}
+      <div className="checkout-layout">
+        <section
+          className="summary-block checkout-details"
+          aria-labelledby="summary-details"
         >
-          Objednat a zaplatit {formatCzk(panel.priceCzk)}
-        </button>
+          <h2 id="summary-details">Vaše údaje</h2>
+          <div className="checkout-fields">
+            <div className="checkout-field">
+              <label htmlFor="checkout-name">Jméno a příjmení</label>
+              <input
+                id="checkout-name"
+                className="app-input"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                autoComplete="name"
+              />
+            </div>
+            <div className="checkout-field">
+              <label htmlFor="checkout-email">E-mail</label>
+              <input
+                id="checkout-email"
+                className="app-input"
+                type="email"
+                value={email}
+                readOnly
+              />
+            </div>
+            <div className="checkout-field">
+              <label htmlFor="checkout-phone">Telefon</label>
+              <input
+                id="checkout-phone"
+                className="app-input"
+                type="tel"
+                inputMode="tel"
+                placeholder="+420 …"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                autoComplete="tel"
+              />
+            </div>
+          </div>
+          {error ? <p className="app-error">{error}</p> : null}
+          <p className="checkout-legal">
+            Pokračováním potvrzujete údaje objednávky a souhlasíte s předáním
+            potřebných informací laboratoři a zvolenému lékaři. Ostré platební a
+            právní znění doplníme později.
+          </p>
+          <Link className="text-link checkout-back" href="/objednavka/lekar">
+            Zpět
+          </Link>
+        </section>
+
+        <aside
+          className="summary-block checkout-summary"
+          aria-labelledby="checkout-summary-title"
+        >
+          <h2 id="checkout-summary-title">Shrnutí objednávky</h2>
+
+          <div className="checkout-summary-section">
+            <div className="summary-block-head">
+              <h3>Laboratorní vyšetření</h3>
+              <Link href="/objednavka/panel">Upravit</Link>
+            </div>
+            <p className="summary-strong">{panel.name}</p>
+            <p className="summary-price">{formatCzk(panel.priceCzk)}</p>
+          </div>
+
+          <div className="checkout-summary-section">
+            <div className="summary-block-head">
+              <h3>Lékař</h3>
+              <Link href="/objednavka/lekar">Upravit</Link>
+            </div>
+            <p className="summary-strong">{doctor.name}</p>
+            <p>
+              {doctor.specialty} · {doctor.city}
+            </p>
+          </div>
+
+          <div className="checkout-summary-total">
+            <div className="checkout-summary-total-row">
+              <span>Celkem k úhradě</span>
+              <strong className="summary-price">
+                {formatCzk(panel.priceCzk)}
+              </strong>
+            </div>
+            <p className="checkout-summary-note">
+              Cena laboratorního panelu. Konzultace u lékaře se řeší zvlášť.
+            </p>
+          </div>
+
+          <button className="button checkout-summary-cta" type="button" onClick={pay}>
+            Objednat a zaplatit {formatCzk(panel.priceCzk)}
+          </button>
+        </aside>
       </div>
     </>
   );
