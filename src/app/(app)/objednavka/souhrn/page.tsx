@@ -197,6 +197,8 @@ export default function CheckoutPage() {
               </p>
             </div>
 
+            <div className="checkout-summary-spacer" aria-hidden="true" />
+
             <div className="checkout-summary-total">
               <div className="checkout-summary-total-row">
                 <span>Celkem k úhradě</span>
