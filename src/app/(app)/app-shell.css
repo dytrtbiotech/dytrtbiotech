@@ -1328,9 +1328,6 @@
 .checkout-summary-cta {
   width: 100%;
   margin-top: 18px;
-  min-height: 44px;
-  padding: 11px 20px;
-  font-size: 14px;
 }
 
 @media (max-width: 900px) {
