@@ -1159,29 +1159,24 @@
 .checkout-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
-  grid-template-areas:
-    "details summary"
-    "actions pay";
   gap: 16px;
   align-items: stretch;
   margin-top: 8px;
 }
 
-.checkout-details {
-  grid-area: details;
-  margin: 0;
-  min-width: 0;
-  height: 100%;
+.checkout-col {
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
+  gap: 16px;
+  min-width: 0;
+  min-height: 100%;
 }
 
+.checkout-details,
 .checkout-summary {
-  grid-area: summary;
   margin: 0;
   min-width: 0;
-  height: 100%;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -1205,14 +1200,13 @@
 }
 
 .checkout-col-actions {
-  grid-area: actions;
   display: flex;
   align-items: center;
   margin-top: 0;
+  min-height: 48px;
 }
 
 .checkout-col-actions--pay {
-  grid-area: pay;
   justify-content: stretch;
 }
 
@@ -1296,11 +1290,6 @@
 @media (max-width: 900px) {
   .checkout-layout {
     grid-template-columns: 1fr;
-    grid-template-areas:
-      "details"
-      "actions"
-      "summary"
-      "pay";
     gap: 16px;
   }
 }
