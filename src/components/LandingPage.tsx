@@ -217,10 +217,10 @@ export default function LandingPage() {
           id="jak-to-funguje"
         >
           <div className="process-intro">
-            <h2 id="now-title">Co vás bude čekat</h2>
+            <h2 id="now-title">Jak to začne</h2>
             <p>
-              Nejdřív krátký přehled o vašich vlasech. Až potom se rozhodnete,
-              jestli chcete pokračovat dál.
+              Nejprve krátký screening. Výsledek si zobrazíte zdarma a až potom
+              se rozhodnete, zda chcete pokračovat.
             </p>
           </div>
 
@@ -263,8 +263,8 @@ export default function LandingPage() {
                 </div>
                 <h3>Projdete screeningem</h3>
                 <p>
-                Pár otázek o svých vlasech a dosavadní péči. Zabere to jen
-                chvíli.
+                  Pár otázek o vašich vlasech a dosavadní péči. Zabere jen
+                  několik minut.
                 </p>
               </li>
 
@@ -286,9 +286,10 @@ export default function LandingPage() {
                     />
                   </svg>
                 </div>
-                <h3>Uvidíte svůj profil</h3>
+                <h3>Uvidíte své shrnutí</h3>
                 <p>
-                  Po zadání e-mailu dostanete orientační shrnutí vašich odpovědí.
+                  Po zadání e-mailu vám zobrazíme orientační výsledek vašich
+                  odpovědí.
                 </p>
               </li>
 
@@ -306,8 +307,8 @@ export default function LandingPage() {
                 </div>
                 <h3>Rozhodnete se sami</h3>
                 <p>
-                  Pokračovat můžete, ale nemusíte. Nic se neobjednává
-                  automaticky.
+                  Pokračovat nemusíte. Další kroky si vybíráte až ve chvíli, kdy
+                  sami chcete.
                 </p>
               </li>
             </ol>
@@ -319,9 +320,8 @@ export default function LandingPage() {
             <span className="eyebrow">Volitelné pokračování</span>
             <h2 id="journey-title">Když budete chtít jít dál</h2>
             <p>
-              Screening je jen začátek. Můžete navázat vyšetřením, analýzou
-              vlasů a konzultací s lékařem - vždy až ve chvíli, kdy se pro to
-              sami rozhodnete.
+              Další kroky si volíte postupně. Vždy předem víte, co vás čeká a
+              kolik daná služba stojí.
             </p>
           </div>
 
@@ -330,32 +330,30 @@ export default function LandingPage() {
               <span className="pill-label">Osobně</span>
               <h3>Laboratorní vyšetření</h3>
               <p>
-                Vyberete si panel a lékaře. Odběr absolvujete v laboratoři,
-                která výsledky předá přímo k konzultaci.
+                Vyberete si rozsah vyšetření a lékaře, kterému budou výsledky
+                předány.
               </p>
             </li>
             <li className="next-step-card">
               <span className="pill-label">Online</span>
               <h3>Analýza vlasů</h3>
               <p>
-                HairScope AI doplní váš profil o orientační pohled na vlasy
-                ještě před osobní návštěvou.
+                Pomocí telefonu doplníte obrazovou analýzu vlasů a pokožky.
               </p>
             </li>
             <li className="next-step-card">
               <span className="pill-label">Osobně</span>
               <h3>Konzultace s lékařem</h3>
               <p>
-                Lékař s vámi projde dostupné výsledky, posoudí stav a
-                doporučí vhodný další postup.
+                Po předání výsledků si domluvíte konzultaci u zvoleného lékaře.
               </p>
             </li>
             <li className="next-step-card">
               <span className="pill-label">Osobně</span>
               <h3>Program péče</h3>
               <p>
-                Pokud vám bude vyhovovat, navážete péčí u vybraného
-                pracoviště. Rozsah i cenu znáte předem.
+                Pokud se po konzultaci rozhodnete pokračovat, zobrazíme vám
+                navazující program a jeho podmínky.
               </p>
             </li>
           </ol>
