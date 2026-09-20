@@ -159,8 +159,9 @@ export default function CheckoutPage() {
             {error ? <p className="app-error">{error}</p> : null}
             <p className="checkout-legal">
               Pokračováním potvrzujete údaje objednávky a souhlasíte s předáním
-              potřebných informací laboratoři a zvolenému lékaři. Ostré platební
-              a právní znění doplníme později.
+              potřebných informací laboratoři a zvolenému lékaři.
+              <br />
+              Ostré platební a právní znění doplníme později.
             </p>
           </section>
           <div className="checkout-col-actions">
