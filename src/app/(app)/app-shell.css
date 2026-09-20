@@ -1207,7 +1207,7 @@
 }
 
 .checkout-col-actions--pay {
-  justify-content: stretch;
+  justify-content: flex-end;
 }
 
 .checkout-col-actions .button.order-back {
@@ -1283,7 +1283,7 @@
 }
 
 .checkout-summary-cta {
-  width: 100%;
+  width: auto;
   margin-top: 0;
 }
 
