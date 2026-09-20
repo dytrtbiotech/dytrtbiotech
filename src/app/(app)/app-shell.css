@@ -1231,6 +1231,11 @@
   margin-bottom: 16px;
 }
 
+.checkout-summary-section + .checkout-summary-section {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
 .checkout-summary-section .summary-block-head {
   margin-bottom: 6px;
 }
@@ -1252,7 +1257,6 @@
 .checkout-summary-total {
   padding-top: 16px;
   margin-top: auto;
-  border-top: 1px solid var(--line);
 }
 
 .checkout-summary-total-row {
