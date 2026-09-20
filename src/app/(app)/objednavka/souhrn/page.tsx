@@ -132,28 +132,30 @@ export default function CheckoutPage() {
                   autoComplete="name"
                 />
               </div>
-              <div className="checkout-field">
-                <label htmlFor="checkout-email">E-mail</label>
-                <input
-                  id="checkout-email"
-                  className="app-input"
-                  type="email"
-                  value={email}
-                  readOnly
-                />
-              </div>
-              <div className="checkout-field">
-                <label htmlFor="checkout-phone">Telefon</label>
-                <input
-                  id="checkout-phone"
-                  className="app-input"
-                  type="tel"
-                  inputMode="tel"
-                  placeholder="+420 …"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  autoComplete="tel"
-                />
+              <div className="checkout-fields-row">
+                <div className="checkout-field">
+                  <label htmlFor="checkout-email">E-mail</label>
+                  <input
+                    id="checkout-email"
+                    className="app-input"
+                    type="email"
+                    value={email}
+                    readOnly
+                  />
+                </div>
+                <div className="checkout-field">
+                  <label htmlFor="checkout-phone">Telefon</label>
+                  <input
+                    id="checkout-phone"
+                    className="app-input"
+                    type="tel"
+                    inputMode="tel"
+                    placeholder="+420 …"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    autoComplete="tel"
+                  />
+                </div>
               </div>
             </div>
             {error ? <p className="app-error">{error}</p> : null}
@@ -204,19 +206,15 @@ export default function CheckoutPage() {
             </div>
           </aside>
         </div>
+      </div>
 
-        <div className="checkout-footer">
-          <Link className="button order-back" href="/objednavka/lekar">
-            Zpět k výběru lékaře
-          </Link>
-          <button
-            className="button checkout-summary-cta"
-            type="button"
-            onClick={pay}
-          >
-            Objednat a zaplatit {formatCzk(panel.priceCzk)}
-          </button>
-        </div>
+      <div className="order-actions">
+        <Link className="button order-back" href="/objednavka/lekar">
+          Zpět k výběru lékaře
+        </Link>
+        <button className="button" type="button" onClick={pay}>
+          Objednat a zaplatit {formatCzk(panel.priceCzk)}
+        </button>
       </div>
     </>
   );
