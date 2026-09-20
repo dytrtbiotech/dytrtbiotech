@@ -1257,6 +1257,7 @@
 .checkout-summary-total {
   padding-top: 16px;
   margin-top: auto;
+  border-top: 1px solid var(--line);
 }
 
 .checkout-summary-total-row {
