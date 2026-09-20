@@ -114,10 +114,10 @@ export default function CheckoutPage() {
         nikam nezadávají.
       </p>
 
-      <div className="checkout-layout">
-        <div className="checkout-col">
+      <div className="summary-block checkout-shell">
+        <div className="checkout-layout">
           <section
-            className="summary-block checkout-details"
+            className="checkout-details"
             aria-labelledby="summary-details"
           >
             <h2 id="summary-details">Vaše údaje</h2>
@@ -164,65 +164,58 @@ export default function CheckoutPage() {
               Ostré platební a právní znění doplníme později.
             </p>
           </section>
-          <div className="checkout-col-actions">
-            <Link className="button order-back" href="/objednavka/lekar">
-              Zpět k výběru lékaře
-            </Link>
-          </div>
-        </div>
 
-        <div className="checkout-col">
           <aside
-            className="summary-block checkout-summary"
+            className="checkout-summary"
             aria-labelledby="checkout-summary-title"
           >
             <h2 id="checkout-summary-title">Shrnutí objednávky</h2>
 
-            <div className="checkout-summary-top">
-              <div className="checkout-summary-section">
-                <div className="summary-block-head">
-                  <h3>Laboratorní vyšetření</h3>
-                  <Link href="/objednavka/panel">Upravit</Link>
-                </div>
-                <p className="summary-strong">{panel.name}</p>
-                <p className="summary-price">{formatCzk(panel.priceCzk)}</p>
+            <div className="checkout-summary-section">
+              <div className="summary-block-head">
+                <h3>Laboratorní vyšetření</h3>
+                <Link href="/objednavka/panel">Upravit</Link>
               </div>
-
-              <div className="checkout-summary-section">
-                <div className="summary-block-head">
-                  <h3>Lékař</h3>
-                  <Link href="/objednavka/lekar">Upravit</Link>
-                </div>
-                <p className="summary-strong">{doctor.name}</p>
-                <p>
-                  {doctor.specialty} · {doctor.city}
-                </p>
-              </div>
+              <p className="summary-strong">{panel.name}</p>
+              <p className="summary-price">{formatCzk(panel.priceCzk)}</p>
             </div>
 
-            <div className="checkout-summary-bottom">
-              <div className="checkout-summary-total">
-                <div className="checkout-summary-total-row">
-                  <span>Celkem k úhradě</span>
-                  <strong className="summary-price">
-                    {formatCzk(panel.priceCzk)}
-                  </strong>
-                </div>
-                <p className="checkout-summary-note">
-                  Cena laboratorního panelu. Konzultace u lékaře se řeší
-                  zvlášť.
-                </p>
+            <div className="checkout-summary-section">
+              <div className="summary-block-head">
+                <h3>Lékař</h3>
+                <Link href="/objednavka/lekar">Upravit</Link>
               </div>
+              <p className="summary-strong">{doctor.name}</p>
+              <p>
+                {doctor.specialty} · {doctor.city}
+              </p>
+            </div>
 
-              <button
-                className="button checkout-summary-cta"
-                type="button"
-                onClick={pay}
-              >
-                Objednat a zaplatit {formatCzk(panel.priceCzk)}
-              </button>
+            <div className="checkout-summary-total">
+              <div className="checkout-summary-total-row">
+                <span>Celkem k úhradě</span>
+                <strong className="summary-price">
+                  {formatCzk(panel.priceCzk)}
+                </strong>
+              </div>
+              <p className="checkout-summary-note">
+                Cena laboratorního panelu. Konzultace u lékaře se řeší zvlášť.
+              </p>
             </div>
           </aside>
+        </div>
+
+        <div className="checkout-footer">
+          <Link className="button order-back" href="/objednavka/lekar">
+            Zpět k výběru lékaře
+          </Link>
+          <button
+            className="button checkout-summary-cta"
+            type="button"
+            onClick={pay}
+          >
+            Objednat a zaplatit {formatCzk(panel.priceCzk)}
+          </button>
         </div>
       </div>
     </>
