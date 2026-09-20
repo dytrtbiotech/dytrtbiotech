@@ -198,7 +198,15 @@ export default function CheckoutPage() {
               </p>
             </div>
           </div>
+        </aside>
 
+        <div className="checkout-col-actions">
+          <Link className="button order-back" href="/objednavka/lekar">
+            Zpět k výběru lékaře
+          </Link>
+        </div>
+
+        <div className="checkout-col-actions checkout-col-actions--pay">
           <button
             className="button checkout-summary-cta"
             type="button"
@@ -206,12 +214,6 @@ export default function CheckoutPage() {
           >
             Objednat a zaplatit {formatCzk(panel.priceCzk)}
           </button>
-        </aside>
-
-        <div className="checkout-col-actions">
-          <Link className="button order-back" href="/objednavka/lekar">
-            Zpět k výběru lékaře
-          </Link>
         </div>
       </div>
     </>

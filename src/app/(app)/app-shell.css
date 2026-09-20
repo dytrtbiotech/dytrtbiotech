@@ -1161,7 +1161,7 @@
   grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
   grid-template-areas:
     "details summary"
-    "actions .";
+    "actions pay";
   gap: 16px;
   align-items: stretch;
   margin-top: 8px;
@@ -1209,6 +1209,11 @@
   display: flex;
   align-items: center;
   margin-top: 0;
+}
+
+.checkout-col-actions--pay {
+  grid-area: pay;
+  justify-content: stretch;
 }
 
 .checkout-col-actions .button.order-back {
@@ -1285,7 +1290,7 @@
 
 .checkout-summary-cta {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 @media (max-width: 900px) {
@@ -1294,10 +1299,10 @@
     grid-template-areas:
       "details"
       "actions"
-      "summary";
+      "summary"
+      "pay";
     gap: 16px;
   }
-
 }
 
 .app-error {
