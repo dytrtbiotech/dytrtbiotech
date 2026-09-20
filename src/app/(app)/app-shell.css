@@ -1226,6 +1226,12 @@
   margin-bottom: 18px;
 }
 
+.checkout-summary-top {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
 .checkout-summary-section {
   padding-bottom: 0;
   margin-bottom: 0;
@@ -1266,17 +1272,18 @@
   font-size: 16px;
 }
 
-.checkout-summary-spacer {
-  flex: 1 1 auto;
-  min-height: 32px;
-  display: flex;
-  align-items: center;
+.checkout-summary-bottom {
+  margin-top: auto;
+  padding-top: 32px;
+  position: relative;
 }
 
-.checkout-summary-spacer::before {
+.checkout-summary-bottom::before {
   content: "";
-  display: block;
-  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 16px;
   height: 1px;
   background: var(--line);
 }

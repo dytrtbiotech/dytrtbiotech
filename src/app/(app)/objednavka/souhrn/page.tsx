@@ -177,47 +177,50 @@ export default function CheckoutPage() {
           >
             <h2 id="checkout-summary-title">Shrnutí objednávky</h2>
 
-            <div className="checkout-summary-section">
-              <div className="summary-block-head">
-                <h3>Laboratorní vyšetření</h3>
-                <Link href="/objednavka/panel">Upravit</Link>
+            <div className="checkout-summary-top">
+              <div className="checkout-summary-section">
+                <div className="summary-block-head">
+                  <h3>Laboratorní vyšetření</h3>
+                  <Link href="/objednavka/panel">Upravit</Link>
+                </div>
+                <p className="summary-strong">{panel.name}</p>
+                <p className="summary-price">{formatCzk(panel.priceCzk)}</p>
               </div>
-              <p className="summary-strong">{panel.name}</p>
-              <p className="summary-price">{formatCzk(panel.priceCzk)}</p>
+
+              <div className="checkout-summary-section">
+                <div className="summary-block-head">
+                  <h3>Lékař</h3>
+                  <Link href="/objednavka/lekar">Upravit</Link>
+                </div>
+                <p className="summary-strong">{doctor.name}</p>
+                <p>
+                  {doctor.specialty} · {doctor.city}
+                </p>
+              </div>
             </div>
 
-            <div className="checkout-summary-section">
-              <div className="summary-block-head">
-                <h3>Lékař</h3>
-                <Link href="/objednavka/lekar">Upravit</Link>
+            <div className="checkout-summary-bottom">
+              <div className="checkout-summary-total">
+                <div className="checkout-summary-total-row">
+                  <span>Celkem k úhradě</span>
+                  <strong className="summary-price">
+                    {formatCzk(panel.priceCzk)}
+                  </strong>
+                </div>
+                <p className="checkout-summary-note">
+                  Cena laboratorního panelu. Konzultace u lékaře se řeší
+                  zvlášť.
+                </p>
               </div>
-              <p className="summary-strong">{doctor.name}</p>
-              <p>
-                {doctor.specialty} · {doctor.city}
-              </p>
+
+              <button
+                className="button checkout-summary-cta"
+                type="button"
+                onClick={pay}
+              >
+                Objednat a zaplatit {formatCzk(panel.priceCzk)}
+              </button>
             </div>
-
-            <div className="checkout-summary-spacer" aria-hidden="true" />
-
-            <div className="checkout-summary-total">
-              <div className="checkout-summary-total-row">
-                <span>Celkem k úhradě</span>
-                <strong className="summary-price">
-                  {formatCzk(panel.priceCzk)}
-                </strong>
-              </div>
-              <p className="checkout-summary-note">
-                Cena laboratorního panelu. Konzultace u lékaře se řeší zvlášť.
-              </p>
-            </div>
-
-            <button
-              className="button checkout-summary-cta"
-              type="button"
-              onClick={pay}
-            >
-              Objednat a zaplatit {formatCzk(panel.priceCzk)}
-            </button>
           </aside>
         </div>
       </div>
