@@ -177,7 +177,7 @@ export default function LandingPage() {
                 Zahájit screening
               </Link>
               <a
-                className="text-link"
+                className="button secondary"
                 href="https://www.stemaesthetic.com"
                 target="_blank"
                 rel="noopener noreferrer"
