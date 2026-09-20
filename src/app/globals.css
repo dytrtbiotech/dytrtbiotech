@@ -118,6 +118,18 @@ summary:focus-visible {
   font-size: 14px;
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-actions .button {
+  min-height: 44px;
+  padding: 11px 22px;
+  font-size: 14px;
+}
+
 .nav > a {
   transition: color 0.2s;
 }
@@ -1123,8 +1135,11 @@ dialog::backdrop {
   .nav > a {
     display: none;
   }
-  .nav .button.secondary {
-    padding: 9px 16px;
+  .nav-actions {
+    gap: 8px;
+  }
+  .nav-actions .button {
+    padding: 9px 14px;
     min-height: 40px;
     font-size: 12px;
   }

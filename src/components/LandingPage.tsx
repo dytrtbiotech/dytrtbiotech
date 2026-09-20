@@ -141,9 +141,14 @@ export default function LandingPage() {
             >
               Reference ↗
             </a>
-            <Link className="button secondary" href="/prihlaseni">
-              Přihlásit se
-            </Link>
+            <div className="nav-actions">
+              <Link className="button secondary" href="/prihlaseni">
+                Přihlásit se
+              </Link>
+              <Link className="button" href="/dotaznik">
+                Zahájit screening
+              </Link>
+            </div>
           </nav>
         </div>
       </header>
