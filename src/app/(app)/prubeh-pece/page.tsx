@@ -212,7 +212,7 @@ export default function PrubehPecePage() {
                     </div>
                   ) : (
                     <div className="journey-actions">
-                      <Link className="text-link" href="/vysetreni">
+                      <Link className="button secondary" href="/vysetreni">
                         Detail vyšetření
                       </Link>
                     </div>
