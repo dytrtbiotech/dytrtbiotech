@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ScreeningApp from "@/components/screening/ScreeningApp";
+import "@/components/app/process-sidebar.css";
 import "./screening.css";
 
 export const metadata: Metadata = {

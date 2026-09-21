@@ -13,6 +13,7 @@
   overflow: hidden;
 }
 
+.screening.is-locked > .process-aside,
 .screening.is-locked > .screening-aside,
 .screening.is-locked > .screening-main {
   filter: blur(11px);
@@ -1159,7 +1160,8 @@
     grid-template-columns: 1fr;
   }
 
-  .screening-aside {
+  .screening-aside,
+  .process-aside {
     display: none;
   }
 

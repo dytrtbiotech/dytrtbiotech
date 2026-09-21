@@ -3,6 +3,7 @@
 import ChoiceGroup from "@/components/screening/ChoiceGroup";
 import ResultCard from "@/components/screening/ResultCard";
 import ScreeningStepper from "@/components/screening/ScreeningStepper";
+import ProcessSidebar from "@/components/app/ProcessSidebar";
 import {
   DURATION_OPTIONS,
   EXPECTATION_OPTIONS,
@@ -40,18 +41,10 @@ import {
 } from "@/lib/screening/storage";
 import { clearOrderForEmail } from "@/lib/order/storage";
 import { clearPhotosForEmail } from "@/lib/photos/storage";
+import { getScreeningProcessPhases } from "@/lib/order/process-sidebar";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-
-const PHASES = [
-  { id: "screening", label: "Screening" },
-  { id: "laborator", label: "Laboratorní vyšetření" },
-  { id: "analyza", label: "Analýza vlasů" },
-  { id: "konzultace", label: "Konzultace" },
-  { id: "pece", label: "Plán péče" },
-] as const;
 
 function phaseProgressLabel(step: ScreeningStep) {
   if (step === "intro") return "Úvod";
@@ -322,44 +315,16 @@ export default function ScreeningApp() {
 
   return (
     <div className={`screening${overlayOpen ? " is-locked" : ""}`}>
-      <aside className="screening-aside" aria-label="Průběh">
-        <Link className="screening-brand" href="/" aria-label="FOLLICAD">
-          <Image
-            className="screening-brand-img"
-            src="/follicad-logo.png"
-            alt="FOLLICAD"
-            width={200}
-            height={44}
-            priority
-          />
-        </Link>
-
-        <ol className="screening-phases">
-          {PHASES.map((phase, index) => {
-            const active = phase.id === "screening";
-            return (
-              <li
-                key={phase.id}
-                className={`screening-phase${active ? " is-active" : ""}${index > 0 ? " is-upcoming" : ""}`}
-              >
-                <span className="screening-phase-index">
-                  {index + 1}
-                </span>
-                <span className="screening-phase-copy">
-                  <span className="screening-phase-label">{phase.label}</span>
-                  {active ? (
-                    <span className="screening-phase-meta">{progressLabel}</span>
-                  ) : null}
-                </span>
-              </li>
-            );
-          })}
-        </ol>
-
-        <Link className="screening-exit screening-exit--aside" href="/">
-          Zpět na úvod
-        </Link>
-      </aside>
+      <ProcessSidebar
+        phases={getScreeningProcessPhases()}
+        currentMeta={progressLabel}
+        brandHref="/"
+        footer={
+          <Link className="process-exit" href="/">
+            Zpět na úvod
+          </Link>
+        }
+      />
 
       <div className="screening-main">
         <header

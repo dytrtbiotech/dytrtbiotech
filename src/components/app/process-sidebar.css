@@ -1,0 +1,133 @@
+.process-aside {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100svh;
+  overflow-y: auto;
+  border-right: 1px solid var(--line);
+  padding: 32px 22px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.process-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  line-height: 0;
+}
+
+.process-brand-img {
+  width: auto;
+  height: 36px;
+  display: block;
+}
+
+.process-phases {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.process-phase {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 10px;
+  border-radius: 12px;
+  color: var(--muted);
+}
+
+.process-phase.is-active {
+  background: var(--soft);
+  color: var(--ink);
+}
+
+.process-phase.is-done {
+  color: var(--ink);
+}
+
+.process-phase.is-upcoming {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.process-phase-index {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg);
+  font-family: var(--sans), Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  color: var(--teal);
+}
+
+.process-phase.is-active .process-phase-index {
+  background: var(--teal);
+  color: #fff;
+}
+
+.process-phase.is-done .process-phase-index {
+  background: var(--teal);
+  color: #fff;
+}
+
+.process-phase.is-upcoming .process-phase-index {
+  color: var(--muted);
+  background: var(--bg);
+}
+
+.process-phase-check {
+  display: block;
+}
+
+.process-phase-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.process-phase-label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.process-phase-meta {
+  font-size: 12px;
+  color: var(--teal);
+}
+
+.process-exit {
+  margin-top: auto;
+  align-self: center;
+  padding-top: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.process-exit:hover {
+  color: var(--teal);
+}
+
+@media (max-width: 900px) {
+  .process-aside {
+    display: none;
+  }
+}
