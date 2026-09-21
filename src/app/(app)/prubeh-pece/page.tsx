@@ -71,7 +71,7 @@ export default function PrubehPecePage() {
       <div className="app-content">
         <h1>Průběh péče</h1>
         <p className="app-lead">
-          Celý váš proces na jednom místě — od screeningu po další postup.
+          Celý váš proces na jednom místě - od screeningu po další postup.
         </p>
 
         <ol className="journey-timeline">
