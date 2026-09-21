@@ -1637,13 +1637,13 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .photo-card {
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
   background: #fff;
   display: flex;
@@ -1656,7 +1656,7 @@
 }
 
 .photo-card-media {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1;
   overflow: hidden;
   background: var(--bg);
 }
@@ -1670,31 +1670,36 @@
 }
 
 .photo-card-meta {
-  padding: 12px 14px 14px;
+  padding: 10px 12px 12px;
   display: grid;
-  gap: 4px;
+  gap: 2px;
 }
 
 .photo-card-meta p {
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .photo-card-date {
   color: var(--ink);
   font-weight: 600;
+  font-size: 13px;
 }
 
 .photo-card-visit {
   color: var(--muted);
-  font-size: 13px !important;
+  font-size: 12px !important;
 }
 
 .photo-card-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 8px;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.photo-card-actions .text-link {
+  font-size: 13px;
 }
 
 .photo-card-actions .text-link.is-active {
@@ -1766,17 +1771,11 @@
   color: var(--muted);
 }
 
-.photo-compare-bar {
-  margin-top: 16px;
-  display: flex;
-  justify-content: flex-end;
-}
-
 .photo-compare-view {
   margin-top: 20px;
-  padding: 20px 22px;
+  padding: 18px 18px 16px;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 16px;
   background: #fff;
 }
 
@@ -1785,25 +1784,23 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .photo-compare-head h3 {
   margin: 0;
-  font: 400 22px / 1.2 var(--serif);
+  font: 400 20px / 1.2 var(--serif);
 }
 
-.compare-controls {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin: 16px 0;
+.photo-compare-head .meta-line {
+  margin: 0;
 }
 
 .compare-stage {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 12px;
+  max-width: 560px;
 }
 
 .compare-stage figure {
@@ -1812,28 +1809,36 @@
 
 .compare-stage img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid var(--line);
   background: var(--bg);
   display: block;
 }
 
 .compare-stage figcaption {
-  margin-top: 10px;
+  margin-top: 8px;
   display: grid;
-  gap: 2px;
+  gap: 1px;
+}
+
+.photo-compare-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--teal);
 }
 
 .photo-compare-date {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--ink);
 }
 
 .photo-compare-visit {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--muted);
 }
 
@@ -1870,17 +1875,21 @@
   }
 
   .photo-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .compare-controls,
   .compare-stage {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: none;
   }
 }
 
 @media (max-width: 640px) {
   .photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .compare-stage {
     grid-template-columns: 1fr;
   }
 

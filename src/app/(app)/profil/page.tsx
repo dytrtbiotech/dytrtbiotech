@@ -114,8 +114,6 @@ export default function ProfilPage() {
   const [visitIndex, setVisitIndex] = useState<number | "">("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [compareOpen, setCompareOpen] = useState(false);
 
   useEffect(() => {
     const storedAnswers = loadAnswers();
@@ -137,20 +135,19 @@ export default function ProfilPage() {
     return [];
   }, [order]);
 
-  const hasScreening = Object.keys(answers).length > 0;
-  const comparePhotos = selectedIds
-    .map((id) => photos.find((p) => p.id === id))
-    .filter((p): p is CarePhoto => Boolean(p))
-    .slice(0, 2);
+  const sortedPhotos = useMemo(
+    () =>
+      [...photos].sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      ),
+    [photos]
+  );
 
-  const toggleSelect = (id: string) => {
-    setCompareOpen(false);
-    setSelectedIds((prev) => {
-      if (prev.includes(id)) return prev.filter((item) => item !== id);
-      if (prev.length >= 2) return [prev[1], id];
-      return [...prev, id];
-    });
-  };
+  const hasScreening = Object.keys(answers).length > 0;
+  const firstPhoto = sortedPhotos[0] ?? null;
+  const latestPhoto =
+    sortedPhotos.length >= 2 ? sortedPhotos[sortedPhotos.length - 1] : null;
 
   const handleUpload = async (file: File | undefined) => {
     if (!file) return;
@@ -305,136 +302,114 @@ export default function ProfilPage() {
                 <h3>Nahrané snímky</h3>
                 <p className="meta-line">
                   {photos.length} / {MAX_PHOTOS}
-                  {selectedIds.length > 0
-                    ? ` · vybráno ${selectedIds.length}/2`
-                    : ""}
                 </p>
               </div>
 
               <ul className="photo-grid">
-                {photos.map((photo) => {
-                  const selected = selectedIds.includes(photo.id);
-                  return (
-                    <li
-                      key={photo.id}
-                      className={`photo-card${selected ? " is-selected" : ""}`}
-                    >
-                      <div className="photo-card-media">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={photo.dataUrl} alt="" />
-                      </div>
-                      <div className="photo-card-meta">
-                        <p className="photo-card-date">
-                          {formatPhotoDate(photo.createdAt)}
-                        </p>
-                        <p className="photo-card-visit">
-                          {photo.visitIndex
-                            ? `Návštěva ${photo.visitIndex}`
-                            : "Bez vazby na návštěvu"}
-                        </p>
-                        <div className="photo-card-actions">
-                          <button
-                            className={`text-link${selected ? " is-active" : ""}`}
-                            type="button"
-                            onClick={() => toggleSelect(photo.id)}
-                          >
-                            {selected ? "Zrušit výběr" : "Porovnat"}
-                          </button>
-                          <label className="text-link photo-replace">
-                            Nahradit
-                            <input
-                              type="file"
-                              accept="image/jpeg,image/png,image/webp"
-                              hidden
-                              onChange={async (e) => {
-                                const file = e.target.files?.[0];
-                                e.target.value = "";
-                                if (!file) return;
-                                try {
-                                  const prepared = await preparePhotoFile(file);
-                                  const next = replacePhoto(photo.id, {
-                                    dataUrl: prepared.dataUrl,
-                                    fileName: prepared.fileName,
-                                    createdAt: new Date().toISOString(),
-                                  });
-                                  setPhotos(next);
-                                } catch (err) {
-                                  setError(
-                                    err instanceof Error
-                                      ? err.message
-                                      : "Nahrazení se nepovedlo."
-                                  );
-                                }
-                              }}
-                            />
-                          </label>
-                          <button
-                            className="text-link"
-                            type="button"
-                            onClick={() => {
-                              const next = deletePhoto(photo.id);
-                              setPhotos(next);
-                              setSelectedIds((prev) =>
-                                prev.filter((id) => id !== photo.id)
-                              );
-                              setCompareOpen(false);
-                            }}
-                          >
-                            Smazat
-                          </button>
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-
-              {selectedIds.length === 2 ? (
-                <div className="photo-compare-bar">
-                  <button
-                    className="button"
-                    type="button"
-                    onClick={() => setCompareOpen(true)}
-                  >
-                    Porovnat snímky
-                  </button>
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-
-          {compareOpen && comparePhotos.length === 2 ? (
-            <div className="photo-compare-view" aria-live="polite">
-              <div className="photo-compare-head">
-                <h3>Porovnání snímků</h3>
-                <button
-                  className="text-link"
-                  type="button"
-                  onClick={() => setCompareOpen(false)}
-                >
-                  Zavřít
-                </button>
-              </div>
-              <div className="compare-stage">
-                {comparePhotos.map((photo) => (
-                  <figure key={photo.id}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={photo.dataUrl}
-                      alt={`Snímek z ${formatPhotoDate(photo.createdAt)}`}
-                    />
-                    <figcaption>
-                      <span className="photo-compare-date">
+                {sortedPhotos.map((photo) => (
+                  <li key={photo.id} className="photo-card">
+                    <div className="photo-card-media">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={photo.dataUrl} alt="" />
+                    </div>
+                    <div className="photo-card-meta">
+                      <p className="photo-card-date">
                         {formatPhotoDate(photo.createdAt)}
-                      </span>
-                      <span className="photo-compare-visit">
+                      </p>
+                      <p className="photo-card-visit">
                         {photo.visitIndex
                           ? `Návštěva ${photo.visitIndex}`
                           : "Bez vazby na návštěvu"}
-                      </span>
-                    </figcaption>
-                  </figure>
+                      </p>
+                      <div className="photo-card-actions">
+                        <label className="text-link photo-replace">
+                          Nahradit
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            hidden
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              e.target.value = "";
+                              if (!file) return;
+                              try {
+                                const prepared = await preparePhotoFile(file);
+                                const next = replacePhoto(photo.id, {
+                                  dataUrl: prepared.dataUrl,
+                                  fileName: prepared.fileName,
+                                  createdAt: new Date().toISOString(),
+                                });
+                                setPhotos(next);
+                              } catch (err) {
+                                setError(
+                                  err instanceof Error
+                                    ? err.message
+                                    : "Nahrazení se nepovedlo."
+                                );
+                              }
+                            }}
+                          />
+                        </label>
+                        <button
+                          className="text-link"
+                          type="button"
+                          onClick={() => {
+                            setPhotos(deletePhoto(photo.id));
+                          }}
+                        >
+                          Smazat
+                        </button>
+                      </div>
+                    </div>
+                  </li>
                 ))}
+              </ul>
+            </div>
+          ) : null}
+
+          {firstPhoto && latestPhoto ? (
+            <div className="photo-compare-view" aria-live="polite">
+              <div className="photo-compare-head">
+                <h3>Porovnání snímků</h3>
+                <p className="meta-line">První nahraný · nejnovější</p>
+              </div>
+              <div className="compare-stage">
+                <figure>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={firstPhoto.dataUrl}
+                    alt={`První snímek z ${formatPhotoDate(firstPhoto.createdAt)}`}
+                  />
+                  <figcaption>
+                    <span className="photo-compare-label">První</span>
+                    <span className="photo-compare-date">
+                      {formatPhotoDate(firstPhoto.createdAt)}
+                    </span>
+                    <span className="photo-compare-visit">
+                      {firstPhoto.visitIndex
+                        ? `Návštěva ${firstPhoto.visitIndex}`
+                        : "Bez vazby na návštěvu"}
+                    </span>
+                  </figcaption>
+                </figure>
+                <figure>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={latestPhoto.dataUrl}
+                    alt={`Nejnovější snímek z ${formatPhotoDate(latestPhoto.createdAt)}`}
+                  />
+                  <figcaption>
+                    <span className="photo-compare-label">Nejnovější</span>
+                    <span className="photo-compare-date">
+                      {formatPhotoDate(latestPhoto.createdAt)}
+                    </span>
+                    <span className="photo-compare-visit">
+                      {latestPhoto.visitIndex
+                        ? `Návštěva ${latestPhoto.visitIndex}`
+                        : "Bez vazby na návštěvu"}
+                    </span>
+                  </figcaption>
+                </figure>
               </div>
             </div>
           ) : null}
