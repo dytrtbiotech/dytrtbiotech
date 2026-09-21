@@ -1475,135 +1475,15 @@
 }
 
 .hairscope-demo-frame {
-  margin: 8px 0 18px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #fff;
-  overflow: hidden;
-}
-
-.hs-mock {
-  display: grid;
-}
-
-.hs-mock-chrome {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--line);
-  background: #fbfcfd;
-}
-
-.hs-mock-chrome-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.hs-mock-chrome-meta {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.hs-mock-body {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(160px, 0.7fr);
-  min-height: 200px;
-}
-
-.hs-mock-viewport {
-  position: relative;
-  min-height: 200px;
-  background: var(--bg);
   display: grid;
   place-items: center;
-}
-
-.hs-mock-frame {
-  width: min(56%, 180px);
-  aspect-ratio: 1;
-  border: 1.5px dashed rgba(40, 120, 138, 0.35);
-  border-radius: 14px;
-  background: #fff;
-}
-
-.hs-mock-hint {
-  position: absolute;
-  left: 50%;
-  bottom: 16px;
-  transform: translateX(-50%);
-  margin: 0;
-  font-size: 12px;
+  min-height: 140px;
+  margin: 8px 0 18px;
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  background: var(--bg);
   color: var(--muted);
-  white-space: nowrap;
-}
-
-.hs-mock-panel {
-  padding: 16px;
-  border-left: 1px solid var(--line);
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.hs-mock-panel-kicker {
-  margin: 0;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.hs-mock-metrics {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 12px;
-}
-
-.hs-mock-metrics li {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.hs-mock-metrics span {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.hs-mock-metrics strong {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.hs-mock-note {
-  margin: auto 0 0;
-  font-size: 11px;
-  line-height: 1.45;
-  color: var(--muted);
-}
-
-@media (max-width: 760px) {
-  .hs-mock-body {
-    grid-template-columns: 1fr;
-  }
-
-  .hs-mock-panel {
-    border-left: 0;
-    border-top: 1px solid var(--line);
-  }
-
-  .hs-mock-viewport {
-    min-height: 180px;
-  }
+  font-size: 14px;
 }
 
 .care-offer .instruction-list {
