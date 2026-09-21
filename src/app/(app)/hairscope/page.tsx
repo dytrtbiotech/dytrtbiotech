@@ -161,7 +161,7 @@ export default function HairScopePage() {
                 Označit jako dokončené (demo)
               </button>
               <button
-                className="text-link"
+                className="button secondary"
                 type="button"
                 onClick={() => {
                   setHairScopeStatus("skipped");
