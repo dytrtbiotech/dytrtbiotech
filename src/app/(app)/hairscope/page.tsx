@@ -68,7 +68,7 @@ export default function HairScopePage() {
             <h2>Analýza dokončena</h2>
             <p>
               V demu zatím neukazujeme medicínský výstup. Místo pro napojení
-              HairScope widgetu je připravené — ostrá integrace přijde později.
+              HairScope widgetu je připravené - ostrá integrace přijde později.
             </p>
             {order?.hairScopeCompletedAt ? (
               <p className="meta-line">
