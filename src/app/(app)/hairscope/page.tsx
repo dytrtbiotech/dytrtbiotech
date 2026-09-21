@@ -64,17 +64,25 @@ export default function HairScopePage() {
           </section>
         ) : status === "completed" ? (
           <section className="flow-card">
-            <h2>Analýza dokončena</h2>
+            <div className="flow-card-head">
+              <h2>Analýza dokončena</h2>
+              {order?.hairScopeCompletedAt ? (
+                <p className="meta-line flow-card-meta">
+                  Dokončeno:{" "}
+                  {new Date(order.hairScopeCompletedAt).toLocaleString("cs-CZ", {
+                    day: "numeric",
+                    month: "numeric",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              ) : null}
+            </div>
             <p>
               V demu zatím neukazujeme medicínský výstup. Místo pro napojení
               HairScope widgetu je připravené - ostrá integrace přijde později.
             </p>
-            {order?.hairScopeCompletedAt ? (
-              <p className="meta-line">
-                Dokončeno:{" "}
-                {new Date(order.hairScopeCompletedAt).toLocaleString("cs-CZ")}
-              </p>
-            ) : null}
             <div className="hairscope-demo-frame" aria-hidden="true">
               HairScope widget - brzy
             </div>
@@ -82,7 +90,7 @@ export default function HairScopePage() {
               <Link className="button" href="/prubeh-pece">
                 Zpět na průběh péče
               </Link>
-              <Link className="text-link" href="/prehled">
+              <Link className="button secondary" href="/prehled">
                 Přehled
               </Link>
             </div>

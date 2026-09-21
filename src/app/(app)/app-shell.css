@@ -1377,6 +1377,24 @@
   margin: 0 0 10px;
 }
 
+.flow-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.flow-card-head h2 {
+  margin: 0;
+}
+
+.flow-card-head .flow-card-meta {
+  margin: 0;
+  flex-shrink: 0;
+  text-align: right;
+}
+
 .flow-card h3 {
   margin: 18px 0 10px;
   font-size: 15px;
