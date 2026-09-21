@@ -995,11 +995,27 @@
 }
 
 .journey-step.is-done .journey-dot {
+  width: 18px;
+  height: 18px;
   background: var(--teal);
   border-color: var(--teal);
+  color: #fff;
+}
+
+.journey-step.is-done .journey-dot::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 5px;
+  margin-top: -1px;
+  border-left: 1.5px solid #fff;
+  border-bottom: 1.5px solid #fff;
+  transform: rotate(-45deg);
 }
 
 .journey-step.is-current .journey-dot {
+  width: 16px;
+  height: 16px;
   border-color: var(--teal);
   background: #fff;
   box-shadow: 0 0 0 4px var(--soft);
@@ -1008,19 +1024,21 @@
 .journey-step.is-current .journey-dot::after {
   content: "";
   display: block;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--teal);
 }
 
 .journey-step.is-waiting .journey-dot {
-  border-color: var(--accent);
-  background: var(--soft);
+  border-color: #c4b8a8;
+  background: #f3eee6;
 }
 
 .journey-step.is-locked .journey-dot {
   background: var(--bg);
+  border-color: #d5dee2;
+  opacity: 0.7;
 }
 
 /* Teal connector only after a completed step — not from current/waiting forward */
@@ -1037,14 +1055,45 @@
   background: #fff;
 }
 
+.journey-step.is-done .journey-card {
+  border-color: rgba(40, 120, 138, 0.18);
+  background: #f4fafb;
+  box-shadow: none;
+}
+
+.journey-step.is-done .journey-card h2 {
+  color: #3d5a63;
+  font-size: 24px;
+}
+
+.journey-step.is-done .journey-card p,
+.journey-step.is-done .journey-meta,
+.journey-step.is-done .meta-line {
+  opacity: 0.88;
+}
+
 .journey-step.is-current .journey-card {
-  border-color: rgba(40, 120, 138, 0.35);
-  box-shadow: 0 10px 28px rgba(32, 52, 59, 0.04);
+  border: 1.5px solid var(--teal);
+  background: linear-gradient(180deg, #fff 0%, var(--soft) 160%);
+  box-shadow: 0 10px 28px rgba(40, 120, 138, 0.08);
+}
+
+.journey-step.is-waiting .journey-card {
+  border-color: #e2d8ca;
+  background: #fbf9f6;
+  box-shadow: none;
+}
+
+.journey-step.is-waiting .journey-card h2 {
+  color: var(--ink);
 }
 
 .journey-step.is-locked .journey-card {
-  background: #fbfcfd;
+  background: #f4f6f7;
+  border-color: #e4eaed;
   color: var(--muted);
+  opacity: 0.78;
+  box-shadow: none;
 }
 
 .journey-card-head {
@@ -1062,7 +1111,7 @@
 }
 
 .journey-step.is-locked .journey-card h2 {
-  color: var(--muted);
+  color: #8a9aa1;
 }
 
 .journey-badge {
@@ -1080,8 +1129,8 @@
 
 .journey-step.is-done .journey-badge {
   color: var(--teal);
-  border-color: rgba(40, 120, 138, 0.28);
-  background: var(--soft);
+  border-color: rgba(40, 120, 138, 0.22);
+  background: rgba(234, 244, 246, 0.9);
 }
 
 .journey-step.is-current .journey-badge {
@@ -1091,9 +1140,15 @@
 }
 
 .journey-step.is-waiting .journey-badge {
-  color: var(--teal);
-  border-color: rgba(40, 120, 138, 0.28);
-  background: var(--soft);
+  color: #7a6a55;
+  border-color: #ddd0bf;
+  background: #f3eee6;
+}
+
+.journey-step.is-locked .journey-badge {
+  color: #8a9aa1;
+  border-color: #e0e6e9;
+  background: #eef2f4;
 }
 
 .journey-card p {
@@ -1105,6 +1160,14 @@
 .journey-strong {
   color: var(--ink) !important;
   font-weight: 600;
+}
+
+.journey-step.is-done .journey-strong {
+  color: #3d5a63 !important;
+}
+
+.journey-step.is-locked .journey-strong {
+  color: #8a9aa1 !important;
 }
 
 .journey-meta {
