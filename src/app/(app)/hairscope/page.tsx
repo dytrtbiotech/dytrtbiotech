@@ -6,6 +6,7 @@ import {
   type OrderDraft,
 } from "@/lib/order/config";
 import { loadOrder, setHairScopeStatus } from "@/lib/order/storage";
+import HairScopeWidgetMock from "@/components/app/HairScopeWidgetMock";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
@@ -76,7 +77,7 @@ export default function HairScopePage() {
               </p>
             ) : null}
             <div className="hairscope-demo-frame" aria-hidden="true">
-              <span>Místo pro výstup HairScope</span>
+              <HairScopeWidgetMock mode="result" />
             </div>
             <div className="flow-actions">
               <Link className="button" href="/prubeh-pece">
@@ -147,7 +148,7 @@ export default function HairScopePage() {
               můžete analýzu označit jako dokončenou, nebo se k ní vrátit později.
             </p>
             <div className="hairscope-demo-frame" aria-hidden="true">
-              <span>Místo pro HairScope widget</span>
+              <HairScopeWidgetMock mode="scan" />
             </div>
             <div className="flow-actions">
               <button
