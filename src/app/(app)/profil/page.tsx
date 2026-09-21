@@ -13,8 +13,6 @@ import {
   type ScreeningAnswers,
 } from "@/lib/screening/config";
 import { loadAnswers } from "@/lib/screening/storage";
-import { createEmptyVisits, type OrderDraft } from "@/lib/order/config";
-import { loadOrder } from "@/lib/order/storage";
 import {
   MAX_PHOTOS,
   addPhoto,
@@ -69,9 +67,31 @@ function screeningRows(answers: ScreeningAnswers) {
 function formatPhotoDate(iso: string) {
   return new Date(iso).toLocaleDateString("cs-CZ", {
     day: "numeric",
-    month: "long",
+    month: "numeric",
     year: "numeric",
   });
+}
+
+function todayInputValue() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function dateInputToIso(value: string) {
+  const [y, m, day] = value.split("-").map(Number);
+  if (!y || !m || !day) return new Date().toISOString();
+  return new Date(y, m - 1, day, 12, 0, 0).toISOString();
+}
+
+function isoToDateInput(iso: string) {
+  const d = new Date(iso);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
 }
 
 function UploadIcon() {
@@ -102,6 +122,36 @@ function UploadIcon() {
   );
 }
 
+function ReplaceIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+      <path
+        d="M3 8a5 5 0 0 1 8.5-3.5M13 3.5V5H11.5M13 8a5 5 0 0 1-8.5 3.5M3 12.5V11H4.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function TrashIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+      <path
+        d="M3.5 4.5h9M6.5 4.5V3.5h3v1M5.5 4.5l.5 8h4l.5-8"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function ProfilPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [ready, setReady] = useState(false);
@@ -110,9 +160,8 @@ export default function ProfilPage() {
   const [summary, setSummary] = useState("");
   const [percent, setPercent] = useState(0);
   const [showScreeningDetail, setShowScreeningDetail] = useState(false);
-  const [order, setOrder] = useState<OrderDraft | null>(null);
   const [photos, setPhotos] = useState<CarePhoto[]>([]);
-  const [visitIndex, setVisitIndex] = useState<number | "">("");
+  const [photoDate, setPhotoDate] = useState(todayInputValue);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -123,18 +172,9 @@ export default function ProfilPage() {
     setTitle(result.title);
     setSummary(result.summary);
     setPercent(scorePercent(storedAnswers));
-    setOrder(loadOrder());
     setPhotos(loadPhotos());
     setReady(true);
   }, []);
-
-  const visits = useMemo(() => {
-    if (order?.visits?.length) return order.visits;
-    if (order?.status === "care_paid" || order?.status === "care_completed") {
-      return createEmptyVisits();
-    }
-    return [];
-  }, [order]);
 
   const sortedPhotos = useMemo(
     () =>
@@ -158,12 +198,12 @@ export default function ProfilPage() {
       const prepared = await preparePhotoFile(file);
       const next = addPhoto({
         id: `ph_${Date.now()}`,
-        visitIndex: typeof visitIndex === "number" ? visitIndex : undefined,
-        createdAt: new Date().toISOString(),
+        createdAt: dateInputToIso(photoDate),
         dataUrl: prepared.dataUrl,
         fileName: prepared.fileName,
       });
       setPhotos(next);
+      setPhotoDate(todayInputValue());
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Nahrání se nepovedlo."
@@ -243,30 +283,17 @@ export default function ProfilPage() {
               Pro lepší porovnání doporučujeme stejný úhel a podobné světlo.
             </p>
 
-            {visits.length > 0 ? (
-              <div className="checkout-field photo-upload-visit">
-                <label htmlFor="profile-photo-visit">
-                  Vazba na návštěvu (volitelné)
-                </label>
-                <select
-                  id="profile-photo-visit"
-                  className="app-input"
-                  value={visitIndex}
-                  onChange={(e) =>
-                    setVisitIndex(
-                      e.target.value ? Number(e.target.value) : ""
-                    )
-                  }
-                >
-                  <option value="">Bez vazby / jen datum</option>
-                  {visits.map((visit) => (
-                    <option key={visit.index} value={visit.index}>
-                      Návštěva {visit.index}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            ) : null}
+            <div className="checkout-field photo-upload-date">
+              <label htmlFor="profile-photo-date">Datum snímku</label>
+              <input
+                id="profile-photo-date"
+                className="app-input"
+                type="date"
+                value={photoDate}
+                max={todayInputValue()}
+                onChange={(e) => setPhotoDate(e.target.value)}
+              />
+            </div>
 
             <input
               ref={fileInputRef}
@@ -312,19 +339,13 @@ export default function ProfilPage() {
                     <div className="photo-card-media">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={photo.dataUrl} alt="" />
-                    </div>
-                    <div className="photo-card-meta">
-                      <p className="photo-card-date">
-                        {formatPhotoDate(photo.createdAt)}
-                      </p>
-                      <p className="photo-card-visit">
-                        {photo.visitIndex
-                          ? `Návštěva ${photo.visitIndex}`
-                          : "Bez vazby na návštěvu"}
-                      </p>
                       <div className="photo-card-actions">
-                        <label className="text-link photo-replace">
-                          Nahradit
+                        <label
+                          className="photo-card-action"
+                          title="Nahradit"
+                          aria-label="Nahradit fotografii"
+                        >
+                          <ReplaceIcon />
                           <input
                             type="file"
                             accept="image/jpeg,image/png,image/webp"
@@ -335,12 +356,12 @@ export default function ProfilPage() {
                               if (!file) return;
                               try {
                                 const prepared = await preparePhotoFile(file);
-                                const next = replacePhoto(photo.id, {
-                                  dataUrl: prepared.dataUrl,
-                                  fileName: prepared.fileName,
-                                  createdAt: new Date().toISOString(),
-                                });
-                                setPhotos(next);
+                                setPhotos(
+                                  replacePhoto(photo.id, {
+                                    dataUrl: prepared.dataUrl,
+                                    fileName: prepared.fileName,
+                                  })
+                                );
                               } catch (err) {
                                 setError(
                                   err instanceof Error
@@ -352,16 +373,33 @@ export default function ProfilPage() {
                           />
                         </label>
                         <button
-                          className="text-link"
+                          className="photo-card-action"
                           type="button"
-                          onClick={() => {
-                            setPhotos(deletePhoto(photo.id));
-                          }}
+                          title="Smazat"
+                          aria-label="Smazat fotografii"
+                          onClick={() => setPhotos(deletePhoto(photo.id))}
                         >
-                          Smazat
+                          <TrashIcon />
                         </button>
                       </div>
                     </div>
+                    <label className="photo-card-date">
+                      <span className="sr-only">Datum snímku</span>
+                      <input
+                        type="date"
+                        className="photo-card-date-input"
+                        value={isoToDateInput(photo.createdAt)}
+                        max={todayInputValue()}
+                        onChange={(e) => {
+                          if (!e.target.value) return;
+                          setPhotos(
+                            replacePhoto(photo.id, {
+                              createdAt: dateInputToIso(e.target.value),
+                            })
+                          );
+                        }}
+                      />
+                    </label>
                   </li>
                 ))}
               </ul>
@@ -379,22 +417,8 @@ export default function ProfilPage() {
                 afterSrc={latestPhoto.dataUrl}
                 beforeAlt={`První snímek z ${formatPhotoDate(firstPhoto.createdAt)}`}
                 afterAlt={`Nejnovější snímek z ${formatPhotoDate(latestPhoto.createdAt)}`}
-                beforeCaption={[
-                  formatPhotoDate(firstPhoto.createdAt),
-                  firstPhoto.visitIndex
-                    ? `návštěva ${firstPhoto.visitIndex}`
-                    : null,
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
-                afterCaption={[
-                  formatPhotoDate(latestPhoto.createdAt),
-                  latestPhoto.visitIndex
-                    ? `návštěva ${latestPhoto.visitIndex}`
-                    : null,
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
+                beforeCaption={formatPhotoDate(firstPhoto.createdAt)}
+                afterCaption={formatPhotoDate(latestPhoto.createdAt)}
               />
             </div>
           ) : null}
