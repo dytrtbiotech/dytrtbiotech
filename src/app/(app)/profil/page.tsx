@@ -24,6 +24,7 @@ import {
   replacePhoto,
   type CarePhoto,
 } from "@/lib/photos/storage";
+import PhotoCompareSlider from "@/components/app/PhotoCompareSlider";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 function optionLabel<T extends string>(
@@ -371,46 +372,30 @@ export default function ProfilPage() {
             <div className="photo-compare-view" aria-live="polite">
               <div className="photo-compare-head">
                 <h3>Porovnání snímků</h3>
-                <p className="meta-line">První nahraný · nejnovější</p>
+                <p className="meta-line">Přetáhněte linku mezi snímky</p>
               </div>
-              <div className="compare-stage">
-                <figure>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={firstPhoto.dataUrl}
-                    alt={`První snímek z ${formatPhotoDate(firstPhoto.createdAt)}`}
-                  />
-                  <figcaption>
-                    <span className="photo-compare-label">První</span>
-                    <span className="photo-compare-date">
-                      {formatPhotoDate(firstPhoto.createdAt)}
-                    </span>
-                    <span className="photo-compare-visit">
-                      {firstPhoto.visitIndex
-                        ? `Návštěva ${firstPhoto.visitIndex}`
-                        : "Bez vazby na návštěvu"}
-                    </span>
-                  </figcaption>
-                </figure>
-                <figure>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={latestPhoto.dataUrl}
-                    alt={`Nejnovější snímek z ${formatPhotoDate(latestPhoto.createdAt)}`}
-                  />
-                  <figcaption>
-                    <span className="photo-compare-label">Nejnovější</span>
-                    <span className="photo-compare-date">
-                      {formatPhotoDate(latestPhoto.createdAt)}
-                    </span>
-                    <span className="photo-compare-visit">
-                      {latestPhoto.visitIndex
-                        ? `Návštěva ${latestPhoto.visitIndex}`
-                        : "Bez vazby na návštěvu"}
-                    </span>
-                  </figcaption>
-                </figure>
-              </div>
+              <PhotoCompareSlider
+                beforeSrc={firstPhoto.dataUrl}
+                afterSrc={latestPhoto.dataUrl}
+                beforeAlt={`První snímek z ${formatPhotoDate(firstPhoto.createdAt)}`}
+                afterAlt={`Nejnovější snímek z ${formatPhotoDate(latestPhoto.createdAt)}`}
+                beforeCaption={[
+                  formatPhotoDate(firstPhoto.createdAt),
+                  firstPhoto.visitIndex
+                    ? `návštěva ${firstPhoto.visitIndex}`
+                    : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+                afterCaption={[
+                  formatPhotoDate(latestPhoto.createdAt),
+                  latestPhoto.visitIndex
+                    ? `návštěva ${latestPhoto.visitIndex}`
+                    : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+              />
             </div>
           ) : null}
         </section>
