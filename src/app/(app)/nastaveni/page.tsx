@@ -10,10 +10,21 @@ import { clearPhotos } from "@/lib/photos/storage";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+function splitName(fullName?: string) {
+  const parts = (fullName ?? "").trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return { firstName: "", lastName: "" };
+  if (parts.length === 1) return { firstName: parts[0], lastName: "" };
+  return {
+    firstName: parts[0],
+    lastName: parts.slice(1).join(" "),
+  };
+}
+
 export default function NastaveniPage() {
   const [ready, setReady] = useState(false);
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -21,8 +32,10 @@ export default function NastaveniPage() {
   useEffect(() => {
     const auth = loadAuthUser();
     const order = loadOrder();
+    const name = splitName(auth?.fullName || order?.fullName || "");
     setUser(auth);
-    setFullName(auth?.fullName || order?.fullName || "");
+    setFirstName(name.firstName);
+    setLastName(name.lastName);
     setPhone(auth?.phone || order?.phone || "");
     setReady(true);
   }, []);
@@ -46,9 +59,29 @@ export default function NastaveniPage() {
           doplníme s produkční autentizací.
         </p>
 
-        <section className="summary-block">
-          <h2>Účet</h2>
+        <section className="summary-block" aria-labelledby="settings-personal">
+          <h2 id="settings-personal">Osobní údaje</h2>
           <div className="checkout-fields">
+            <div className="checkout-field">
+              <label htmlFor="settings-first-name">Jméno</label>
+              <input
+                id="settings-first-name"
+                className="app-input"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                autoComplete="given-name"
+              />
+            </div>
+            <div className="checkout-field">
+              <label htmlFor="settings-last-name">Příjmení</label>
+              <input
+                id="settings-last-name"
+                className="app-input"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                autoComplete="family-name"
+              />
+            </div>
             <div className="checkout-field">
               <label htmlFor="settings-email">E-mail</label>
               <input
@@ -59,21 +92,15 @@ export default function NastaveniPage() {
               />
             </div>
             <div className="checkout-field">
-              <label htmlFor="settings-name">Jméno a příjmení</label>
-              <input
-                id="settings-name"
-                className="app-input"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-              />
-            </div>
-            <div className="checkout-field">
               <label htmlFor="settings-phone">Telefon</label>
               <input
                 id="settings-phone"
                 className="app-input"
+                type="tel"
+                inputMode="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                autoComplete="tel"
               />
             </div>
           </div>
@@ -84,21 +111,24 @@ export default function NastaveniPage() {
               className="button"
               type="button"
               onClick={() => {
-                if (!fullName.trim()) {
+                const fullName = [firstName.trim(), lastName.trim()]
+                  .filter(Boolean)
+                  .join(" ");
+                if (!fullName) {
                   setError("Zadejte jméno a příjmení.");
                   setMessage("");
                   return;
                 }
                 setError("");
                 const next = updateAuthProfile({
-                  fullName: fullName.trim(),
+                  fullName,
                   phone: phone.trim() || undefined,
                 });
                 if (next) setUser(next);
                 const order = loadOrder();
                 if (order) {
                   updateOrder({
-                    fullName: fullName.trim(),
+                    fullName,
                     phone: phone.trim() || order.phone,
                   });
                 }

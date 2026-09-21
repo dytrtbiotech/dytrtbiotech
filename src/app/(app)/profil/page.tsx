@@ -12,12 +12,7 @@ import {
   scorePercent,
   type ScreeningAnswers,
 } from "@/lib/screening/config";
-import {
-  loadAnswers,
-  loadAuthUser,
-  loadEmail,
-  type AuthUser,
-} from "@/lib/screening/storage";
+import { loadAnswers } from "@/lib/screening/storage";
 import { createEmptyVisits, type OrderDraft } from "@/lib/order/config";
 import { loadOrder } from "@/lib/order/storage";
 import {
@@ -29,30 +24,19 @@ import {
   replacePhoto,
   type CarePhoto,
 } from "@/lib/photos/storage";
-import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-
-function splitName(fullName?: string) {
-  const parts = (fullName ?? "").trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return { firstName: "", lastName: "" };
-  if (parts.length === 1) return { firstName: parts[0], lastName: "" };
-  return {
-    firstName: parts[0],
-    lastName: parts.slice(1).join(" "),
-  };
-}
+import { useEffect, useMemo, useRef, useState } from "react";
 
 function optionLabel<T extends string>(
   options: { id: T; label: string }[],
   value?: T
 ) {
-  if (!value) return "—";
-  return options.find((option) => option.id === value)?.label ?? "—";
+  if (!value) return "-";
+  return options.find((option) => option.id === value)?.label ?? "-";
 }
 
 function screeningRows(answers: ScreeningAnswers) {
   return [
-    { label: "Věk", value: answers.age?.trim() || "—" },
+    { label: "Věk", value: answers.age?.trim() || "-" },
     { label: "Pohlaví", value: optionLabel(SEX_OPTIONS, answers.sex) },
     {
       label: "Charakter změn",
@@ -81,10 +65,45 @@ function screeningRows(answers: ScreeningAnswers) {
   ];
 }
 
+function formatPhotoDate(iso: string) {
+  return new Date(iso).toLocaleDateString("cs-CZ", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function UploadIcon() {
+  return (
+    <svg
+      className="photo-upload-icon"
+      viewBox="0 0 24 24"
+      width="28"
+      height="28"
+      aria-hidden="true"
+    >
+      <path
+        d="M12 16V5M12 5l-4 4M12 5l4 4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5 16.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export default function ProfilPage() {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [ready, setReady] = useState(false);
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [email, setEmail] = useState("");
   const [answers, setAnswers] = useState<ScreeningAnswers>({});
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
@@ -95,24 +114,18 @@ export default function ProfilPage() {
   const [visitIndex, setVisitIndex] = useState<number | "">("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [compareLeft, setCompareLeft] = useState("");
-  const [compareRight, setCompareRight] = useState("");
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [compareOpen, setCompareOpen] = useState(false);
 
   useEffect(() => {
-    const auth = loadAuthUser();
     const storedAnswers = loadAnswers();
     const result = evaluateResult(storedAnswers);
-    const list = loadPhotos();
-    setUser(auth);
-    setEmail(loadEmail() || auth?.email || "");
     setAnswers(storedAnswers);
     setTitle(result.title);
     setSummary(result.summary);
     setPercent(scorePercent(storedAnswers));
     setOrder(loadOrder());
-    setPhotos(list);
-    if (list[0]) setCompareLeft(list[0].id);
-    if (list[1]) setCompareRight(list[1].id);
+    setPhotos(loadPhotos());
     setReady(true);
   }, []);
 
@@ -124,13 +137,43 @@ export default function ProfilPage() {
     return [];
   }, [order]);
 
-  const { firstName, lastName } = splitName(user?.fullName);
   const hasScreening = Object.keys(answers).length > 0;
-  const left = photos.find((p) => p.id === compareLeft) ?? photos[0];
-  const right =
-    photos.find((p) => p.id === compareRight) ??
-    photos.find((p) => p.id !== left?.id) ??
-    null;
+  const comparePhotos = selectedIds
+    .map((id) => photos.find((p) => p.id === id))
+    .filter((p): p is CarePhoto => Boolean(p))
+    .slice(0, 2);
+
+  const toggleSelect = (id: string) => {
+    setCompareOpen(false);
+    setSelectedIds((prev) => {
+      if (prev.includes(id)) return prev.filter((item) => item !== id);
+      if (prev.length >= 2) return [prev[1], id];
+      return [...prev, id];
+    });
+  };
+
+  const handleUpload = async (file: File | undefined) => {
+    if (!file) return;
+    setBusy(true);
+    setError("");
+    try {
+      const prepared = await preparePhotoFile(file);
+      const next = addPhoto({
+        id: `ph_${Date.now()}`,
+        visitIndex: typeof visitIndex === "number" ? visitIndex : undefined,
+        createdAt: new Date().toISOString(),
+        dataUrl: prepared.dataUrl,
+        fileName: prepared.fileName,
+      });
+      setPhotos(next);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Nahrání se nepovedlo."
+      );
+    } finally {
+      setBusy(false);
+    }
+  };
 
   if (!ready) {
     return <div className="app-loading">Načítání…</div>;
@@ -144,43 +187,17 @@ export default function ProfilPage() {
           <p className="app-topbar-title">Můj profil</p>
         </div>
       </header>
-      <div className="app-content">
+      <div className="app-content profile-page">
         <h1>Můj profil</h1>
         <p className="app-lead">
-          Osobní údaje, výsledek screeningu a fotodokumentace vývoje.
+          Screening, fotodokumentace a průběžný vývoj.
         </p>
-
-        <section className="summary-block" aria-labelledby="profile-personal">
-          <div className="journey-card-head">
-            <h2 id="profile-personal">Osobní údaje</h2>
-            <Link className="text-link" href="/nastaveni">
-              Upravit
-            </Link>
-          </div>
-          <dl className="journey-meta">
-            <div>
-              <dt>Jméno</dt>
-              <dd>{firstName || "—"}</dd>
-            </div>
-            <div>
-              <dt>Příjmení</dt>
-              <dd>{lastName || "—"}</dd>
-            </div>
-            <div>
-              <dt>E-mail</dt>
-              <dd>{email || "—"}</dd>
-            </div>
-            <div>
-              <dt>Telefon</dt>
-              <dd>{user?.phone?.trim() || "—"}</dd>
-            </div>
-          </dl>
-        </section>
 
         <section className="summary-block" aria-labelledby="profile-screening">
           <h2 id="profile-screening">Screening / vstupní informace</h2>
           {hasScreening ? (
             <>
+              <p className="profile-screening-status">Dokončeno</p>
               <p className="summary-strong">{title}</p>
               <p>{summary}</p>
               <p className="meta-line">Orientační skóre: {percent} %</p>
@@ -191,12 +208,12 @@ export default function ProfilPage() {
                   onClick={() => setShowScreeningDetail((open) => !open)}
                 >
                   {showScreeningDetail
-                    ? "Skrýt detail odpovědí"
-                    : "Zobrazit detail odpovědí"}
+                    ? "Skrýt výsledek"
+                    : "Zobrazit výsledek"}
                 </button>
               </div>
               {showScreeningDetail ? (
-                <dl className="journey-meta" style={{ marginTop: 16 }}>
+                <dl className="journey-meta profile-screening-detail">
                   {screeningRows(answers).map((row) => (
                     <div key={row.label}>
                       <dt>{row.label}</dt>
@@ -215,225 +232,209 @@ export default function ProfilPage() {
         </section>
 
         <section className="summary-block" aria-labelledby="profile-photos">
-          <h2 id="profile-photos">Fotografie / vývoj</h2>
+          <h2 id="profile-photos">Fotodokumentace vývoje</h2>
           <p>
             Volitelná fotodokumentace pro manuální porovnání v čase. Nenahrazuje
             lékařské hodnocení.
           </p>
 
-          <div className="flow-card" style={{ marginTop: 16 }}>
-            <h3 style={{ margin: "0 0 12px", font: "400 22px/1.2 var(--serif)" }}>
-              Nahrát fotografii
-            </h3>
-            <ul className="instruction-list">
-              <li>Stejný úhel a podobné světlo usnadní srovnání</li>
-              <li>Podporujeme JPG, PNG a WEBP</li>
-              <li>Nejvýše {MAX_PHOTOS} fotografií · nahrání je dobrovolné</li>
-            </ul>
-
-            <div className="checkout-fields">
-              {visits.length > 0 ? (
-                <div className="checkout-field">
-                  <label htmlFor="profile-photo-visit">
-                    Vazba na návštěvu (volitelné)
-                  </label>
-                  <select
-                    id="profile-photo-visit"
-                    className="app-input"
-                    value={visitIndex}
-                    onChange={(e) =>
-                      setVisitIndex(
-                        e.target.value ? Number(e.target.value) : ""
-                      )
-                    }
-                  >
-                    <option value="">Bez vazby / jen datum</option>
-                    {visits.map((visit) => (
-                      <option key={visit.index} value={visit.index}>
-                        Návštěva {visit.index}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              ) : null}
-              <div className="checkout-field">
-                <label htmlFor="profile-photo-file">Soubor</label>
-                <input
-                  id="profile-photo-file"
-                  className="app-input"
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  disabled={busy || photos.length >= MAX_PHOTOS}
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    e.target.value = "";
-                    if (!file) return;
-                    setBusy(true);
-                    setError("");
-                    try {
-                      const prepared = await preparePhotoFile(file);
-                      const next = addPhoto({
-                        id: `ph_${Date.now()}`,
-                        visitIndex:
-                          typeof visitIndex === "number"
-                            ? visitIndex
-                            : undefined,
-                        createdAt: new Date().toISOString(),
-                        dataUrl: prepared.dataUrl,
-                        fileName: prepared.fileName,
-                      });
-                      setPhotos(next);
-                      if (next.length === 1) setCompareLeft(next[0].id);
-                      if (next.length >= 2) {
-                        setCompareRight(next[next.length - 1].id);
-                      }
-                    } catch (err) {
-                      setError(
-                        err instanceof Error
-                          ? err.message
-                          : "Nahrání se nepovedlo."
-                      );
-                    } finally {
-                      setBusy(false);
-                    }
-                  }}
-                />
-              </div>
-            </div>
-            {error ? <p className="app-error">{error}</p> : null}
-            <p className="meta-line">
-              Uloženo {photos.length} / {MAX_PHOTOS}
+          <div className="photo-upload-box">
+            <UploadIcon />
+            <h3 className="photo-upload-title">Nahrát fotografii</h3>
+            <p className="photo-upload-helper">
+              Pro lepší porovnání doporučujeme stejný úhel a podobné světlo.
             </p>
+
+            {visits.length > 0 ? (
+              <div className="checkout-field photo-upload-visit">
+                <label htmlFor="profile-photo-visit">
+                  Vazba na návštěvu (volitelné)
+                </label>
+                <select
+                  id="profile-photo-visit"
+                  className="app-input"
+                  value={visitIndex}
+                  onChange={(e) =>
+                    setVisitIndex(
+                      e.target.value ? Number(e.target.value) : ""
+                    )
+                  }
+                >
+                  <option value="">Bez vazby / jen datum</option>
+                  {visits.map((visit) => (
+                    <option key={visit.index} value={visit.index}>
+                      Návštěva {visit.index}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : null}
+
+            <input
+              ref={fileInputRef}
+              id="profile-photo-file"
+              className="photo-upload-input"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              disabled={busy || photos.length >= MAX_PHOTOS}
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                e.target.value = "";
+                await handleUpload(file);
+              }}
+            />
+
+            <button
+              className="button"
+              type="button"
+              disabled={busy || photos.length >= MAX_PHOTOS}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {busy ? "Nahrávám…" : "Vybrat soubor"}
+            </button>
+
+            <p className="photo-upload-info">
+              JPG, PNG, WEBP · maximálně {MAX_PHOTOS} fotografií
+            </p>
+            {error ? <p className="app-error">{error}</p> : null}
           </div>
 
           {photos.length > 0 ? (
-            <div className="photo-grid-section" style={{ marginTop: 20 }}>
-              <h3 style={{ margin: "0 0 12px", font: "400 22px/1.2 var(--serif)" }}>
-                Nahrané snímky
-              </h3>
+            <div className="photo-grid-section">
+              <div className="photo-grid-head">
+                <h3>Nahrané snímky</h3>
+                <p className="meta-line">
+                  {photos.length} / {MAX_PHOTOS}
+                  {selectedIds.length > 0
+                    ? ` · vybráno ${selectedIds.length}/2`
+                    : ""}
+                </p>
+              </div>
+
               <ul className="photo-grid">
-                {photos.map((photo) => (
-                  <li key={photo.id} className="photo-card">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={photo.dataUrl} alt="" />
-                    <div className="photo-card-meta">
-                      <p>
-                        {photo.visitIndex
-                          ? `Návštěva ${photo.visitIndex}`
-                          : "Bez návštěvy"}
-                      </p>
-                      <p className="meta-line">
-                        {new Date(photo.createdAt).toLocaleString("cs-CZ")}
-                      </p>
-                      <div className="flow-actions">
-                        <label className="text-link photo-replace">
-                          Nahradit
-                          <input
-                            type="file"
-                            accept="image/jpeg,image/png,image/webp"
-                            hidden
-                            onChange={async (e) => {
-                              const file = e.target.files?.[0];
-                              e.target.value = "";
-                              if (!file) return;
-                              try {
-                                const prepared = await preparePhotoFile(file);
-                                const next = replacePhoto(photo.id, {
-                                  dataUrl: prepared.dataUrl,
-                                  fileName: prepared.fileName,
-                                  createdAt: new Date().toISOString(),
-                                });
-                                setPhotos(next);
-                              } catch (err) {
-                                setError(
-                                  err instanceof Error
-                                    ? err.message
-                                    : "Nahrazení se nepovedlo."
-                                );
-                              }
-                            }}
-                          />
-                        </label>
-                        <button
-                          className="text-link"
-                          type="button"
-                          onClick={() => {
-                            const next = deletePhoto(photo.id);
-                            setPhotos(next);
-                          }}
-                        >
-                          Smazat
-                        </button>
+                {photos.map((photo) => {
+                  const selected = selectedIds.includes(photo.id);
+                  return (
+                    <li
+                      key={photo.id}
+                      className={`photo-card${selected ? " is-selected" : ""}`}
+                    >
+                      <div className="photo-card-media">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={photo.dataUrl} alt="" />
                       </div>
-                    </div>
-                  </li>
-                ))}
+                      <div className="photo-card-meta">
+                        <p className="photo-card-date">
+                          {formatPhotoDate(photo.createdAt)}
+                        </p>
+                        <p className="photo-card-visit">
+                          {photo.visitIndex
+                            ? `Návštěva ${photo.visitIndex}`
+                            : "Bez vazby na návštěvu"}
+                        </p>
+                        <div className="photo-card-actions">
+                          <button
+                            className={`text-link${selected ? " is-active" : ""}`}
+                            type="button"
+                            onClick={() => toggleSelect(photo.id)}
+                          >
+                            {selected ? "Zrušit výběr" : "Porovnat"}
+                          </button>
+                          <label className="text-link photo-replace">
+                            Nahradit
+                            <input
+                              type="file"
+                              accept="image/jpeg,image/png,image/webp"
+                              hidden
+                              onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                e.target.value = "";
+                                if (!file) return;
+                                try {
+                                  const prepared = await preparePhotoFile(file);
+                                  const next = replacePhoto(photo.id, {
+                                    dataUrl: prepared.dataUrl,
+                                    fileName: prepared.fileName,
+                                    createdAt: new Date().toISOString(),
+                                  });
+                                  setPhotos(next);
+                                } catch (err) {
+                                  setError(
+                                    err instanceof Error
+                                      ? err.message
+                                      : "Nahrazení se nepovedlo."
+                                  );
+                                }
+                              }}
+                            />
+                          </label>
+                          <button
+                            className="text-link"
+                            type="button"
+                            onClick={() => {
+                              const next = deletePhoto(photo.id);
+                              setPhotos(next);
+                              setSelectedIds((prev) =>
+                                prev.filter((id) => id !== photo.id)
+                              );
+                              setCompareOpen(false);
+                            }}
+                          >
+                            Smazat
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
+
+              {selectedIds.length === 2 ? (
+                <div className="photo-compare-bar">
+                  <button
+                    className="button"
+                    type="button"
+                    onClick={() => setCompareOpen(true)}
+                  >
+                    Porovnat snímky
+                  </button>
+                </div>
+              ) : null}
             </div>
           ) : null}
 
-          {photos.length >= 2 ? (
-            <div className="flow-card compare-card" style={{ marginTop: 20 }}>
-              <h3 style={{ margin: "0 0 12px", font: "400 22px/1.2 var(--serif)" }}>
-                Porovnání
-              </h3>
-              <p>
-                Manuální srovnání prvního a pozdějšího snímku. Bez automatického
-                skóre zlepšení.
-              </p>
-              <div className="compare-controls">
-                <div className="checkout-field">
-                  <label htmlFor="profile-compare-left">Vlevo</label>
-                  <select
-                    id="profile-compare-left"
-                    className="app-input"
-                    value={left?.id ?? ""}
-                    onChange={(e) => setCompareLeft(e.target.value)}
-                  >
-                    {photos.map((photo, index) => (
-                      <option key={photo.id} value={photo.id}>
-                        #{index + 1}
-                        {photo.visitIndex
-                          ? ` · návštěva ${photo.visitIndex}`
-                          : ""}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="checkout-field">
-                  <label htmlFor="profile-compare-right">Vpravo</label>
-                  <select
-                    id="profile-compare-right"
-                    className="app-input"
-                    value={right?.id ?? ""}
-                    onChange={(e) => setCompareRight(e.target.value)}
-                  >
-                    {photos.map((photo, index) => (
-                      <option key={photo.id} value={photo.id}>
-                        #{index + 1}
-                        {photo.visitIndex
-                          ? ` · návštěva ${photo.visitIndex}`
-                          : ""}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+          {compareOpen && comparePhotos.length === 2 ? (
+            <div className="photo-compare-view" aria-live="polite">
+              <div className="photo-compare-head">
+                <h3>Porovnání snímků</h3>
+                <button
+                  className="text-link"
+                  type="button"
+                  onClick={() => setCompareOpen(false)}
+                >
+                  Zavřít
+                </button>
               </div>
               <div className="compare-stage">
-                {left ? (
-                  <figure>
+                {comparePhotos.map((photo) => (
+                  <figure key={photo.id}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={left.dataUrl} alt="Snímek vlevo" />
-                    <figcaption>Vlevo</figcaption>
+                    <img
+                      src={photo.dataUrl}
+                      alt={`Snímek z ${formatPhotoDate(photo.createdAt)}`}
+                    />
+                    <figcaption>
+                      <span className="photo-compare-date">
+                        {formatPhotoDate(photo.createdAt)}
+                      </span>
+                      <span className="photo-compare-visit">
+                        {photo.visitIndex
+                          ? `Návštěva ${photo.visitIndex}`
+                          : "Bez vazby na návštěvu"}
+                      </span>
+                    </figcaption>
                   </figure>
-                ) : null}
-                {right ? (
-                  <figure>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={right.dataUrl} alt="Snímek vpravo" />
-                    <figcaption>Vpravo</figcaption>
-                  </figure>
-                ) : null}
+                ))}
               </div>
             </div>
           ) : null}
