@@ -1397,8 +1397,14 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   margin-top: 8px;
+}
+
+.flow-actions .button.secondary {
+  min-height: 54px;
+  padding: 15px 26px;
+  font-size: inherit;
 }
 
 .outcome-list {

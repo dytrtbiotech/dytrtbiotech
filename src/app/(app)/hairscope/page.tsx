@@ -128,14 +128,14 @@ export default function HairScopePage() {
                 Spustit analýzu
               </button>
               <button
-                className="text-link"
+                className="button secondary"
                 type="button"
                 onClick={() => {
                   setHairScopeStatus("skipped");
                   refresh();
                 }}
               >
-                Přeskočit zatím
+                Zatím přeskočit
               </button>
             </div>
           </section>
