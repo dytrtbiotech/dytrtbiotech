@@ -41,7 +41,7 @@ export default function HairScopePage() {
       </header>
       <div className="app-content">
         <h1>Analýza vlasů</h1>
-        <p className="app-lead">
+        <p className="app-lead app-lead--nowrap">
           Obrazová analýza je volitelný krok během čekání na laboratorní
           výsledky. Nenahrazuje vyšetření ani konzultaci
           {doctor ? ` u ${doctor.name}` : ""}.
