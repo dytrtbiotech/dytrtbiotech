@@ -69,17 +69,25 @@ export default function VysetreniPage() {
             </p>
 
             <section className="summary-block">
-              <h2>{panel.name}</h2>
+              <div className="summary-block-head">
+                <h2>{panel.name}</h2>
+                {order?.updatedAt ? (
+                  <p className="meta-line">
+                    Aktualizace:{" "}
+                    {new Date(order.updatedAt).toLocaleString("cs-CZ", {
+                      day: "numeric",
+                      month: "numeric",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                ) : null}
+              </div>
               <p className="summary-price">{formatCzk(panel.priceCzk)}</p>
               {doctor ? <p>Lékař pro výsledky: {doctor.name}</p> : null}
               {order?.orderNumber ? <p>Objednávka: {order.orderNumber}</p> : null}
               <p>Stav: {statusLabel(order?.status)}</p>
-              {order?.updatedAt ? (
-                <p className="meta-line">
-                  Aktualizace:{" "}
-                  {new Date(order.updatedAt).toLocaleString("cs-CZ")}
-                </p>
-              ) : null}
             </section>
 
             {!paid && task.href && task.ctaLabel ? (
@@ -106,7 +114,7 @@ export default function VysetreniPage() {
                   >
                     Simulovat připravené podklady
                   </button>
-                  <Link className="text-link" href="/hairscope">
+                  <Link className="button secondary" href="/hairscope">
                     Mezitím HairScope
                   </Link>
                 </div>

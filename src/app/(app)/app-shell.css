@@ -567,6 +567,16 @@
   margin-bottom: 4px;
 }
 
+.summary-block-head h2 {
+  margin: 0;
+}
+
+.summary-block-head .meta-line {
+  margin: 0;
+  flex-shrink: 0;
+  text-align: right;
+}
+
 .summary-block-head a {
   font-size: 14px;
   color: var(--teal);
