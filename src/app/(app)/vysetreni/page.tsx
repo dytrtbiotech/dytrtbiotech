@@ -93,13 +93,45 @@ export default function VysetreniPage() {
                   : ""
               }`}
             >
-              <div className="summary-block-head">
-                <h2>{panel.name}</h2>
-                {order?.status === "ready_for_collection" ? (
+              {order?.status === "ready_for_collection" ? (
+                <>
+                  <div className="summary-block-main">
+                    <h2>{panel.name}</h2>
+                    <p className="summary-price">
+                      {formatCzk(panel.priceCzk)}
+                    </p>
+                    {doctor ? (
+                      <p>Lékař pro výsledky: {doctor.name}</p>
+                    ) : null}
+                    {order?.orderNumber ? (
+                      <p>Objednávka: {order.orderNumber}</p>
+                    ) : null}
+                  </div>
                   <div className="summary-block-aside">
+                    {order?.updatedAt ? (
+                      <p className="meta-line summary-updated">
+                        Aktualizováno{" "}
+                        {new Date(order.updatedAt).toLocaleDateString("cs-CZ", {
+                          day: "numeric",
+                          month: "numeric",
+                          year: "numeric",
+                        })}{" "}
+                        ·{" "}
+                        {new Date(order.updatedAt).toLocaleTimeString("cs-CZ", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                    ) : null}
                     <span className="status-badge status-badge--ready">
                       Připraveno k odběru
                     </span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="summary-block-head">
+                    <h2>{panel.name}</h2>
                     {order?.updatedAt ? (
                       <p className="meta-line">
                         Aktualizace:{" "}
@@ -113,25 +145,16 @@ export default function VysetreniPage() {
                       </p>
                     ) : null}
                   </div>
-                ) : order?.updatedAt ? (
-                  <p className="meta-line">
-                    Aktualizace:{" "}
-                    {new Date(order.updatedAt).toLocaleString("cs-CZ", {
-                      day: "numeric",
-                      month: "numeric",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
-                ) : null}
-              </div>
-              <p className="summary-price">{formatCzk(panel.priceCzk)}</p>
-              {doctor ? <p>Lékař pro výsledky: {doctor.name}</p> : null}
-              {order?.orderNumber ? <p>Objednávka: {order.orderNumber}</p> : null}
-              {order?.status !== "ready_for_collection" ? (
-                <p>Stav: {statusLabel(order?.status)}</p>
-              ) : null}
+                  <p className="summary-price">{formatCzk(panel.priceCzk)}</p>
+                  {doctor ? (
+                    <p>Lékař pro výsledky: {doctor.name}</p>
+                  ) : null}
+                  {order?.orderNumber ? (
+                    <p>Objednávka: {order.orderNumber}</p>
+                  ) : null}
+                  <p>Stav: {statusLabel(order?.status)}</p>
+                </>
+              )}
             </section>
 
             {!paid && task.href && task.ctaLabel ? (
@@ -190,22 +213,20 @@ export default function VysetreniPage() {
                   Nyní se můžete dostavit na odběrové místo SYNLAB.
                 </p>
                 {order.collectionRef ? (
-                  <div className="ref-code-block">
-                    <span className="ref-code-block-label">
-                      Referenční kód
+                  <div className="ref-code-line">
+                    <span className="ref-code-line-label">
+                      Referenční kód:
                     </span>
-                    <div className="ref-code-block-row">
-                      <strong className="ref-code-block-value mono">
-                        {order.collectionRef}
-                      </strong>
-                      <button
-                        className="ref-code-copy"
-                        type="button"
-                        onClick={copyRef}
-                      >
-                        {copied ? "Zkopírováno" : "Kopírovat"}
-                      </button>
-                    </div>
+                    <strong className="ref-code-line-value mono">
+                      {order.collectionRef}
+                    </strong>
+                    <button
+                      className="ref-code-copy"
+                      type="button"
+                      onClick={copyRef}
+                    >
+                      {copied ? "Zkopírováno" : "Kopírovat"}
+                    </button>
                   </div>
                 ) : null}
                 <h3 className="flow-ready-instructions-title">Instrukce</h3>
