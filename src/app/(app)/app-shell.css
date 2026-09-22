@@ -1490,6 +1490,118 @@
   font-size: 13px !important;
 }
 
+.consult-lead {
+  max-width: 48ch;
+  white-space: normal;
+}
+
+.consult-doctor .doctor-card-head {
+  margin-bottom: 10px;
+}
+
+.consult-doctor .doctor-card-head h2 {
+  margin: 0;
+  font: 400 24px / 1.2 var(--serif);
+}
+
+.consult-doctor-line {
+  margin: 0 0 4px !important;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.consult-doctor-line:last-of-type {
+  margin-bottom: 0 !important;
+}
+
+.consult-doctor-actions {
+  margin-top: 18px;
+}
+
+.consult-doctor-note {
+  margin: 16px 0 0 !important;
+}
+
+.consult-booking-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.85fr);
+  gap: 28px 32px;
+  align-items: start;
+}
+
+.consult-booking-main h2 {
+  margin: 0 0 8px;
+}
+
+.consult-booking-main > p {
+  margin: 0 0 18px;
+}
+
+.consult-booking-fields {
+  max-width: none;
+  width: 100%;
+  margin-top: 0;
+  gap: 18px;
+}
+
+.consult-booking-actions {
+  margin-top: 28px;
+}
+
+.consult-booking-aside {
+  padding: 18px 20px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--soft) 55%, #fff);
+}
+
+.consult-booking-aside-title {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.consult-booking-aside-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.consult-booking-aside-list li {
+  position: relative;
+  padding-left: 1em;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.consult-booking-aside-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .consult-booking-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .consult-booking-aside {
+    order: 2;
+  }
+}
+
 .flow-actions {
   display: flex;
   flex-wrap: wrap;

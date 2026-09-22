@@ -98,23 +98,23 @@ export default function KonzultacePage() {
           </>
         ) : (
           <>
-            <p className="app-lead app-lead--nowrap">
+            <p className="app-lead consult-lead">
               Rezervaci řešíte přímo u ordinace. Aplikace jen eviduje, co
               nahlásíte, sama nevhodnost ani vhodnost nevyhodnocuje.
             </p>
 
-            <section className="summary-block">
+            <section className="summary-block consult-doctor">
               <div className="doctor-card-head">
                 <h2>{doctor.name}</h2>
                 <span className="demo-badge">Demo</span>
               </div>
-              <p>
+              <p className="consult-doctor-line">
                 {doctor.specialty} · {doctor.city}
               </p>
-              <p>{doctor.address}</p>
-              <p>{doctor.contact}</p>
-              <p className="doctor-note">{doctor.consultationNote}</p>
-              <div className="flow-actions">
+              <p className="consult-doctor-line">
+                {doctor.address} · {doctor.contact}
+              </p>
+              <div className="flow-actions consult-doctor-actions">
                 <a
                   className="button"
                   href={doctor.bookingUrl}
@@ -124,58 +124,74 @@ export default function KonzultacePage() {
                   Otevřít rezervační systém
                 </a>
               </div>
-              <p className="flow-note">
+              <p className="flow-note consult-doctor-note">
                 Odkaz vede na externí systém ordinace. Termín si domluvíte tam.
               </p>
             </section>
 
             {!booked ? (
-              <section className="flow-card">
-                <h2>Mám rezervovanou konzultaci</h2>
-                <p>
-                  Po objednání u ordinace označte rezervaci zde. Datum je
-                  volitelné.
-                </p>
-                <div className="checkout-fields">
-                  <div className="checkout-field">
-                    <label htmlFor="consult-date">
-                      Datum a čas (volitelné)
-                    </label>
-                    <input
-                      id="consult-date"
-                      className="app-input"
-                      type="datetime-local"
-                      value={date}
-                      onChange={(e) => setDate(e.target.value)}
-                    />
+              <section className="flow-card consult-booking">
+                <div className="consult-booking-grid">
+                  <div className="consult-booking-main">
+                    <h2>Mám rezervovanou konzultaci</h2>
+                    <p>
+                      Po objednání u ordinace označte rezervaci zde. Datum je
+                      volitelné.
+                    </p>
+                    <div className="checkout-fields consult-booking-fields">
+                      <div className="checkout-field">
+                        <label htmlFor="consult-date">
+                          Datum a čas (volitelné)
+                        </label>
+                        <input
+                          id="consult-date"
+                          className="app-input"
+                          type="datetime-local"
+                          value={date}
+                          onChange={(e) => setDate(e.target.value)}
+                        />
+                      </div>
+                      <div className="checkout-field">
+                        <label htmlFor="consult-note">
+                          Poznámka (volitelné)
+                        </label>
+                        <input
+                          id="consult-note"
+                          className="app-input"
+                          value={note}
+                          onChange={(e) => setNote(e.target.value)}
+                          placeholder="Např. objednáno online"
+                        />
+                      </div>
+                    </div>
+                    <div className="flow-actions consult-booking-actions">
+                      <button
+                        className="button"
+                        type="button"
+                        onClick={() => {
+                          reportConsultationBooked({
+                            consultationAt: date
+                              ? date.replace("T", " ")
+                              : undefined,
+                            consultationNote: note,
+                          });
+                          refresh();
+                        }}
+                      >
+                        Mám rezervovanou konzultaci
+                      </button>
+                    </div>
                   </div>
-                  <div className="checkout-field">
-                    <label htmlFor="consult-note">Poznámka (volitelné)</label>
-                    <input
-                      id="consult-note"
-                      className="app-input"
-                      value={note}
-                      onChange={(e) => setNote(e.target.value)}
-                      placeholder="Např. objednáno online"
-                    />
-                  </div>
-                </div>
-                <div className="flow-actions">
-                  <button
-                    className="button"
-                    type="button"
-                    onClick={() => {
-                      reportConsultationBooked({
-                        consultationAt: date
-                          ? date.replace("T", " ")
-                          : undefined,
-                        consultationNote: note,
-                      });
-                      refresh();
-                    }}
-                  >
-                    Mám rezervovanou konzultaci
-                  </button>
+                  <aside className="consult-booking-aside" aria-label="Nápověda">
+                    <p className="consult-booking-aside-title">Jak to funguje</p>
+                    <ul className="consult-booking-aside-list">
+                      <li>Rezervaci řešíte přímo s ordinací.</li>
+                      <li>
+                        Tady jen potvrzujete, že máte termín domluvený.
+                      </li>
+                      <li>Datum a poznámka jsou volitelné.</li>
+                    </ul>
+                  </aside>
                 </div>
               </section>
             ) : (
