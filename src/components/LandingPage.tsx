@@ -352,8 +352,8 @@ export default function LandingPage() {
               <span className="pill-label">Osobně</span>
               <h3>Program péče</h3>
               <p>
-                Pokud se po konzultaci rozhodnete pokračovat, zobrazíme vám
-                navazující program a jeho podmínky.
+                Pokud se po konzultaci rozhodnete pokračovat, zobrazíme navazující
+                program a jeho podmínky.
               </p>
             </li>
           </ol>
