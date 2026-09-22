@@ -1572,6 +1572,12 @@
   border: 1px solid color-mix(in srgb, var(--teal) 22%, transparent);
 }
 
+.status-badge--done {
+  background: var(--soft);
+  color: var(--teal);
+  border: 1px solid color-mix(in srgb, var(--teal) 28%, transparent);
+}
+
 .flow-card--ready {
   border-color: color-mix(in srgb, var(--teal) 24%, var(--line));
   background: linear-gradient(

@@ -48,6 +48,28 @@ export default function VysetreniPage() {
   const task = getNextTask(order);
   const paid = isPaidStatus(order?.status);
 
+  const summaryBadge =
+    order?.status === "ready_for_collection"
+      ? { label: "Připraveno k odběru", tone: "ready" as const }
+      : order?.status === "collection_reported"
+        ? {
+            label: "Čekáme na předání výsledků lékaři",
+            tone: "waiting" as const,
+          }
+        : order?.status === "results_with_doctor" ||
+            order?.status === "consultation_reported" ||
+            order?.status === "continue_approved" ||
+            order?.status === "care_paid" ||
+            order?.status === "care_completed"
+          ? {
+              label:
+                order.status === "results_with_doctor"
+                  ? "Výsledky předány lékaři"
+                  : statusLabel(order.status),
+              tone: "done" as const,
+            }
+          : null;
+
   const copyRef = async () => {
     const value = order?.collectionRef;
     if (!value) return;
@@ -88,14 +110,10 @@ export default function VysetreniPage() {
 
             <section
               className={`summary-block${
-                order?.status === "ready_for_collection" ||
-                order?.status === "collection_reported"
-                  ? " summary-block--ready"
-                  : ""
+                summaryBadge ? " summary-block--ready" : ""
               }`}
             >
-              {order?.status === "ready_for_collection" ||
-              order?.status === "collection_reported" ? (
+              {summaryBadge ? (
                 <>
                   <div className="summary-block-main">
                     <h2>{panel.name}</h2>
@@ -111,15 +129,9 @@ export default function VysetreniPage() {
                   </div>
                   <div className="summary-block-aside">
                     <span
-                      className={`status-badge${
-                        order.status === "ready_for_collection"
-                          ? " status-badge--ready"
-                          : " status-badge--waiting"
-                      }`}
+                      className={`status-badge status-badge--${summaryBadge.tone}`}
                     >
-                      {order.status === "ready_for_collection"
-                        ? "Připraveno k odběru"
-                        : "Čekáme na předání výsledků lékaři"}
+                      {summaryBadge.label}
                     </span>
                   </div>
                 </>
