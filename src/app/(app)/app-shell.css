@@ -1522,83 +1522,43 @@
   margin: 16px 0 0 !important;
 }
 
-.consult-booking-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.85fr);
-  gap: 28px 32px;
-  align-items: start;
-}
-
-.consult-booking-main h2 {
+.consult-booking h2 {
   margin: 0 0 8px;
 }
 
-.consult-booking-main > p {
+.consult-booking > p {
   margin: 0 0 18px;
 }
 
-.consult-booking-fields {
-  max-width: none;
-  width: 100%;
-  margin-top: 0;
-  gap: 18px;
-}
-
-.consult-booking-actions {
-  margin-top: 28px;
-}
-
-.consult-booking-aside {
-  padding: 18px 20px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--soft) 55%, #fff);
-}
-
-.consult-booking-aside-title {
-  margin: 0 0 10px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--teal);
-}
-
-.consult-booking-aside-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.consult-booking-row {
   display: grid;
-  gap: 8px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr) auto;
+  gap: 14px 16px;
+  align-items: end;
 }
 
-.consult-booking-aside-list li {
-  position: relative;
-  padding-left: 1em;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--muted);
+.consult-booking-row .checkout-field {
+  min-width: 0;
 }
 
-.consult-booking-aside-list li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.55em;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
+.consult-booking-cta {
+  display: flex;
+  align-items: flex-end;
+}
+
+.consult-booking-cta .button {
+  white-space: nowrap;
+  min-height: 52px;
 }
 
 @media (max-width: 900px) {
-  .consult-booking-grid {
+  .consult-booking-row {
     grid-template-columns: 1fr;
-    gap: 22px;
+    align-items: stretch;
   }
 
-  .consult-booking-aside {
-    order: 2;
+  .consult-booking-cta .button {
+    width: 100%;
   }
 }
 
