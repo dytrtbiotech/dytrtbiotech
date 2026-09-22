@@ -108,21 +108,6 @@ export default function VysetreniPage() {
                     ) : null}
                   </div>
                   <div className="summary-block-aside">
-                    {order?.updatedAt ? (
-                      <p className="meta-line summary-updated">
-                        Aktualizováno{" "}
-                        {new Date(order.updatedAt).toLocaleDateString("cs-CZ", {
-                          day: "numeric",
-                          month: "numeric",
-                          year: "numeric",
-                        })}{" "}
-                        ·{" "}
-                        {new Date(order.updatedAt).toLocaleTimeString("cs-CZ", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </p>
-                    ) : null}
                     <span className="status-badge status-badge--ready">
                       Připraveno k odběru
                     </span>

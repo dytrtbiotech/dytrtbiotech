@@ -600,14 +600,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  gap: 8px 12px;
   flex-shrink: 0;
-  max-width: min(100%, 420px);
-}
-
-.summary-block-aside .summary-updated {
-  margin: 0;
-  white-space: nowrap;
 }
 
 .summary-block-head h2 {
