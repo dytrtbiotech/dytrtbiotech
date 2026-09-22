@@ -1778,6 +1778,12 @@
   font-size: 14px;
 }
 
+.care-offer .summary-price {
+  font-size: 28px;
+  line-height: 1.15;
+  margin: 4px 0 12px;
+}
+
 .care-offer .instruction-list {
   margin: 18px 0 0;
 }
