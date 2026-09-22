@@ -1490,11 +1490,6 @@
   font-size: 13px !important;
 }
 
-.consult-lead {
-  max-width: 48ch;
-  white-space: normal;
-}
-
 .consult-doctor .doctor-card-head {
   margin-bottom: 10px;
 }
