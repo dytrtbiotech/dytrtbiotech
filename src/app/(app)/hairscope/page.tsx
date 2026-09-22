@@ -100,7 +100,7 @@ export default function HairScopePage() {
             <h2>Přeskočeno</h2>
             <p>
               Analýzu jste zatím přeskočili. Laboratorní proces tím není
-              blokovaný — můžete se k ní vrátit kdykoli.
+              blokovaný, můžete se k ní vrátit kdykoli.
             </p>
             <div className="flow-actions">
               <button
