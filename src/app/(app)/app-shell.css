@@ -1511,6 +1511,41 @@
   letter-spacing: 0.04em;
 }
 
+.ref-code-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin: 0 0 16px;
+}
+
+.ref-code-label {
+  margin: 0;
+}
+
+.ref-code-copy {
+  appearance: none;
+  border: 1px solid var(--teal);
+  background: transparent;
+  color: var(--teal);
+  border-radius: 999px;
+  min-height: 34px;
+  padding: 6px 14px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.ref-code-copy:hover {
+  background: var(--teal);
+  color: #fff;
+}
+
 .hairscope-demo-frame {
   display: grid;
   place-items: center;

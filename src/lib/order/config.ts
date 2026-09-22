@@ -222,7 +222,7 @@ export type OrderStepId = (typeof ORDER_STEPS)[number]["id"];
 export const COLLECTION_INSTRUCTIONS = [
   "Dostavte se na odběrové místo SYNLAB s dokladem totožnosti.",
   "Mějte u sebe e-mail / telefon z objednávky pro dohledání.",
-  "Přesný postup nalačno a přípravy potvrdí laboratoř — zde je jen orientační návod z dema.",
+  "Přesný postup nalačno a přípravy potvrdí laboratoř - zde je jen orientační návod z dema.",
   "Po odběru se můžete vrátit do aplikace a označit, že jste odběr absolvovali.",
 ] as const;
 

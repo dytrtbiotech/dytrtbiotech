@@ -22,6 +22,7 @@ import { useCallback, useEffect, useState } from "react";
 export default function VysetreniPage() {
   const [ready, setReady] = useState(false);
   const [order, setOrder] = useState<OrderDraft | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const refresh = useCallback(() => {
     setOrder(loadOrder());
@@ -32,6 +33,12 @@ export default function VysetreniPage() {
     setReady(true);
   }, [refresh]);
 
+  useEffect(() => {
+    if (!copied) return;
+    const timer = window.setTimeout(() => setCopied(false), 1800);
+    return () => window.clearTimeout(timer);
+  }, [copied]);
+
   if (!ready) {
     return <div className="app-loading">Načítání…</div>;
   }
@@ -40,6 +47,17 @@ export default function VysetreniPage() {
   const doctor = getDoctor(order?.doctorId);
   const task = getNextTask(order);
   const paid = isPaidStatus(order?.status);
+
+  const copyRef = async () => {
+    const value = order?.collectionRef;
+    if (!value) return;
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+    } catch {
+      setCopied(false);
+    }
+  };
 
   return (
     <>
@@ -125,14 +143,20 @@ export default function VysetreniPage() {
               <section className="flow-card">
                 <h2>Podklady k odběru jsou připravené</h2>
                 {order.collectionRef ? (
-                  <p>
-                    Referenční kód (demo):{" "}
-                    <strong className="mono">{order.collectionRef}</strong>
-                  </p>
+                  <div className="ref-code-row">
+                    <p className="ref-code-label">
+                      Referenční kód:{" "}
+                      <strong className="mono">{order.collectionRef}</strong>
+                    </p>
+                    <button
+                      className="ref-code-copy"
+                      type="button"
+                      onClick={copyRef}
+                    >
+                      {copied ? "Zkopírováno" : "Kopírovat"}
+                    </button>
+                  </div>
                 ) : null}
-                <p className="flow-note">
-                  Nejde o skutečný kód SYNLABu — jen ukázka pro průchod demem.
-                </p>
                 <h3>Instrukce</h3>
                 <ul className="instruction-list">
                   {COLLECTION_INSTRUCTIONS.map((item) => (
@@ -150,7 +174,7 @@ export default function VysetreniPage() {
                   >
                     Odběr jsem absolvoval/a
                   </button>
-                  <Link className="text-link" href="/hairscope">
+                  <Link className="button secondary" href="/hairscope">
                     Doplnit HairScope
                   </Link>
                 </div>
