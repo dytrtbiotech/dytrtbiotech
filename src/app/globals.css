@@ -404,8 +404,8 @@ summary:focus-visible {
 }
 
 .process-icon {
-  width: 108px;
-  height: 108px;
+  width: 92px;
+  height: 92px;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -446,7 +446,7 @@ summary:focus-visible {
     top: 0;
     left: 0;
     width: 100%;
-    height: 108px;
+    height: 92px;
     color: #b0c4cb;
     pointer-events: none;
     z-index: 0;
@@ -1069,8 +1069,8 @@ dialog::backdrop {
     gap: 24px;
   }
   .process-icon {
-    width: 90px;
-    height: 90px;
+    width: 78px;
+    height: 78px;
   }
   .next-steps-intro {
     margin-bottom: 40px;
@@ -1244,8 +1244,8 @@ dialog::backdrop {
     column-gap: 18px;
   }
   .process-icon {
-    width: 72px;
-    height: 72px;
+    width: 64px;
+    height: 64px;
     margin-bottom: 0;
   }
   .process-icon svg {
