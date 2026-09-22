@@ -353,9 +353,13 @@
 
 .task-card p {
   margin: 0 0 22px;
-  max-width: 70ch;
+  max-width: none;
   color: var(--muted);
   line-height: 1.65;
+}
+
+.task-card > p:last-of-type {
+  white-space: nowrap;
 }
 
 .task-card .button {
@@ -369,12 +373,10 @@
 
 .task-card--wait p:last-child {
   margin-bottom: 0;
-  max-width: none;
-  white-space: nowrap;
 }
 
 @media (max-width: 1100px) {
-  .task-card--wait p:last-child {
+  .task-card > p:last-of-type {
     white-space: normal;
   }
 }
