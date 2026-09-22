@@ -98,9 +98,9 @@ export default function KonzultacePage() {
           </>
         ) : (
           <>
-            <p className="app-lead">
+            <p className="app-lead app-lead--nowrap">
               Rezervaci řešíte přímo u ordinace. Aplikace jen eviduje, co
-              nahlásíte — sama nevhodnost ani vhodnost nevyhodnocuje.
+              nahlásíte, sama nevhodnost ani vhodnost nevyhodnocuje.
             </p>
 
             <section className="summary-block">
