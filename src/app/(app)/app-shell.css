@@ -588,13 +588,14 @@
 }
 
 .summary-block-main h2 {
-  margin: 0 0 2px;
+  margin: 0;
   line-height: 1.2;
 }
 
 .summary-block-main .summary-price {
-  margin: 0 0 12px;
-  line-height: 1.25;
+  margin: 14px 0;
+  font-size: 26px;
+  line-height: 1.15;
 }
 
 .summary-block-main p:last-child {
