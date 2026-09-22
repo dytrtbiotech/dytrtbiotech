@@ -105,7 +105,16 @@ export default function VysetreniPage() {
               <p className="summary-price">{formatCzk(panel.priceCzk)}</p>
               {doctor ? <p>Lékař pro výsledky: {doctor.name}</p> : null}
               {order?.orderNumber ? <p>Objednávka: {order.orderNumber}</p> : null}
-              <p>Stav: {statusLabel(order?.status)}</p>
+              {order?.status === "ready_for_collection" ? (
+                <p className="status-row">
+                  Stav:{" "}
+                  <span className="status-badge status-badge--ready">
+                    Připraveno k odběru
+                  </span>
+                </p>
+              ) : (
+                <p>Stav: {statusLabel(order?.status)}</p>
+              )}
             </section>
 
             {!paid && task.href && task.ctaLabel ? (
@@ -140,14 +149,39 @@ export default function VysetreniPage() {
             ) : null}
 
             {order?.status === "ready_for_collection" ? (
-              <section className="flow-card">
-                <h2>Podklady k odběru jsou připravené</h2>
+              <section className="flow-card flow-card--ready">
+                <h2 className="flow-ready-title">
+                  <svg
+                    className="flow-ready-check"
+                    viewBox="0 0 16 16"
+                    width="18"
+                    height="18"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3.2 8.2 6.4 11.4 12.8 4.6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  Podklady k odběru jsou připravené
+                </h2>
+                <p className="flow-ready-lead">
+                  Nyní se můžete dostavit na odběrové místo SYNLAB.
+                </p>
                 {order.collectionRef ? (
-                  <div className="ref-code-row">
-                    <p className="ref-code-label">
-                      Referenční kód:{" "}
-                      <strong className="mono">{order.collectionRef}</strong>
-                    </p>
+                  <div className="ref-code-block">
+                    <div className="ref-code-block-main">
+                      <span className="ref-code-block-label">
+                        Referenční kód
+                      </span>
+                      <strong className="ref-code-block-value mono">
+                        {order.collectionRef}
+                      </strong>
+                    </div>
                     <button
                       className="ref-code-copy"
                       type="button"
@@ -157,7 +191,7 @@ export default function VysetreniPage() {
                     </button>
                   </div>
                 ) : null}
-                <h3>Instrukce</h3>
+                <h3 className="flow-ready-instructions-title">Instrukce</h3>
                 <ul className="instruction-list">
                   {COLLECTION_INSTRUCTIONS.map((item) => (
                     <li key={item}>{item}</li>
@@ -175,7 +209,7 @@ export default function VysetreniPage() {
                     Odběr jsem absolvoval/a
                   </button>
                   <Link className="button secondary" href="/hairscope">
-                    Doplnit HairScope
+                    Doplnit analýzu vlasů
                   </Link>
                 </div>
               </section>
