@@ -794,6 +794,7 @@ export default function ScreeningApp() {
                   className="screening-input"
                   type="text"
                   autoComplete="given-name"
+                  placeholder="Jan"
                   value={registerFirstName}
                   onChange={(e) => {
                     setRegisterError("");
@@ -810,6 +811,7 @@ export default function ScreeningApp() {
                   className="screening-input"
                   type="text"
                   autoComplete="family-name"
+                  placeholder="Novák"
                   value={registerLastName}
                   onChange={(e) => {
                     setRegisterError("");
@@ -827,7 +829,7 @@ export default function ScreeningApp() {
                   type="tel"
                   autoComplete="tel"
                   inputMode="numeric"
-                  placeholder="+420 777 123 456"
+                  placeholder="123 456 789"
                   value={registerPhone}
                   onChange={(e) => {
                     setRegisterError("");
@@ -844,6 +846,7 @@ export default function ScreeningApp() {
                   className="screening-input"
                   type="email"
                   autoComplete="email"
+                  placeholder="jan@novak.cz"
                   value={email}
                   onChange={(e) => {
                     setRegisterError("");
@@ -861,6 +864,7 @@ export default function ScreeningApp() {
                     className="screening-input screening-input--password"
                     type={showRegisterPassword ? "text" : "password"}
                     autoComplete="new-password"
+                    placeholder="••••••••"
                     value={registerPassword}
                     onChange={(e) => {
                       setRegisterError("");
