@@ -588,11 +588,17 @@
 }
 
 .summary-block-main h2 {
-  margin: 0 0 4px;
+  margin: 0 0 2px;
+  line-height: 1.2;
 }
 
 .summary-block-main .summary-price {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
+  line-height: 1.25;
+}
+
+.summary-block-main p:last-child {
+  margin-bottom: 0;
 }
 
 .summary-block-aside {
@@ -601,6 +607,7 @@
   align-items: center;
   justify-content: flex-end;
   flex-shrink: 0;
+  padding-top: 2px;
 }
 
 .summary-block-head h2 {
@@ -1559,14 +1566,19 @@
 }
 
 .flow-card--ready {
-  border-color: color-mix(in srgb, var(--teal) 28%, var(--line));
-  background: linear-gradient(180deg, #fff 0%, color-mix(in srgb, var(--soft) 55%, #fff) 100%);
+  border-color: color-mix(in srgb, var(--teal) 24%, var(--line));
+  background: linear-gradient(
+    180deg,
+    #fff 0%,
+    color-mix(in srgb, var(--soft) 42%, #fff) 100%
+  );
 }
 
 .flow-ready-title {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin: 0 0 8px;
   color: var(--ink);
 }
 
@@ -1576,21 +1588,22 @@
 }
 
 .flow-ready-lead {
-  margin: 0 0 20px !important;
+  margin: 0 0 18px !important;
   color: var(--muted);
+  line-height: 1.55;
 }
 
 .ref-code-line {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 10px;
-  margin: 0 0 24px;
+  gap: 6px 10px;
+  margin: 0 0 22px;
 }
 
 .ref-code-line-label {
   color: var(--muted);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.3;
 }
 
@@ -1598,17 +1611,26 @@
   font-size: 16px;
   font-weight: 700;
   color: var(--ink);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   line-height: 1.3;
 }
 
 .flow-ready-instructions-title {
+  margin: 0 0 10px;
+}
+
+.flow-card--ready .instruction-list {
+  margin: 0 0 22px;
+  gap: 7px;
+}
+
+.flow-card--ready .flow-actions {
   margin-top: 0;
 }
 
 .ref-code-copy {
   appearance: none;
-  border: 1px solid var(--teal);
+  border: 1px solid color-mix(in srgb, var(--teal) 55%, var(--line));
   background: transparent;
   color: var(--teal);
   border-radius: 999px;
@@ -1631,6 +1653,7 @@
 
 .ref-code-copy:hover {
   background: var(--teal);
+  border-color: var(--teal);
   color: #fff;
 }
 
