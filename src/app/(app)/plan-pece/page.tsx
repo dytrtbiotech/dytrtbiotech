@@ -111,59 +111,37 @@ export default function PlanPecePage() {
             </p>
 
             <section className="summary-block care-offer">
-              <div className="care-offer-grid">
-                <div className="care-offer-main">
+              <div className="care-offer-header">
+                <div className="care-offer-intro">
                   <p className="care-offer-label">Váš navazující program</p>
                   <h2 className="care-offer-title">{CARE_PROGRAM.name}</h2>
                   <p className="care-offer-meta">
                     {CARE_PROGRAM.sessions} aplikací · cca{" "}
-                    {CARE_PROGRAM.durationMonths} měsíců ·{" "}
-                    {CARE_PROGRAM.provider}
+                    {CARE_PROGRAM.durationMonths} měsíců
+                    {doctor ? ` · ${doctor.name}, ${doctor.city}` : ""}
                   </p>
-
-                  <div className="care-offer-section">
-                    <h3>Co program zahrnuje</h3>
-                    <ul className="instruction-list">
-                      {CARE_PROGRAM.includes.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="care-offer-section care-offer-disclaimers">
-                    <h3>Důležité informace</h3>
-                    <ul className="care-notes">
-                      {CARE_PROGRAM.notes.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
                 </div>
+                <p className="care-offer-price">
+                  {formatCzk(CARE_PROGRAM.priceCzk)}
+                </p>
+              </div>
 
-                <aside className="care-offer-summary" aria-label="Shrnutí programu">
-                  <span className="demo-badge">Demo</span>
-                  <p className="care-offer-summary-price">
-                    {formatCzk(CARE_PROGRAM.priceCzk)}
-                  </p>
-                  <dl className="care-offer-summary-list">
-                    <div>
-                      <dt>Délka</dt>
-                      <dd>cca {CARE_PROGRAM.durationMonths} měsíců</dd>
-                    </div>
-                    <div>
-                      <dt>Počet aplikací</dt>
-                      <dd>{CARE_PROGRAM.sessions}</dd>
-                    </div>
-                    {doctor ? (
-                      <div>
-                        <dt>Pracoviště</dt>
-                        <dd>
-                          {doctor.name}, {doctor.city}
-                        </dd>
-                      </div>
-                    ) : null}
-                  </dl>
-                </aside>
+              <div className="care-offer-section">
+                <h3>Co program zahrnuje</h3>
+                <ul className="instruction-list">
+                  {CARE_PROGRAM.includes.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="care-offer-section care-offer-disclaimers">
+                <h3>Důležité informace</h3>
+                <ul className="care-notes">
+                  {CARE_PROGRAM.notes.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
               </div>
             </section>
 

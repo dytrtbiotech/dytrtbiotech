@@ -1782,11 +1782,18 @@
   padding: 26px 28px;
 }
 
-.care-offer-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(240px, 1fr);
-  gap: 28px 32px;
-  align-items: start;
+.care-offer-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-bottom: 20px;
+}
+
+.care-offer-intro {
+  min-width: 0;
+  flex: 1;
 }
 
 .care-offer-label {
@@ -1805,10 +1812,21 @@
 }
 
 .care-offer-meta {
-  margin: 0 0 22px !important;
+  margin: 0 !important;
   color: var(--muted);
   font-size: 15px;
   line-height: 1.5;
+}
+
+.care-offer-price {
+  margin: 0 !important;
+  flex-shrink: 0;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--teal);
+  letter-spacing: -0.02em;
+  text-align: right;
 }
 
 .care-offer-section {
@@ -1853,57 +1871,6 @@
   background: #9aadb4;
 }
 
-.care-offer-summary {
-  display: grid;
-  gap: 14px;
-  justify-items: start;
-  padding: 20px 22px;
-  border-radius: 16px;
-  border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--soft) 60%, #fff);
-}
-
-.care-offer-summary-price {
-  margin: 0 !important;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--teal);
-  letter-spacing: -0.02em;
-}
-
-.care-offer-summary-list {
-  margin: 0;
-  display: grid;
-  gap: 12px;
-  width: 100%;
-}
-
-.care-offer-summary-list div {
-  display: grid;
-  gap: 2px;
-  padding-top: 10px;
-  border-top: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
-}
-
-.care-offer-summary-list div:first-child {
-  padding-top: 0;
-  border-top: none;
-}
-
-.care-offer-summary-list dt {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.care-offer-summary-list dd {
-  margin: 0;
-  font-size: 15px;
-  color: var(--ink);
-  line-height: 1.4;
-}
-
 .care-notes {
   margin: 16px 0 0;
   padding-left: 18px;
@@ -1914,10 +1881,10 @@
   line-height: 1.5;
 }
 
-@media (max-width: 900px) {
-  .care-offer-grid {
-    grid-template-columns: 1fr;
-    gap: 22px;
+@media (max-width: 720px) {
+  .care-offer-price {
+    text-align: left;
+    font-size: 28px;
   }
 }
 
