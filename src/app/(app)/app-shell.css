@@ -369,6 +369,14 @@
 
 .task-card--wait p:last-child {
   margin-bottom: 0;
+  max-width: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .task-card--wait p:last-child {
+    white-space: normal;
+  }
 }
 
 .care-progress {
