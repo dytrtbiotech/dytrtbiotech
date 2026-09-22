@@ -543,18 +543,18 @@ p {
 
 .profile-banner {
   background: var(--soft);
-  padding: 47px 53px;
+  padding: 32px 44px;
   border-radius: 24px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 40px 64px;
+  gap: 28px 64px;
   align-items: center;
   margin-top: 40px;
 }
 
 .profile-banner h3 {
   font: 400 38px / 1.12 var(--serif);
-  margin: 0 0 12px;
+  margin: 0 0 8px;
 }
 
 .profile-banner p {
@@ -571,7 +571,7 @@ p {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 15px;
+  gap: 10px;
   justify-self: end;
 }
 
