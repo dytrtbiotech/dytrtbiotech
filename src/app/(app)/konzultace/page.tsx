@@ -22,6 +22,7 @@ export default function KonzultacePage() {
   const [ready, setReady] = useState(false);
   const [order, setOrder] = useState<OrderDraft | null>(null);
   const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [note, setNote] = useState("");
   const [selectedOutcome, setSelectedOutcome] =
     useState<ConsultationOutcome | "">("");
@@ -31,7 +32,10 @@ export default function KonzultacePage() {
     const current = loadOrder();
     setOrder(current);
     if (current?.consultationAt) {
-      setDate(current.consultationAt.replace(" ", "T"));
+      const [storedDate = "", storedTime = ""] =
+        current.consultationAt.split(" ");
+      setDate(storedDate);
+      setTime(storedTime.slice(0, 5));
     }
     if (current?.consultationNote) setNote(current.consultationNote);
     if (current?.consultationOutcome) {
@@ -137,19 +141,27 @@ export default function KonzultacePage() {
                   volitelné.
                 </p>
                 <div className="consult-booking-row">
-                  <div className="checkout-field consult-booking-date">
-                    <label htmlFor="consult-date">
-                      Datum a čas (volitelné)
-                    </label>
+                  <div className="checkout-field">
+                    <label htmlFor="consult-date">Datum (volitelné)</label>
                     <input
                       id="consult-date"
                       className="app-input"
-                      type="datetime-local"
+                      type="date"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
                     />
                   </div>
-                  <div className="checkout-field consult-booking-note">
+                  <div className="checkout-field">
+                    <label htmlFor="consult-time">Čas (volitelné)</label>
+                    <input
+                      id="consult-time"
+                      className="app-input"
+                      type="time"
+                      value={time}
+                      onChange={(e) => setTime(e.target.value)}
+                    />
+                  </div>
+                  <div className="checkout-field">
                     <label htmlFor="consult-note">Poznámka (volitelné)</label>
                     <input
                       id="consult-note"
@@ -164,10 +176,16 @@ export default function KonzultacePage() {
                       className="button"
                       type="button"
                       onClick={() => {
+                        const consultationAt =
+                          date && time
+                            ? `${date} ${time}`
+                            : date
+                              ? date
+                              : time
+                                ? time
+                                : undefined;
                         reportConsultationBooked({
-                          consultationAt: date
-                            ? date.replace("T", " ")
-                            : undefined,
+                          consultationAt,
                           consultationNote: note,
                         });
                         refresh();
