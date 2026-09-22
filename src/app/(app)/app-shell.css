@@ -226,6 +226,13 @@
   backdrop-filter: blur(10px);
 }
 
+.app-topbar.has-stepper {
+  height: auto;
+  min-height: 72px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
 .app-topbar-kicker {
   margin: 0;
   font-size: 11px;
@@ -669,9 +676,11 @@
 }
 
 .order-flow-stepper {
-  margin: 0 0 28px;
+  margin: 0;
   width: 100%;
+  min-width: 0;
   max-width: none;
+  flex: 1;
 }
 
 .order-flow-segments {

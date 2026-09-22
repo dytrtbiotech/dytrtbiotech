@@ -1,32 +1,8 @@
 "use client";
 
 import OrderFlowStepper from "@/components/order/OrderFlowStepper";
+import { getLabOrderSubstep } from "@/lib/order/process-sidebar";
 import { usePathname } from "next/navigation";
-
-function resolveOrderChrome(pathname: string) {
-  if (pathname.includes("/objednavka/lekar")) {
-    return {
-      title: "Lékař",
-      stepIndex: 1,
-      stepLabel: "Výběr lékaře",
-      showStepper: true,
-    };
-  }
-  if (pathname.includes("/objednavka/souhrn")) {
-    return {
-      title: "Údaje a platba",
-      stepIndex: 2,
-      stepLabel: "Souhrn objednávky",
-      showStepper: true,
-    };
-  }
-  return {
-    title: "Laboratorní vyšetření",
-    stepIndex: 0,
-    stepLabel: "Výběr vyšetření",
-    showStepper: true,
-  };
-}
 
 export default function OrderFlowLayout({
   children,
@@ -34,25 +10,14 @@ export default function OrderFlowLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const chrome = resolveOrderChrome(pathname);
+  const { stepIndex, stepLabel } = getLabOrderSubstep(pathname);
 
   return (
     <>
-      <header className="app-topbar">
-        <div>
-          <p className="app-topbar-kicker">Objednávka</p>
-          <p className="app-topbar-title">{chrome.title}</p>
-        </div>
+      <header className="app-topbar has-stepper">
+        <OrderFlowStepper stepIndex={stepIndex} stepLabel={stepLabel} />
       </header>
-      <div className="app-content">
-        {chrome.showStepper ? (
-          <OrderFlowStepper
-            stepIndex={chrome.stepIndex}
-            stepLabel={chrome.stepLabel}
-          />
-        ) : null}
-        {children}
-      </div>
+      <div className="app-content">{children}</div>
     </>
   );
 }

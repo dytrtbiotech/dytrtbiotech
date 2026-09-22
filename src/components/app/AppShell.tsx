@@ -3,6 +3,7 @@
 import AppSidebar from "@/components/app/AppSidebar";
 import ProcessSidebar from "@/components/app/ProcessSidebar";
 import {
+  getLabOrderSubstep,
   getProcessSidebarPhases,
   shouldUseProcessSidebar,
 } from "@/lib/order/process-sidebar";
@@ -66,12 +67,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const processPhases = processMode
     ? getProcessSidebarPhases(pathname, order)
     : [];
+  const processCurrentMeta = pathname.startsWith("/objednavka")
+    ? getLabOrderSubstep(pathname).stepLabel
+    : undefined;
 
   return (
     <div className="app-shell">
       {processMode ? (
         <ProcessSidebar
           phases={processPhases}
+          currentMeta={processCurrentMeta}
           brandHref="/prehled"
           footer={
             <Link className="process-exit" href="/prehled">

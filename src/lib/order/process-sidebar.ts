@@ -92,3 +92,19 @@ export function getScreeningProcessPhases(): ProcessPhase[] {
     return { ...phase, state: "upcoming" as const };
   });
 }
+
+export type LabOrderSubstep = {
+  stepIndex: number;
+  stepLabel: string;
+};
+
+/** Substeps inside the lab order flow (sidebar meta + top stepper). */
+export function getLabOrderSubstep(pathname: string): LabOrderSubstep {
+  if (pathname.includes("/objednavka/lekar")) {
+    return { stepIndex: 1, stepLabel: "Výběr lékaře" };
+  }
+  if (pathname.includes("/objednavka/souhrn")) {
+    return { stepIndex: 2, stepLabel: "Souhrn objednávky" };
+  }
+  return { stepIndex: 0, stepLabel: "Výběr vyšetření" };
+}
