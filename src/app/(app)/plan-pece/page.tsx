@@ -111,38 +111,20 @@ export default function PlanPecePage() {
             </p>
 
             <section className="summary-block care-offer">
-              <div className="care-offer-header">
-                <div className="care-offer-intro">
-                  <p className="care-offer-label">Váš navazující program</p>
-                  <h2 className="care-offer-title">{CARE_PROGRAM.name}</h2>
-                  <p className="care-offer-meta">
-                    {CARE_PROGRAM.sessions} aplikací · cca{" "}
-                    {CARE_PROGRAM.durationMonths} měsíců
-                    {doctor ? ` · ${doctor.name}, ${doctor.city}` : ""}
-                  </p>
-                </div>
-                <p className="care-offer-price">
-                  {formatCzk(CARE_PROGRAM.priceCzk)}
-                </p>
-              </div>
-
-              <div className="care-offer-section">
-                <h3>Co program zahrnuje</h3>
-                <ul className="instruction-list">
-                  {CARE_PROGRAM.includes.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="care-offer-section care-offer-disclaimers">
-                <h3>Důležité informace</h3>
-                <ul className="care-notes">
-                  {CARE_PROGRAM.notes.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
+              <h2>{CARE_PROGRAM.name}</h2>
+              <p className="summary-price">
+                {formatCzk(CARE_PROGRAM.priceCzk)}
+              </p>
+              <p>
+                {CARE_PROGRAM.sessions} aplikací · cca{" "}
+                {CARE_PROGRAM.durationMonths} měsíců
+                {doctor ? ` · ${doctor.name}, ${doctor.city}` : ""}
+              </p>
+              <ul className="instruction-list">
+                {CARE_PROGRAM.includes.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </section>
 
             <div className="order-actions">

@@ -142,7 +142,7 @@ export const CARE_PROGRAM = {
   priceCzk: 65000,
   provider: "Smluvní ordinace (demo)",
   includes: [
-    "6 aplikací v období přibližně 6 měsíců",
+    "6 aplikací v průběhu přibližně 6 měsíců",
     "Realizace u zvoleného lékaře / pracoviště",
     "Plán návštěv v aplikaci",
   ],
