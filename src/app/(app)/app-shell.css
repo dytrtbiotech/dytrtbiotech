@@ -574,6 +574,19 @@
   margin-bottom: 4px;
 }
 
+.summary-block--ready .summary-block-head {
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.summary-block-aside {
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
 .summary-block-head h2 {
   margin: 0;
 }
@@ -1511,19 +1524,12 @@
   letter-spacing: 0.04em;
 }
 
-.status-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-
 .status-badge {
   display: inline-flex;
   align-items: center;
   border-radius: 999px;
-  padding: 4px 10px;
-  font-size: 11px;
+  padding: 6px 12px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1533,7 +1539,7 @@
 .status-badge--ready {
   background: var(--soft);
   color: var(--teal);
-  border: 1px solid color-mix(in srgb, var(--teal) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--teal) 28%, transparent);
 }
 
 .flow-card--ready {
@@ -1554,27 +1560,27 @@
 }
 
 .flow-ready-lead {
-  margin: 0 0 18px !important;
+  margin: 0 0 22px !important;
   color: var(--muted);
 }
 
 .ref-code-block {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px 16px;
-  margin: 0 0 22px;
-  padding: 14px 16px;
+  display: grid;
+  gap: 8px;
+  width: fit-content;
+  max-width: min(100%, 480px);
+  margin: 0 0 28px;
+  padding: 12px 14px;
   border-radius: 14px;
   border: 1px solid color-mix(in srgb, var(--teal) 18%, var(--line));
   background: color-mix(in srgb, var(--soft) 70%, #fff);
 }
 
-.ref-code-block-main {
-  display: grid;
-  gap: 4px;
-  min-width: 0;
+.ref-code-block-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
 }
 
 .ref-code-block-label {
@@ -1585,7 +1591,7 @@
 }
 
 .ref-code-block-value {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--ink);
   letter-spacing: 0.08em;
@@ -1594,20 +1600,7 @@
 }
 
 .flow-ready-instructions-title {
-  margin-top: 4px;
-}
-
-.ref-code-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 12px;
-  margin: 0 0 16px;
-}
-
-.ref-code-label {
-  margin: 0 !important;
-  line-height: 1.2;
+  margin-top: 2px;
 }
 
 .ref-code-copy {
@@ -1625,6 +1618,7 @@
   line-height: 1;
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0;
   cursor: pointer;
   transition:
     background 0.2s,
