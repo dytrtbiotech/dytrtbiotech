@@ -73,9 +73,14 @@ export default function PrehledPage() {
         </section>
 
         <section className="care-progress" aria-labelledby="progress-title">
-          <h2 id="progress-title" className="care-progress-title">
-            Průběh péče
-          </h2>
+          <div className="care-progress-head">
+            <h2 id="progress-title" className="care-progress-title">
+              Průběh péče
+            </h2>
+            <Link className="text-link care-progress-link" href="/prubeh-pece">
+              Zobrazit průběh péče
+            </Link>
+          </div>
           <ol className="care-progress-track">
             {progress.map((step, index) => (
               <li

@@ -380,8 +380,21 @@
 }
 
 .care-progress-title {
-  margin: 0 0 22px;
+  margin: 0;
   font: 400 22px / 1.25 var(--serif);
+}
+
+.care-progress-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin: 0 0 22px;
+}
+
+.care-progress-link {
+  flex-shrink: 0;
 }
 
 .care-progress-track {
