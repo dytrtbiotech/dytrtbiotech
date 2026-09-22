@@ -105,9 +105,9 @@ export default function PlanPecePage() {
           status !== "care_paid" &&
           status !== "care_completed") ? (
           <>
-            <p className="app-lead">
+            <p className="app-lead app-lead--nowrap">
               Program je odemčený podle vámi nahlášeného závěru konzultace.
-              Níže je pracovní náhled — samotný nákup připravíme v další fázi.
+              Níže je pracovní náhled - samotný nákup připravíme v další fázi.
             </p>
 
             <section className="summary-block care-offer">
@@ -137,17 +137,12 @@ export default function PlanPecePage() {
               </ul>
             </section>
 
-            <p className="checkout-legal">
-              Nákup programu zatím není finální. V demu můžete platbu
-              nasimulovat — nespouští novou laboratorní žádanku.
-            </p>
-
             <div className="order-actions">
-              <Link className="text-link" href="/prehled">
+              <Link className="button secondary" href="/prehled">
                 Zpět
               </Link>
               <button
-                className="button secondary"
+                className="button"
                 type="button"
                 onClick={() => {
                   markCarePaid();

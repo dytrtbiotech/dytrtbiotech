@@ -149,7 +149,7 @@ export const CARE_PROGRAM = {
   notes: [
     "Cena konzultace se hradí ordinaci zvlášť, pokud není výslovně zahrnutá.",
     "Zaplacení programu negarantuje výsledek péče.",
-    "Termíny se domlouvají s ordinací — aplikace je jen eviduje.",
+    "Termíny se domlouvají s ordinací - aplikace je jen eviduje.",
   ],
 } as const;
 
