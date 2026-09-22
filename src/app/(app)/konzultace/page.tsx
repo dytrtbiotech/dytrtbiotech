@@ -235,59 +235,11 @@ export default function KonzultacePage() {
 
             {attended || outcome || programOpen ? (
               <section className="flow-card">
-                <h2>Jaký byl závěr konzultace?</h2>
-                <p>
-                  Vyberte možnost podle informace, kterou jste dostali od
-                  lékaře. Aplikace závěr sama nevyhodnocuje — pouze ho
-                  zaznamená.
-                </p>
-                <div
-                  className="outcome-list"
-                  role="radiogroup"
-                  aria-label="Závěr konzultace"
-                >
-                  {CONSULTATION_OUTCOMES.map((item) => {
-                    const isSelected = selectedOutcome === item.id;
-                    return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        role="radio"
-                        aria-checked={isSelected}
-                        className={`outcome-option${isSelected ? " is-selected" : ""}`}
-                        onClick={() => {
-                          setSelectedOutcome(item.id);
-                          setError("");
-                        }}
-                      >
-                        {item.label}
-                      </button>
-                    );
-                  })}
-                </div>
-                {error ? <p className="app-error">{error}</p> : null}
-                <div className="flow-actions">
-                  <button
-                    className="button"
-                    type="button"
-                    onClick={() => {
-                      if (!selectedOutcome) {
-                        setError("Vyberte jednu z možností.");
-                        return;
-                      }
-                      setError("");
-                      reportConsultationOutcome(selectedOutcome);
-                      refresh();
-                    }}
-                  >
-                    Uložit závěr
-                  </button>
-                </div>
-
                 {outcome ? (
                   <>
-                    <p className="meta-line">
-                      Nahlášeno: {outcomeMeta?.label}
+                    <h2>Závěr konzultace</h2>
+                    <p>
+                      Nahlášeno: <strong>{outcomeMeta?.label}</strong>
                       {order?.consultationOutcomeAt
                         ? ` · ${new Date(
                             order.consultationOutcomeAt
@@ -307,7 +259,58 @@ export default function KonzultacePage() {
                       </p>
                     )}
                   </>
-                ) : null}
+                ) : (
+                  <>
+                    <h2>Jaký byl závěr konzultace?</h2>
+                    <p>
+                      Vyberte možnost podle informace, kterou jste dostali od
+                      lékaře. Aplikace závěr sama nevyhodnocuje, pouze ho
+                      zaznamená.
+                    </p>
+                    <div
+                      className="outcome-list"
+                      role="radiogroup"
+                      aria-label="Závěr konzultace"
+                    >
+                      {CONSULTATION_OUTCOMES.map((item) => {
+                        const isSelected = selectedOutcome === item.id;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            role="radio"
+                            aria-checked={isSelected}
+                            className={`outcome-option${isSelected ? " is-selected" : ""}`}
+                            onClick={() => {
+                              setSelectedOutcome(item.id);
+                              setError("");
+                            }}
+                          >
+                            {item.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {error ? <p className="app-error">{error}</p> : null}
+                    <div className="flow-actions">
+                      <button
+                        className="button"
+                        type="button"
+                        onClick={() => {
+                          if (!selectedOutcome) {
+                            setError("Vyberte jednu z možností.");
+                            return;
+                          }
+                          setError("");
+                          reportConsultationOutcome(selectedOutcome);
+                          refresh();
+                        }}
+                      >
+                        Uložit závěr
+                      </button>
+                    </div>
+                  </>
+                )}
               </section>
             ) : null}
           </>
