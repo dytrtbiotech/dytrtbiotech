@@ -427,9 +427,8 @@ export default function LandingPage() {
                 <h3>Program péče</h3>
                 <p className="price">Cena a rozsah před objednávkou</p>
                 <p className="price-copy">
-                  K programu se rozhodujete až na základě dalšího postupu s
-                  lékařem. Před objednáním dostanete přehled toho, co zahrnuje
-                  a kolik stojí.
+                  K programu se rozhodujete až na základě postupu s lékařem.
+                  Před objednáním dostanete přehled rozsahu a ceny.
                 </p>
               </article>
             </div>
