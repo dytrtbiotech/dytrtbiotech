@@ -173,7 +173,7 @@ export default function KonzultacePage() {
                         refresh();
                       }}
                     >
-                      Mám rezervovanou konzultaci
+                      Potvrdit konzultaci
                     </button>
                   </div>
                 </div>
