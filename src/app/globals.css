@@ -562,7 +562,8 @@ p {
   font-size: 15px;
   line-height: 1.7;
   margin: 0;
-  max-width: 440px;
+  max-width: none;
+  white-space: nowrap;
 }
 
 .profile-points {
@@ -1320,6 +1321,7 @@ dialog::backdrop {
   }
   .profile-banner p {
     font-size: 14px;
+    white-space: normal;
   }
   .profile-points li {
     font-size: 14px;
