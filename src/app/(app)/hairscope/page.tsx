@@ -114,7 +114,7 @@ export default function HairScopePage() {
               >
                 Spustit přesto
               </button>
-              <Link className="text-link" href="/prubeh-pece">
+              <Link className="button secondary" href="/prubeh-pece">
                 Průběh péče
               </Link>
             </div>
