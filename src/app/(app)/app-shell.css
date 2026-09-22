@@ -992,6 +992,12 @@
   color: var(--accent);
 }
 
+.order-actions .button.secondary {
+  min-height: 54px;
+  padding: 15px 26px;
+  font-size: inherit;
+}
+
 .order-actions .button.order-back:hover {
   background: var(--teal);
   border-color: var(--teal);
