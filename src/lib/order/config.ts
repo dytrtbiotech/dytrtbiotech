@@ -463,7 +463,7 @@ export function getNextTask(order: OrderDraft | null): NextTask {
   if (isHairScopeAvailable(order) && hairPending && isWaitingOnLab(order.status)) {
     return {
       title: "Dokončete analýzu vlasů",
-      body: "Laboratorní vyšetření už běží. Mezitím můžete doplnit obrazovou analýzu vlasů — pomůže k úplnějšímu podkladu pro konzultaci.",
+      body: "Laboratorní vyšetření už běží. Mezitím můžete doplnit obrazovou analýzu vlasů - pomůže k úplnějšímu podkladu pro konzultaci.",
       ctaLabel: "Spustit analýzu vlasů",
       href: "/hairscope",
     };
