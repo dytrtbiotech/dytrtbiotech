@@ -88,12 +88,14 @@ export default function VysetreniPage() {
 
             <section
               className={`summary-block${
-                order?.status === "ready_for_collection"
+                order?.status === "ready_for_collection" ||
+                order?.status === "collection_reported"
                   ? " summary-block--ready"
                   : ""
               }`}
             >
-              {order?.status === "ready_for_collection" ? (
+              {order?.status === "ready_for_collection" ||
+              order?.status === "collection_reported" ? (
                 <>
                   <div className="summary-block-main">
                     <h2>{panel.name}</h2>
@@ -108,8 +110,16 @@ export default function VysetreniPage() {
                     ) : null}
                   </div>
                   <div className="summary-block-aside">
-                    <span className="status-badge status-badge--ready">
-                      Připraveno k odběru
+                    <span
+                      className={`status-badge${
+                        order.status === "ready_for_collection"
+                          ? " status-badge--ready"
+                          : " status-badge--waiting"
+                      }`}
+                    >
+                      {order.status === "ready_for_collection"
+                        ? "Připraveno k odběru"
+                        : "Čekáme na předání výsledků lékaři"}
                     </span>
                   </div>
                 </>
@@ -257,7 +267,7 @@ export default function VysetreniPage() {
                   >
                     Simulovat předání lékaři
                   </button>
-                  <Link className="text-link" href="/hairscope">
+                  <Link className="button secondary" href="/hairscope">
                     HairScope
                   </Link>
                 </div>
