@@ -198,98 +198,89 @@ export default function ProfilPage() {
           className="summary-block profile-photos"
           aria-labelledby="profile-photos"
         >
-          <div className="profile-photos-head">
-            <div>
+          <div className="profile-photos-toolbar">
+            <div className="profile-photos-intro">
               <h2 id="profile-photos">Fotodokumentace vývoje</h2>
-              <p className="profile-section-lead">
+              <p>
                 Volitelná fotodokumentace pro manuální porovnání v čase.
               </p>
             </div>
-            {photos.length > 0 ? (
-              <p className="meta-line profile-photos-count">
-                {photos.length} / {MAX_PHOTOS}
-              </p>
-            ) : null}
-          </div>
 
-          <div className="profile-upload-row">
-            <div className="checkout-field">
-              <label htmlFor="profile-photo-date">Datum snímku</label>
+            <div className="profile-photos-controls">
+              <div className="checkout-field profile-photos-date">
+                <label htmlFor="profile-photo-date">Datum snímku</label>
+                <input
+                  id="profile-photo-date"
+                  className="app-input"
+                  type="date"
+                  value={photoDate}
+                  max={todayInputValue()}
+                  onChange={(e) => setPhotoDate(e.target.value)}
+                />
+              </div>
+
               <input
-                id="profile-photo-date"
-                className="app-input"
-                type="date"
-                value={photoDate}
-                max={todayInputValue()}
-                onChange={(e) => setPhotoDate(e.target.value)}
+                ref={fileInputRef}
+                id="profile-photo-file"
+                className="photo-upload-input"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                disabled={busy || photos.length >= MAX_PHOTOS}
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  e.target.value = "";
+                  await handleUpload(file);
+                }}
               />
+
+              <button
+                className="button"
+                type="button"
+                disabled={busy || photos.length >= MAX_PHOTOS}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                {busy ? "Nahrávám…" : "Nahrát fotografii"}
+              </button>
             </div>
-
-            <input
-              ref={fileInputRef}
-              id="profile-photo-file"
-              className="photo-upload-input"
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              disabled={busy || photos.length >= MAX_PHOTOS}
-              onChange={async (e) => {
-                const file = e.target.files?.[0];
-                e.target.value = "";
-                await handleUpload(file);
-              }}
-            />
-
-            <button
-              className="button"
-              type="button"
-              disabled={busy || photos.length >= MAX_PHOTOS}
-              onClick={() => fileInputRef.current?.click()}
-            >
-              {busy ? "Nahrávám…" : "Nahrát fotografii"}
-            </button>
           </div>
-          <p className="profile-upload-info">
-            Stejný úhel a podobné světlo · JPG, PNG, WEBP · max. {MAX_PHOTOS}{" "}
-            fotografií
+
+          <p className="profile-photos-helper">
+            Pro nejlepší porovnání používejte podobný úhel a světlo · JPG, PNG,
+            WEBP · max. {MAX_PHOTOS} fotografií
+            {photos.length > 0 ? ` · nahráno ${photos.length}` : ""}
           </p>
           {error ? <p className="app-error">{error}</p> : null}
 
+          <div className="profile-photos-divider" aria-hidden="true" />
+
           {sortedPhotos.length > 0 ? (
-            <ul className="photo-grid profile-photo-grid">
-              {sortedPhotos.map((photo, index) => (
-                <li key={photo.id} className="photo-card profile-photo-card">
-                  <div className="photo-card-media">
+            <ul className="profile-photo-grid">
+              {sortedPhotos.map((photo) => (
+                <li key={photo.id} className="profile-photo-card">
+                  <div className="profile-photo-thumb">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={photo.dataUrl}
                       alt={`Fotografie z ${formatPhotoDate(photo.createdAt)}`}
                     />
                   </div>
-                  <div className="profile-photo-meta">
-                    <div>
-                      <p className="profile-photo-label">Snímek {index + 1}</p>
-                      <p className="meta-line">
-                        {formatPhotoDate(photo.createdAt)}
-                      </p>
-                    </div>
-                    <label className="photo-card-date">
-                      <span className="sr-only">Datum snímku</span>
-                      <input
-                        type="date"
-                        className="photo-card-date-input"
-                        value={isoToDateInput(photo.createdAt)}
-                        max={todayInputValue()}
-                        onChange={(e) => {
-                          if (!e.target.value) return;
-                          setPhotos(
-                            replacePhoto(photo.id, {
-                              createdAt: dateInputToIso(e.target.value),
-                            })
-                          );
-                        }}
-                      />
-                    </label>
-                  </div>
+                  <label className="profile-photo-date">
+                    <span className="sr-only">Datum snímku</span>
+                    <input
+                      type="date"
+                      className="profile-photo-date-input"
+                      value={isoToDateInput(photo.createdAt)}
+                      max={todayInputValue()}
+                      onChange={(e) => {
+                        if (!e.target.value) return;
+                        setPhotos(
+                          replacePhoto(photo.id, {
+                            createdAt: dateInputToIso(e.target.value),
+                          })
+                        );
+                      }}
+                    />
+                  </label>
                   <div className="profile-photo-actions">
                     {sortedPhotos.length >= 2 ? (
                       <button
@@ -346,10 +337,39 @@ export default function ProfilPage() {
               ))}
             </ul>
           ) : (
-            <p className="profile-photos-empty">
-              Zatím žádné fotografie. Pravidelná dokumentace pomáhá sledovat
-              vývoj v čase.
-            </p>
+            <div className="profile-photos-empty">
+              <svg
+                className="profile-photos-empty-icon"
+                viewBox="0 0 24 24"
+                width="28"
+                height="28"
+                aria-hidden="true"
+              >
+                <rect
+                  x="3"
+                  y="5"
+                  width="18"
+                  height="14"
+                  rx="2"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                />
+                <circle cx="8.5" cy="10" r="1.5" fill="currentColor" />
+                <path
+                  d="M3 16.5 8 12l3.5 3.5L15 12l6 5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <p>Zatím nemáte nahrané žádné fotografie.</p>
+              <p>
+                Pravidelná fotodokumentace pomáhá sledovat vývoj v čase.
+              </p>
+            </div>
           )}
 
           {comparePair ? (
