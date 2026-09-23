@@ -249,22 +249,15 @@ export default function KonzultacePage() {
                       </Link>
                     </div>
                   ) : (
-                    <>
-                      <p className="meta-line">
-                        Absolvování nahlášeno{" "}
-                        {order?.consultationAttendedAt
-                          ? new Date(
-                              order.consultationAttendedAt
-                            ).toLocaleString("cs-CZ")
-                          : ""}
-                        .
-                      </p>
-                      <div className="flow-actions">
-                        <Link className="button secondary" href="/prehled">
-                          Zpět na přehled
-                        </Link>
-                      </div>
-                    </>
+                    <p className="meta-line">
+                      Absolvování nahlášeno{" "}
+                      {order?.consultationAttendedAt
+                        ? new Date(
+                            order.consultationAttendedAt
+                          ).toLocaleString("cs-CZ")
+                        : ""}
+                      .
+                    </p>
                   )}
                 </section>
               </>
