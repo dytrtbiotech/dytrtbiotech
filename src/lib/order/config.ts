@@ -311,6 +311,11 @@ export type NextTask = {
   /** Optional context line under the title (e.g. selected doctor). */
   detail?: string;
   secondary?: { label: string; href: string };
+  /** Optional status pill in the task card header. */
+  badge?: {
+    label: string;
+    tone?: "ready" | "waiting" | "done";
+  };
 };
 
 export type CareProgressState = "done" | "current" | "upcoming";
@@ -471,6 +476,10 @@ export function getNextTask(order: OrderDraft | null): NextTask {
           label: "Zobrazit detail vyšetření",
           href: "/vysetreni",
         },
+        badge: {
+          label: "Připravujeme podklady k odběru",
+          tone: "waiting",
+        },
       };
     }
     if (order.status === "ready_for_collection") {
@@ -480,6 +489,10 @@ export function getNextTask(order: OrderDraft | null): NextTask {
         ctaLabel: "Otevřít vyšetření",
         href: "/vysetreni",
         secondary: { label: "Spustit analýzu vlasů", href: "/hairscope" },
+        badge: {
+          label: "Připraveno k odběru",
+          tone: "ready",
+        },
       };
     }
     return {
@@ -491,6 +504,10 @@ export function getNextTask(order: OrderDraft | null): NextTask {
         label: "Zobrazit detail vyšetření",
         href: "/vysetreni",
       },
+      badge: {
+        label: "Čekáme na předání výsledků lékaři",
+        tone: "waiting",
+      },
     };
   }
 
@@ -500,6 +517,10 @@ export function getNextTask(order: OrderDraft | null): NextTask {
         title: "Připravujeme podklady k odběru",
         body: "Laboratorní vyšetření je objednané. Ozveme se, až budou podklady k odběru připravené.",
         tone: "wait",
+        badge: {
+          label: "Připravujeme podklady k odběru",
+          tone: "waiting",
+        },
       };
     }
     if (order.status === "ready_for_collection") {
@@ -508,12 +529,20 @@ export function getNextTask(order: OrderDraft | null): NextTask {
         body: "Podklady k odběru jsou připravené. Pokračujte ve vyšetření a po odběru to v aplikaci označte.",
         ctaLabel: "Otevřít vyšetření",
         href: "/vysetreni",
+        badge: {
+          label: "Připraveno k odběru",
+          tone: "ready",
+        },
       };
     }
     return {
       title: "V tuto chvíli nemusíte nic dělat",
       body: "Čekáme na předání výsledků vašemu lékaři. Ozveme se, až bude čas domluvit konzultaci.",
       tone: "wait",
+      badge: {
+        label: "Čekáme na předání výsledků lékaři",
+        tone: "waiting",
+      },
     };
   }
 
@@ -525,6 +554,10 @@ export function getNextTask(order: OrderDraft | null): NextTask {
       detail: doctor ? `${doctor.name} · ${doctor.city}` : undefined,
       ctaLabel: "Pokračovat ke konzultaci",
       href: "/konzultace",
+      badge: {
+        label: "Výsledky předány lékaři",
+        tone: "done",
+      },
     };
   }
 
@@ -535,6 +568,10 @@ export function getNextTask(order: OrderDraft | null): NextTask {
         body: "Rezervaci evidujeme. Až konzultace proběhne, označte to v aplikaci a nahlaste závěr od lékaře.",
         ctaLabel: "Otevřít konzultaci",
         href: "/konzultace",
+        badge: {
+          label: "Rezervace evidována",
+          tone: "waiting",
+        },
       };
     }
     if (!order.consultationOutcome) {
@@ -543,6 +580,10 @@ export function getNextTask(order: OrderDraft | null): NextTask {
         body: "Vyberte možnost podle informace, kterou jste dostali od lékaře. Aplikace sama vhodnost nevyhodnocuje.",
         ctaLabel: "Nahlásit závěr",
         href: "/konzultace",
+        badge: {
+          label: "Konzultace absolvována",
+          tone: "waiting",
+        },
       };
     }
     const meta = getConsultationOutcomeMeta(order.consultationOutcome);
@@ -554,6 +595,10 @@ export function getNextTask(order: OrderDraft | null): NextTask {
       tone: "wait",
       ctaLabel: "Detail konzultace",
       href: "/konzultace",
+      badge: {
+        label: "Závěr nahlášen",
+        tone: "done",
+      },
     };
   }
 
@@ -563,6 +608,10 @@ export function getNextTask(order: OrderDraft | null): NextTask {
       body: "Podle vámi nahlášeného závěru konzultace je program odemčený. Nákup připravíme v další fázi.",
       ctaLabel: "Zobrazit program",
       href: "/plan-pece",
+      badge: {
+        label: "Program odemčen",
+        tone: "ready",
+      },
     };
   }
 

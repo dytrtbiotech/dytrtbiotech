@@ -61,10 +61,21 @@ export default function PrehledPage() {
         <h1>Co mám udělat teď?</h1>
 
         <section
-          className={`task-card${task.tone === "wait" ? " task-card--wait" : ""}`}
+          className={`task-card${task.tone === "wait" ? " task-card--wait" : ""}${
+            task.badge ? " task-card--badged" : ""
+          }`}
           aria-labelledby="task-title"
         >
-          <h2 id="task-title">{task.title}</h2>
+          <div className="task-card-head">
+            <h2 id="task-title">{task.title}</h2>
+            {task.badge ? (
+              <span
+                className={`status-badge status-badge--${task.badge.tone ?? "waiting"}`}
+              >
+                {task.badge.label}
+              </span>
+            ) : null}
+          </div>
           {task.detail ? <p className="task-card-detail">{task.detail}</p> : null}
           <p>{task.body}</p>
           {hasCta ? (

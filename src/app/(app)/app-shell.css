@@ -344,6 +344,26 @@
   margin: 0 0 10px;
 }
 
+.task-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin: 0 0 10px;
+}
+
+.task-card-head h2 {
+  margin: 0;
+  min-width: 0;
+  flex: 1;
+}
+
+.task-card-head .status-badge {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
 .task-card-detail {
   margin: -2px 0 12px !important;
   color: var(--teal) !important;
