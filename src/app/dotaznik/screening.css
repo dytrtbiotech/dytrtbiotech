@@ -1000,6 +1000,7 @@
   .screening-stat {
     flex: unset;
     align-items: center;
+    justify-content: flex-end;
     text-align: center;
     min-width: 0;
     gap: 4px;
