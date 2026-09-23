@@ -417,7 +417,7 @@
 
 .care-progress {
   margin: 8px 0 0;
-  padding: 24px 26px 28px;
+  padding: 24px 26px;
   border-radius: 18px;
   border: 1px solid var(--line);
   background: #fff;
@@ -448,7 +448,8 @@
   position: relative;
   display: block;
   width: 100%;
-  min-height: 86px;
+  /* marker 32 + gap 10 + 2-line label ≈ 77 */
+  min-height: 78px;
   container-type: inline-size;
 }
 
@@ -2490,7 +2491,7 @@
   }
 
   .care-progress {
-    padding: 20px 18px 22px;
+    padding: 20px 18px;
   }
 
   .care-progress-track {
