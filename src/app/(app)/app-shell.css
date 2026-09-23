@@ -2437,7 +2437,6 @@
   margin: 0 !important;
   color: var(--muted);
   line-height: 1.55;
-  max-width: 42ch;
 }
 
 .profile-photos-controls {
@@ -2496,7 +2495,6 @@
 .profile-photos-empty p + p {
   color: var(--muted) !important;
   font-size: 13px !important;
-  max-width: 36ch;
 }
 
 .profile-photo-grid {
