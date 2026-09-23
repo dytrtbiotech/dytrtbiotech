@@ -1011,14 +1011,13 @@
     text-align: center;
     min-width: 0;
     gap: 0;
-    padding: 0 6px;
+    padding: 0 8px;
     border-left: 1px solid var(--line);
     flex: unset;
     flex-direction: unset;
   }
 
   .screening-stat:first-child {
-    padding-left: 0;
     border-left: 0;
   }
 
