@@ -920,13 +920,8 @@
 }
 
 .doctor-choice-notice {
-  margin: -12px 0 22px;
-  padding: 12px 16px;
-  max-width: 62ch;
-  border-radius: 14px;
-  border: 1px solid color-mix(in srgb, var(--teal) 22%, var(--line));
-  background: color-mix(in srgb, var(--soft) 70%, #fff);
-  color: var(--ink);
+  margin: 0 0 16px;
+  color: var(--muted);
   font-size: 14px;
   line-height: 1.5;
 }
