@@ -49,26 +49,31 @@ export default function VysetreniPage() {
   const paid = isPaidStatus(order?.status);
 
   const summaryBadge =
-    order?.status === "ready_for_collection"
-      ? { label: "Připraveno k odběru", tone: "ready" as const }
-      : order?.status === "collection_reported"
-        ? {
-            label: "Čekáme na předání výsledků lékaři",
-            tone: "waiting" as const,
-          }
-        : order?.status === "results_with_doctor" ||
-            order?.status === "consultation_reported" ||
-            order?.status === "continue_approved" ||
-            order?.status === "care_paid" ||
-            order?.status === "care_completed"
+    order?.status === "paid_preparing"
+      ? {
+          label: "Připravujeme podklady k odběru",
+          tone: "waiting" as const,
+        }
+      : order?.status === "ready_for_collection"
+        ? { label: "Připraveno k odběru", tone: "ready" as const }
+        : order?.status === "collection_reported"
           ? {
-              label:
-                order.status === "results_with_doctor"
-                  ? "Výsledky předány lékaři"
-                  : statusLabel(order.status),
-              tone: "done" as const,
+              label: "Čekáme na předání výsledků lékaři",
+              tone: "waiting" as const,
             }
-          : null;
+          : order?.status === "results_with_doctor" ||
+              order?.status === "consultation_reported" ||
+              order?.status === "continue_approved" ||
+              order?.status === "care_paid" ||
+              order?.status === "care_completed"
+            ? {
+                label:
+                  order.status === "results_with_doctor"
+                    ? "Výsledky předány lékaři"
+                    : statusLabel(order.status),
+                tone: "done" as const,
+              }
+            : null;
 
   const copyRef = async () => {
     const value = order?.collectionRef;
