@@ -6,6 +6,22 @@
   color: var(--ink);
 }
 
+.app-shell.is-header {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.app-header.site-header {
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  box-shadow: none;
+}
+
+.app-header .nav > a.is-active {
+  color: var(--teal);
+  font-weight: 600;
+}
+
 .app-aside {
   position: sticky;
   top: 0;
@@ -2712,7 +2728,8 @@
 }
 
 @media (max-width: 860px) {
-  .app-shell {
+  .app-shell,
+  .app-shell.is-process {
     grid-template-columns: 1fr;
   }
 
