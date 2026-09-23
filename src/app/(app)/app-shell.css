@@ -1081,7 +1081,7 @@
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
-  margin-top: 8px;
+  margin-top: 24px;
 }
 
 .order-actions--end {
