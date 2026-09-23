@@ -294,6 +294,20 @@
   color: var(--teal);
 }
 
+.screening-exit.button {
+  text-decoration: none;
+  min-height: 34px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--teal);
+}
+
+.screening-exit.button:hover {
+  color: #fff;
+}
+
 .screening-exit--aside {
   margin-top: auto;
   align-self: center;
@@ -929,7 +943,7 @@
   }
 
   .screening-exit--mobile {
-    display: inline;
+    display: inline-flex;
   }
 
   .screening-topbar {

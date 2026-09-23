@@ -381,8 +381,11 @@ export default function ScreeningApp() {
           ) : (
             <ScreeningStepper step={step} />
           )}
-          <Link className="screening-exit screening-exit--mobile" href="/">
-            Zpět na úvod
+          <Link
+            className="button secondary screening-exit screening-exit--mobile"
+            href="/"
+          >
+            Úvod
           </Link>
         </header>
 
