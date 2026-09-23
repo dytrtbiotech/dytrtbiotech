@@ -427,16 +427,6 @@
   min-width: 0;
 }
 
-.care-progress-step:first-child {
-  align-items: flex-start;
-  text-align: left;
-}
-
-.care-progress-step:last-child {
-  align-items: flex-end;
-  text-align: right;
-}
-
 .care-progress-connector {
   position: absolute;
   top: 15px;
@@ -444,16 +434,6 @@
   right: calc(50% + 16px);
   height: 2px;
   background: var(--line);
-}
-
-.care-progress-step:nth-child(2) .care-progress-connector {
-  left: calc(-100% + 16px);
-  right: calc(50% + 16px);
-}
-
-.care-progress-step:last-child .care-progress-connector {
-  left: calc(-50% + 16px);
-  right: 16px;
 }
 
 .care-progress-step.is-done .care-progress-connector,
