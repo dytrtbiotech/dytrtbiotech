@@ -73,7 +73,7 @@ export default function PrehledPage() {
                 {task.ctaLabel}
               </Link>
               {task.secondary ? (
-                <Link className="text-link" href={task.secondary.href}>
+                <Link className="button secondary" href={task.secondary.href}>
                   {task.secondary.label}
                 </Link>
               ) : null}

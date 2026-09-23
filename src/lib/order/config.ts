@@ -467,6 +467,10 @@ export function getNextTask(order: OrderDraft | null): NextTask {
         body: "Laboratorní vyšetření je objednané a připravujeme podklady k odběru. Mezitím si můžete doplnit digitální AI analýzu vlasů.",
         ctaLabel: "Spustit analýzu vlasů",
         href: "/hairscope",
+        secondary: {
+          label: "Zobrazit detail vyšetření",
+          href: "/vysetreni",
+        },
       };
     }
     if (order.status === "ready_for_collection") {
@@ -483,6 +487,10 @@ export function getNextTask(order: OrderDraft | null): NextTask {
       body: "Odběr evidujeme a čekáme na předání výsledků lékaři. Mezitím si můžete doplnit digitální AI analýzu vlasů.",
       ctaLabel: "Spustit analýzu vlasů",
       href: "/hairscope",
+      secondary: {
+        label: "Zobrazit detail vyšetření",
+        href: "/vysetreni",
+      },
     };
   }
 
