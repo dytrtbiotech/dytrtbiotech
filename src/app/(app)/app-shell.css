@@ -2590,6 +2590,7 @@
 
   .profile-photos-controls {
     width: 100%;
+    margin-left: 0;
   }
 
   .profile-photo-grid {
