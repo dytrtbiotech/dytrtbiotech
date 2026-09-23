@@ -12,6 +12,7 @@
   --sans: var(--font-inter), Arial, sans-serif;
   --page-max: 1600px;
   --page-gutter: 28px;
+  --header-height: 96px;
 }
 
 * {
@@ -88,13 +89,18 @@ summary:focus-visible {
     box-shadow 0.25s ease;
 }
 
-.site-header.is-scrolled {
+.site-header.is-scrolled,
+.site-header.is-menu-open {
   background: #fff;
   box-shadow: 0 1px 0 rgba(32, 52, 59, 0.08);
 }
 
+.site-header.is-menu-open {
+  box-shadow: none;
+}
+
 .header {
-  height: 96px;
+  height: var(--header-height, 96px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1193,7 +1199,10 @@ dialog::backdrop {
   .nav-backdrop {
     display: block;
     position: fixed;
-    inset: 0;
+    top: var(--header-height);
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 35;
     border: 0;
     padding: 0;
@@ -1202,29 +1211,27 @@ dialog::backdrop {
     cursor: pointer;
   }
 
-  .header {
-    position: relative;
-  }
-
   .nav {
-    position: absolute;
-    top: calc(100% - 8px);
+    position: fixed;
+    top: var(--header-height);
     right: 0;
     left: 0;
     z-index: 45;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
-    padding: 18px 20px 22px;
-    border: 1px solid var(--line);
-    border-radius: 18px;
+    gap: 4px;
+    margin: 0;
+    padding: 8px var(--page-gutter) 20px;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
     background: #fff;
-    box-shadow: 0 16px 40px rgba(32, 52, 59, 0.12);
+    box-shadow: 0 18px 28px rgba(32, 52, 59, 0.08);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(-6px);
+    transform: translateY(-10px);
     transition:
       opacity 0.2s ease,
       transform 0.2s ease,
@@ -1240,7 +1247,7 @@ dialog::backdrop {
 
   .nav > a {
     display: block;
-    padding: 12px 4px;
+    padding: 14px 0;
     font-size: 16px;
     font-weight: 500;
   }
@@ -1268,9 +1275,10 @@ dialog::backdrop {
   }
   :root {
     --page-gutter: 12px;
+    --header-height: 78px;
   }
   .header {
-    height: 78px;
+    height: var(--header-height);
     gap: 15px;
   }
   .logo-img {
