@@ -56,6 +56,10 @@ export default function DoctorPage() {
         Tomuto lékaři budou předány výsledky laboratorního vyšetření. Seznam je ukázkové demo - neobjednávejte podle něj v ostrém provozu.
       </p>
 
+      <p className="doctor-choice-notice" role="note">
+        Lékaře po předání výsledků už nepůjde změnit. Vyberte ho prosím pečlivě.
+      </p>
+
       <div className="doctor-search">
         <label className="screening-label" htmlFor="doctor-query">
           Hledat podle města nebo jména
