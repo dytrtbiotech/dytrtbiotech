@@ -278,7 +278,7 @@
 .screening-result-panel.is-compact .screening-result-grid {
   grid-template-columns: minmax(200px, 230px) minmax(0, 1fr);
   gap: 24px;
-  align-items: start;
+  align-items: center;
 }
 
 .screening-result-panel.is-compact .screening-result-score-col {
