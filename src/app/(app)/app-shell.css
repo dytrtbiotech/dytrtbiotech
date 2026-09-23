@@ -2418,7 +2418,7 @@
 
 .profile-photos-toolbar {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 20px 28px;
   flex-wrap: wrap;
@@ -2427,6 +2427,7 @@
 .profile-photos-intro {
   min-width: min(100%, 280px);
   flex: 1 1 240px;
+  padding-top: 2px;
 }
 
 .profile-photos-intro h2 {
@@ -2444,7 +2445,8 @@
   flex-wrap: wrap;
   align-items: flex-end;
   gap: 12px 14px;
-  flex: 0 1 auto;
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 
 .profile-photos-date {
@@ -2476,12 +2478,16 @@
   justify-content: center;
   text-align: center;
   gap: 6px;
-  min-height: 160px;
-  padding: 28px 16px;
+  margin-top: 18px;
+  min-height: 148px;
+  padding: 28px 20px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
+  background: var(--soft);
 }
 
 .profile-photos-empty-icon {
-  color: color-mix(in srgb, var(--muted) 72%, var(--teal));
+  color: var(--teal);
   margin-bottom: 6px;
 }
 
