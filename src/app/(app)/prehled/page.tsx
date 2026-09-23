@@ -34,6 +34,15 @@ export default function PrehledPage() {
   }
 
   const hasCta = Boolean(task.href && task.ctaLabel);
+  const activeProgressIndex = progress.findIndex(
+    (step) => step.state === "current"
+  );
+  const doneProgressCount = progress.filter(
+    (step) => step.state === "done"
+  ).length;
+  const progressFill =
+    Math.max(activeProgressIndex, doneProgressCount - 1, 0) /
+    Math.max(progress.length - 1, 1);
 
   return (
     <>
@@ -81,7 +90,10 @@ export default function PrehledPage() {
               Zobrazit průběh péče
             </Link>
           </div>
-          <ol className="care-progress-track">
+          <ol
+            className="care-progress-track"
+            style={{ ["--care-progress-fill" as string]: String(progressFill) }}
+          >
             {progress.map((step, index) => (
               <li
                 key={step.id}
