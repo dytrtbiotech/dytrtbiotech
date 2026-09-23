@@ -2514,58 +2514,60 @@
   margin: 0 0 8px !important;
 }
 
-.profile-empty--photos {
-  margin-top: 18px;
-  padding: 18px 20px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: color-mix(in srgb, var(--soft) 55%, white);
+.profile-photos-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 4px;
 }
 
-.profile-upload-panel {
-  margin-top: 4px;
-  padding: 20px 22px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #fff;
+.profile-photos-head h2 {
+  margin-bottom: 8px;
 }
 
-.profile-upload-copy h3 {
-  margin: 0 0 6px;
-  font: 400 22px / 1.2 var(--serif);
-  color: var(--ink);
+.profile-photos-head .profile-section-lead {
+  margin-bottom: 0 !important;
 }
 
-.profile-upload-copy p {
-  margin: 0 0 16px !important;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.55;
-  max-width: 52ch;
+.profile-photos-count {
+  margin: 6px 0 0 !important;
+  flex-shrink: 0;
 }
 
-.profile-upload-controls {
+.profile-upload-row {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   gap: 14px 16px;
+  margin-top: 16px;
 }
 
-.profile-upload-controls .checkout-field {
+.profile-upload-row .checkout-field {
   margin: 0;
   min-width: 180px;
   max-width: 220px;
 }
 
 .profile-upload-info {
-  margin: 14px 0 0 !important;
-  font-size: 12px !important;
+  margin: 12px 0 0 !important;
+  font-size: 13px !important;
   color: var(--muted);
+  line-height: 1.5;
 }
 
-.profile-page .photo-grid {
+.profile-photos-empty {
+  margin: 18px 0 0 !important;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.profile-page .photo-grid,
+.profile-photo-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
+  margin-top: 20px;
 }
 
 .profile-photo-card {
@@ -2583,10 +2585,14 @@
 
 .profile-photo-meta {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 8px;
   min-width: 0;
+}
+
+.profile-photo-meta .meta-line {
+  margin: 2px 0 0 !important;
 }
 
 .profile-photo-label {
@@ -2598,12 +2604,11 @@
 
 .profile-photo-card .photo-card-date {
   margin: 0;
-  flex: 1;
-  min-width: 0;
+  flex-shrink: 0;
 }
 
 .profile-photo-card .photo-card-date-input {
-  width: 100%;
+  width: auto;
   text-align: right;
   font-size: 12px;
 }
@@ -2625,7 +2630,8 @@
 }
 
 @media (max-width: 1100px) {
-  .profile-page .photo-grid {
+  .profile-page .photo-grid,
+  .profile-photo-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -2636,16 +2642,17 @@
     align-items: flex-start;
   }
 
-  .profile-page .photo-grid {
+  .profile-page .photo-grid,
+  .profile-photo-grid {
     grid-template-columns: 1fr;
   }
 
-  .profile-upload-controls {
+  .profile-upload-row {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .profile-upload-controls .checkout-field {
+  .profile-upload-row .checkout-field {
     max-width: none;
   }
 }

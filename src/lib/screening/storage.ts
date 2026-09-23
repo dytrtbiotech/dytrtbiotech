@@ -85,10 +85,15 @@ export function loadUserAnswers(email: string): ScreeningAnswers {
   }
 }
 
-/** Bind current session screening to the account. */
-export function bindScreeningToUser(email: string) {
+/** Bind screening answers to the account (prefer explicit answers over session). */
+export function bindScreeningToUser(
+  email: string,
+  answers?: ScreeningAnswers
+) {
   if (typeof window === "undefined") return;
-  saveUserAnswers(email, loadAnswers());
+  const payload = answers ?? loadAnswers();
+  saveUserAnswers(email, payload);
+  saveAnswers(payload);
   saveEmail(email.trim());
 }
 

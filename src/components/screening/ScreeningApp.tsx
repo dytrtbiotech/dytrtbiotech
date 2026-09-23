@@ -15,6 +15,7 @@ import {
   SEX_OPTIONS,
   THINNING_OPTIONS,
   evaluateResult,
+  hasCompleteScreening,
   isQuestionStep,
   scorePercent,
   type DurationBand,
@@ -31,7 +32,9 @@ import {
   bindScreeningToUser,
   ensureSessionId,
   clearScreeningProgress,
+  hydrateScreeningForUser,
   loadAnswers,
+  loadAuthUser,
   loadEmail,
   loadStep,
   saveAnswers,
@@ -152,7 +155,25 @@ export default function ScreeningApp() {
   useEffect(() => {
     ensureSessionId();
 
-    // Při vývoji neobnovovat progres, ať jde znovu testovat zámek výsledku.
+    const auth = loadAuthUser();
+    if (auth?.email) {
+      // Přihlášený uživatel: vždy obnovit screening z účtu (i ve vývoji).
+      hydrateScreeningForUser(auth.email);
+      const savedAnswers = loadAnswers();
+      const savedStep = loadStep();
+      setAnswers(savedAnswers);
+      setEmail(auth.email);
+      if (hasCompleteScreening(savedAnswers)) {
+        setResultUnlocked(true);
+        setStep("result");
+      } else if (savedStep && savedStep !== "email" && savedStep !== "register") {
+        setStep(savedStep);
+      }
+      setReady(true);
+      return;
+    }
+
+    // Host ve vývoji: čistý start kvůli testování zámku výsledku.
     if (isDev) {
       clearScreeningProgress();
       setReady(true);
@@ -170,15 +191,29 @@ export default function ScreeningApp() {
     setReady(true);
   }, [isDev]);
 
+  // Odpovědi ukládáme vždy — i ve vývoji, jinak se při registraci ztratí.
   useEffect(() => {
-    if (!ready || isDev) return;
+    if (!ready) return;
     saveAnswers(answers);
-  }, [answers, ready, isDev]);
+  }, [answers, ready]);
 
   useEffect(() => {
-    if (!ready || isDev) return;
+    if (!ready) return;
+    // Host ve vývoji neukládá krok (chce čistý start), účet ano.
+    if (isDev && !loadAuthUser()) return;
     saveStep(step);
   }, [step, ready, isDev]);
+
+  // Přihlášený uživatel po dokončení screeningu rovnou uloží výsledek k účtu.
+  useEffect(() => {
+    if (!ready || step !== "result") return;
+    if (!hasCompleteScreening(answers)) return;
+    const auth = loadAuthUser();
+    if (!auth?.email) return;
+    setResultUnlocked(true);
+    setEmail(auth.email);
+    bindScreeningToUser(auth.email, answers);
+  }, [ready, step, answers]);
 
   const goTo = useCallback((next: ScreeningStep) => {
     setError("");
@@ -231,7 +266,14 @@ export default function ScreeningApp() {
       return;
     }
 
-    if (step === "q7") return goTo("result");
+    if (step === "q7") {
+      const auth = loadAuthUser();
+      if (auth?.email) {
+        setEmail(auth.email);
+        setResultUnlocked(true);
+      }
+      return goTo("result");
+    }
     if (isQuestionStep(step)) {
       const next = QUESTION_STEPS[questionIndex + 1];
       if (next) goTo(next);
@@ -272,7 +314,7 @@ export default function ScreeningApp() {
     const accountEmail = email.trim();
     clearOrderForEmail(accountEmail);
     clearPhotosForEmail(accountEmail);
-    bindScreeningToUser(accountEmail);
+    bindScreeningToUser(accountEmail, answers);
     saveAuthUser({
       email: accountEmail,
       fullName: `${registerFirstName.trim()} ${registerLastName.trim()}`,
@@ -282,6 +324,7 @@ export default function ScreeningApp() {
     });
     router.push("/objednavka/panel");
   }, [
+    answers,
     email,
     registerFirstName,
     registerLastName,
@@ -663,20 +706,28 @@ export default function ScreeningApp() {
                   </div>
                   {step === "result" ? (
                     <div className="screening-actions">
-                      <button
-                        className="button screening-back"
-                        type="button"
-                        onClick={goBack}
-                      >
-                        Zpět
-                      </button>
-                      <button
-                        className="button"
-                        type="button"
-                        onClick={() => goTo("register")}
-                      >
-                        Vytvořit účet
-                      </button>
+                      {loadAuthUser() ? (
+                        <Link className="button" href="/prehled">
+                          Zpět do aplikace
+                        </Link>
+                      ) : (
+                        <>
+                          <button
+                            className="button screening-back"
+                            type="button"
+                            onClick={goBack}
+                          >
+                            Zpět
+                          </button>
+                          <button
+                            className="button"
+                            type="button"
+                            onClick={() => goTo("register")}
+                          >
+                            Vytvořit účet
+                          </button>
+                        </>
+                      )}
                     </div>
                   ) : null}
                 </>

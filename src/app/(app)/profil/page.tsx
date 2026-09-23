@@ -19,6 +19,7 @@ import {
   loadAnswers,
   loadAuthUser,
   loadUserAnswers,
+  hydrateScreeningForUser,
 } from "@/lib/screening/storage";
 import {
   MAX_PHOTOS,
@@ -104,10 +105,9 @@ function isoToDateInput(iso: string) {
 function resolveScreeningAnswers(): ScreeningAnswers {
   const auth = loadAuthUser();
   if (auth?.email) {
+    hydrateScreeningForUser(auth.email);
     const stored = loadUserAnswers(auth.email);
-    if (hasCompleteScreening(stored) || Object.keys(stored).length > 0) {
-      return stored;
-    }
+    if (Object.keys(stored).length > 0) return stored;
   }
   return loadAnswers();
 }
@@ -312,12 +312,12 @@ export default function ProfilPage() {
             <div className="profile-empty">
               <p>Výsledek screeningu zatím není dostupný.</p>
               <p className="meta-line">
-                Po dokončení vstupního screeningu se zde zobrazí orientační
-                skóre a profil.
+                Pokud jste screening už prošli, spusťte ho znovu — výsledek se
+                uloží k účtu a zobrazí se tady.
               </p>
               <div className="flow-actions">
                 <Link className="button" href="/dotaznik">
-                  Dokončit screening
+                  Spustit screening
                 </Link>
               </div>
             </div>
@@ -328,168 +328,158 @@ export default function ProfilPage() {
           className="summary-block profile-photos"
           aria-labelledby="profile-photos"
         >
-          <h2 id="profile-photos">Fotodokumentace vývoje</h2>
-          <p className="profile-section-lead">
-            Volitelná fotodokumentace pro manuální porovnání v čase. Nenahrazuje
-            lékařské hodnocení.
-          </p>
-
-          <div className="profile-upload-panel">
-            <div className="profile-upload-copy">
-              <h3>Nahrát novou fotografii</h3>
-              <p>
-                Pro lepší porovnání doporučujeme stejný úhel a podobné světlo.
+          <div className="profile-photos-head">
+            <div>
+              <h2 id="profile-photos">Fotodokumentace vývoje</h2>
+              <p className="profile-section-lead">
+                Volitelná fotodokumentace pro manuální porovnání v čase.
               </p>
             </div>
-
-            <div className="profile-upload-controls">
-              <div className="checkout-field">
-                <label htmlFor="profile-photo-date">Datum snímku</label>
-                <input
-                  id="profile-photo-date"
-                  className="app-input"
-                  type="date"
-                  value={photoDate}
-                  max={todayInputValue()}
-                  onChange={(e) => setPhotoDate(e.target.value)}
-                />
-              </div>
-
-              <input
-                ref={fileInputRef}
-                id="profile-photo-file"
-                className="photo-upload-input"
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                disabled={busy || photos.length >= MAX_PHOTOS}
-                onChange={async (e) => {
-                  const file = e.target.files?.[0];
-                  e.target.value = "";
-                  await handleUpload(file);
-                }}
-              />
-
-              <button
-                className="button"
-                type="button"
-                disabled={busy || photos.length >= MAX_PHOTOS}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                {busy ? "Nahrávám…" : "Vybrat soubor"}
-              </button>
-            </div>
-
-            <p className="profile-upload-info">
-              JPG, PNG, WEBP · maximálně {MAX_PHOTOS} fotografií
-              {photos.length > 0 ? ` · nahráno ${photos.length}` : ""}
-            </p>
-            {error ? <p className="app-error">{error}</p> : null}
+            {photos.length > 0 ? (
+              <p className="meta-line profile-photos-count">
+                {photos.length} / {MAX_PHOTOS}
+              </p>
+            ) : null}
           </div>
 
-          {sortedPhotos.length > 0 ? (
-            <div className="photo-grid-section">
-              <div className="photo-grid-head">
-                <h3>Nahrané fotografie</h3>
-                <p className="meta-line">
-                  {photos.length} / {MAX_PHOTOS}
-                </p>
-              </div>
+          <div className="profile-upload-row">
+            <div className="checkout-field">
+              <label htmlFor="profile-photo-date">Datum snímku</label>
+              <input
+                id="profile-photo-date"
+                className="app-input"
+                type="date"
+                value={photoDate}
+                max={todayInputValue()}
+                onChange={(e) => setPhotoDate(e.target.value)}
+              />
+            </div>
 
-              <ul className="photo-grid">
-                {sortedPhotos.map((photo, index) => (
-                  <li key={photo.id} className="photo-card profile-photo-card">
-                    <div className="photo-card-media">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={photo.dataUrl}
-                        alt={`Fotografie z ${formatPhotoDate(photo.createdAt)}`}
-                      />
-                    </div>
-                    <div className="profile-photo-meta">
-                      <p className="profile-photo-label">
-                        Snímek {index + 1}
+            <input
+              ref={fileInputRef}
+              id="profile-photo-file"
+              className="photo-upload-input"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              disabled={busy || photos.length >= MAX_PHOTOS}
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                e.target.value = "";
+                await handleUpload(file);
+              }}
+            />
+
+            <button
+              className="button"
+              type="button"
+              disabled={busy || photos.length >= MAX_PHOTOS}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {busy ? "Nahrávám…" : "Nahrát fotografii"}
+            </button>
+          </div>
+          <p className="profile-upload-info">
+            Stejný úhel a podobné světlo · JPG, PNG, WEBP · max. {MAX_PHOTOS}{" "}
+            fotografií
+          </p>
+          {error ? <p className="app-error">{error}</p> : null}
+
+          {sortedPhotos.length > 0 ? (
+            <ul className="photo-grid profile-photo-grid">
+              {sortedPhotos.map((photo, index) => (
+                <li key={photo.id} className="photo-card profile-photo-card">
+                  <div className="photo-card-media">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={photo.dataUrl}
+                      alt={`Fotografie z ${formatPhotoDate(photo.createdAt)}`}
+                    />
+                  </div>
+                  <div className="profile-photo-meta">
+                    <div>
+                      <p className="profile-photo-label">Snímek {index + 1}</p>
+                      <p className="meta-line">
+                        {formatPhotoDate(photo.createdAt)}
                       </p>
-                      <label className="photo-card-date">
-                        <span className="sr-only">Datum snímku</span>
-                        <input
-                          type="date"
-                          className="photo-card-date-input"
-                          value={isoToDateInput(photo.createdAt)}
-                          max={todayInputValue()}
-                          onChange={(e) => {
-                            if (!e.target.value) return;
-                            setPhotos(
-                              replacePhoto(photo.id, {
-                                createdAt: dateInputToIso(e.target.value),
-                              })
-                            );
-                          }}
-                        />
-                      </label>
                     </div>
-                    <div className="profile-photo-actions">
-                      {sortedPhotos.length >= 2 ? (
-                        <button
-                          className="button secondary"
-                          type="button"
-                          onClick={() => setCompareId(photo.id)}
-                        >
-                          Porovnat
-                        </button>
-                      ) : null}
-                      <label className="button secondary profile-replace-btn">
-                        Nahradit
-                        <input
-                          type="file"
-                          accept="image/jpeg,image/png,image/webp"
-                          hidden
-                          onChange={async (e) => {
-                            const file = e.target.files?.[0];
-                            e.target.value = "";
-                            if (!file) return;
-                            try {
-                              const prepared = await preparePhotoFile(file);
-                              setPhotos(
-                                replacePhoto(photo.id, {
-                                  dataUrl: prepared.dataUrl,
-                                  fileName: prepared.fileName,
-                                })
-                              );
-                            } catch (err) {
-                              setError(
-                                err instanceof Error
-                                  ? err.message
-                                  : "Nahrazení se nepovedlo."
-                              );
-                            }
-                          }}
-                        />
-                      </label>
+                    <label className="photo-card-date">
+                      <span className="sr-only">Datum snímku</span>
+                      <input
+                        type="date"
+                        className="photo-card-date-input"
+                        value={isoToDateInput(photo.createdAt)}
+                        max={todayInputValue()}
+                        onChange={(e) => {
+                          if (!e.target.value) return;
+                          setPhotos(
+                            replacePhoto(photo.id, {
+                              createdAt: dateInputToIso(e.target.value),
+                            })
+                          );
+                        }}
+                      />
+                    </label>
+                  </div>
+                  <div className="profile-photo-actions">
+                    {sortedPhotos.length >= 2 ? (
                       <button
                         className="button secondary"
                         type="button"
-                        onClick={() => {
-                          const next = deletePhoto(photo.id);
-                          setPhotos(next);
-                          if (compareId === photo.id) {
-                            setCompareId(next[next.length - 1]?.id ?? null);
+                        onClick={() => setCompareId(photo.id)}
+                      >
+                        Porovnat
+                      </button>
+                    ) : null}
+                    <label className="button secondary profile-replace-btn">
+                      Nahradit
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        hidden
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          e.target.value = "";
+                          if (!file) return;
+                          try {
+                            const prepared = await preparePhotoFile(file);
+                            setPhotos(
+                              replacePhoto(photo.id, {
+                                dataUrl: prepared.dataUrl,
+                                fileName: prepared.fileName,
+                              })
+                            );
+                          } catch (err) {
+                            setError(
+                              err instanceof Error
+                                ? err.message
+                                : "Nahrazení se nepovedlo."
+                            );
                           }
                         }}
-                      >
-                        Smazat
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                      />
+                    </label>
+                    <button
+                      className="button secondary"
+                      type="button"
+                      onClick={() => {
+                        const next = deletePhoto(photo.id);
+                        setPhotos(next);
+                        if (compareId === photo.id) {
+                          setCompareId(next[next.length - 1]?.id ?? null);
+                        }
+                      }}
+                    >
+                      Smazat
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
           ) : (
-            <div className="profile-empty profile-empty--photos">
-              <p>Zatím nemáte nahrané žádné fotografie.</p>
-              <p className="meta-line">
-                Pravidelná fotodokumentace pomáhá sledovat vývoj v čase.
-              </p>
-            </div>
+            <p className="profile-photos-empty">
+              Zatím žádné fotografie. Pravidelná dokumentace pomáhá sledovat
+              vývoj v čase.
+            </p>
           )}
 
           {comparePair ? (
