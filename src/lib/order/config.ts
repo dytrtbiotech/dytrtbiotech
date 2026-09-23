@@ -459,20 +459,52 @@ export function getNextTask(order: OrderDraft | null): NextTask {
 
   const hairPending = !hairScopeDone(order);
 
-  // After payment, recommend HairScope while the lab process is still running.
+  // Optional HairScope while the lab flow is still in progress.
   if (isHairScopeAvailable(order) && hairPending && isWaitingOnLab(order.status)) {
+    if (order.status === "paid_preparing") {
+      return {
+        title: "Mezitím můžete udělat analýzu vlasů",
+        body: "Laboratorní vyšetření je objednané a připravujeme podklady k odběru. Mezitím si můžete doplnit digitální AI analýzu vlasů.",
+        ctaLabel: "Spustit analýzu vlasů",
+        href: "/hairscope",
+      };
+    }
+    if (order.status === "ready_for_collection") {
+      return {
+        title: "Podklady k odběru jsou připravené",
+        body: "Můžete absolvovat odběr. Mezitím si můžete doplnit digitální AI analýzu vlasů.",
+        ctaLabel: "Otevřít vyšetření",
+        href: "/vysetreni",
+        secondary: { label: "Spustit analýzu vlasů", href: "/hairscope" },
+      };
+    }
     return {
       title: "Mezitím můžete udělat analýzu vlasů",
-      body: "Laboratorní vyšetření už běží. V mezičase si můžete doplnit digitální AI analýzu vlasů - pomůže k úplnějšímu podkladu pro konzultaci.",
+      body: "Odběr evidujeme a čekáme na předání výsledků lékaři. Mezitím si můžete doplnit digitální AI analýzu vlasů.",
       ctaLabel: "Spustit analýzu vlasů",
       href: "/hairscope",
     };
   }
 
   if (isWaitingOnLab(order.status)) {
+    if (order.status === "paid_preparing") {
+      return {
+        title: "Připravujeme podklady k odběru",
+        body: "Laboratorní vyšetření je objednané. Ozveme se, až budou podklady k odběru připravené.",
+        tone: "wait",
+      };
+    }
+    if (order.status === "ready_for_collection") {
+      return {
+        title: "Můžete absolvovat odběr",
+        body: "Podklady k odběru jsou připravené. Pokračujte ve vyšetření a po odběru to v aplikaci označte.",
+        ctaLabel: "Otevřít vyšetření",
+        href: "/vysetreni",
+      };
+    }
     return {
       title: "V tuto chvíli nemusíte nic dělat",
-      body: "Čekáme na dokončení laboratorního vyšetření a předání výsledků vašemu lékaři. Ozveme se, až bude čas domluvit konzultaci.",
+      body: "Čekáme na předání výsledků vašemu lékaři. Ozveme se, až bude čas domluvit konzultaci.",
       tone: "wait",
     };
   }
