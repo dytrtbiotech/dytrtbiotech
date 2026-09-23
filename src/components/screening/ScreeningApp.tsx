@@ -987,7 +987,7 @@ export default function ScreeningApp() {
                 type="button"
                 onClick={createAccount}
               >
-                Vytvořit účet a pokračovat
+                Vytvořit účet
               </button>
             </div>
           </div>

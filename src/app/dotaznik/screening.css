@@ -1184,13 +1184,15 @@
   }
 
   .screening-actions--register {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: nowrap;
     margin-top: 12px;
     padding-bottom: 4px;
   }
 
   .screening-actions--register .button {
-    width: 100%;
+    flex: 1 1 0;
+    width: auto;
   }
 
   .screening-result-lock-back {
