@@ -117,19 +117,19 @@ export const CONSULTATION_OUTCOMES: {
     id: "not_recommended",
     label: "Lékař mi nedoporučil pokračovat",
     lockedBody:
-      "Podle vámi nahlášeného závěru konzultace zatím program neotevíráme. Pokud se situace změní, upravte závěr na stránce konzultace.",
+      "Podle nahlášeného závěru program neotevíráme. Pokud se situace změní, závěr můžete upravit.",
   },
   {
     id: "needs_more_tests",
     label: "Je potřeba doplnit další vyšetření",
     lockedBody:
-      "Program zůstává zamčený, dokud nebude podle lékaře jasné pokračování. Po doplnění vyšetření můžete závěr konzultace aktualizovat.",
+      "Vraťte se, až bude mít lékař jasno, že vám doporučí pokračovat. Závěr konzultace můžete kdykoli upravit.",
   },
   {
     id: "unsure",
     label: "Nejsem si jistý / potřebuji to ověřit",
     lockedBody:
-      "Program zatím neotevíráme. Jakmile budete mít od lékaře jasný závěr, nahlaste ho v konzultaci.",
+      "Program zatím neotevíráme. Jakmile budete mít od lékaře jasný závěr, upravte ho zde.",
   },
 ];
 
@@ -593,7 +593,7 @@ export function getNextTask(order: OrderDraft | null): NextTask {
         meta?.lockedBody ||
         "Podle nahlášeného závěru konzultace program zůstává zamčený.",
       tone: "wait",
-      ctaLabel: "Detail konzultace",
+      ctaLabel: "Upravit závěr",
       href: "/konzultace",
       badge: {
         label: "Závěr nahlášen",

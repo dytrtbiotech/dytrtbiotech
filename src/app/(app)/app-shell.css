@@ -1674,7 +1674,16 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 12px;
-  margin-top: 8px;
+  margin-top: 24px;
+}
+
+.flow-card > p:has(+ .flow-actions),
+.flow-card > .meta-line:has(+ .flow-actions),
+.flow-card > .flow-note:has(+ .flow-actions),
+.flow-card > .outcome-list:has(+ .flow-actions),
+.flow-card > .app-error:has(+ .flow-actions),
+.flow-card > .outcome-list:has(+ .app-error) {
+  margin-bottom: 0;
 }
 
 .flow-actions .button.secondary {
@@ -1686,7 +1695,7 @@
 .outcome-list {
   display: grid;
   gap: 10px;
-  margin: 12px 0 4px;
+  margin: 16px 0 0;
 }
 
 .outcome-option {

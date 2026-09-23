@@ -26,6 +26,7 @@ export default function KonzultacePage() {
   const [note, setNote] = useState("");
   const [selectedOutcome, setSelectedOutcome] =
     useState<ConsultationOutcome | "">("");
+  const [editingOutcome, setEditingOutcome] = useState(false);
   const [error, setError] = useState("");
 
   const refresh = useCallback(() => {
@@ -64,6 +65,10 @@ export default function KonzultacePage() {
   const outcome = order?.consultationOutcome;
   const outcomeMeta = getConsultationOutcomeMeta(outcome);
   const programOpen = isProgramUnlocked(order);
+  const outcomePaid =
+    order?.status === "care_paid" || order?.status === "care_completed";
+  const showOutcomeForm =
+    attended && (!outcome || editingOutcome) && !outcomePaid;
 
   return (
     <>
@@ -267,47 +272,17 @@ export default function KonzultacePage() {
 
             {attended || outcome || programOpen ? (
               <section className="flow-card">
-                {outcome ? (
+                {showOutcomeForm ? (
                   <>
-                    <h2>Závěr konzultace</h2>
-                    <p>
-                      Nahlášeno: <strong>{outcomeMeta?.label}</strong>
-                      {order?.consultationOutcomeAt
-                        ? ` · ${new Date(
-                            order.consultationOutcomeAt
-                          ).toLocaleString("cs-CZ")}`
-                        : ""}
-                    </p>
-                    {programOpen ? (
-                      <div className="flow-actions">
-                        <Link className="button" href="/plan-pece">
-                          Pokračovat k programu
-                        </Link>
-                        <Link className="button secondary" href="/prehled">
-                          Zpět na přehled
-                        </Link>
-                      </div>
-                    ) : (
-                      <>
-                        <p className="flow-note">
-                          {outcomeMeta?.lockedBody ||
-                            "Program zůstává zamčený podle nahlášeného závěru."}
-                        </p>
-                        <div className="flow-actions">
-                          <Link className="button secondary" href="/prehled">
-                            Zpět na přehled
-                          </Link>
-                        </div>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <h2>Jaký byl závěr konzultace?</h2>
+                    <h2>
+                      {outcome
+                        ? "Upravit závěr konzultace"
+                        : "Jaký byl závěr konzultace?"}
+                    </h2>
                     <p>
                       Vyberte možnost podle informace, kterou jste dostali od
                       lékaře. Aplikace závěr sama nevyhodnocuje, pouze ho
-                      zaznamená.
+                      zaznamená. Závěr můžete později změnit.
                     </p>
                     <div
                       className="outcome-list"
@@ -345,17 +320,70 @@ export default function KonzultacePage() {
                           }
                           setError("");
                           reportConsultationOutcome(selectedOutcome);
+                          setEditingOutcome(false);
                           refresh();
                         }}
                       >
                         Uložit závěr
                       </button>
+                      {outcome ? (
+                        <button
+                          className="button secondary"
+                          type="button"
+                          onClick={() => {
+                            setEditingOutcome(false);
+                            setSelectedOutcome(outcome);
+                            setError("");
+                          }}
+                        >
+                          Zrušit
+                        </button>
+                      ) : (
+                        <Link className="button secondary" href="/prehled">
+                          Zpět na přehled
+                        </Link>
+                      )}
+                    </div>
+                  </>
+                ) : outcome ? (
+                  <>
+                    <h2>Závěr konzultace</h2>
+                    <p>
+                      Nahlášeno: <strong>{outcomeMeta?.label}</strong>
+                      {order?.consultationOutcomeAt
+                        ? ` · ${new Date(
+                            order.consultationOutcomeAt
+                          ).toLocaleString("cs-CZ")}`
+                        : ""}
+                    </p>
+                    {!programOpen && outcomeMeta?.lockedBody ? (
+                      <p className="flow-note">{outcomeMeta.lockedBody}</p>
+                    ) : null}
+                    <div className="flow-actions">
+                      {programOpen ? (
+                        <Link className="button" href="/plan-pece">
+                          Pokračovat k programu
+                        </Link>
+                      ) : null}
+                      {!outcomePaid ? (
+                        <button
+                          className="button secondary"
+                          type="button"
+                          onClick={() => {
+                            setSelectedOutcome(outcome);
+                            setEditingOutcome(true);
+                            setError("");
+                          }}
+                        >
+                          Upravit závěr
+                        </button>
+                      ) : null}
                       <Link className="button secondary" href="/prehled">
                         Zpět na přehled
                       </Link>
                     </div>
                   </>
-                )}
+                ) : null}
               </section>
             ) : null}
           </>
