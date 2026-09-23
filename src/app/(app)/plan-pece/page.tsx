@@ -68,7 +68,7 @@ export default function PlanPecePage() {
               <Link className="button" href="/konzultace">
                 Ke konzultaci
               </Link>
-              <Link className="text-link" href="/prehled">
+              <Link className="button secondary" href="/prehled">
                 Zpět na přehled
               </Link>
             </div>
@@ -94,6 +94,9 @@ export default function PlanPecePage() {
               <div className="flow-actions">
                 <Link className="button secondary" href="/konzultace">
                   Upravit závěr konzultace
+                </Link>
+                <Link className="button secondary" href="/prehled">
+                  Zpět na přehled
                 </Link>
               </div>
             </section>
