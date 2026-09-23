@@ -1348,7 +1348,7 @@
 
 .checkout-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 16px;
   align-items: stretch;
   margin-top: 8px;
@@ -1357,7 +1357,7 @@
 .checkout-col {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 28px;
   min-width: 0;
   min-height: 100%;
 }
