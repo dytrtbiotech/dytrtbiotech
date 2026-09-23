@@ -55,7 +55,7 @@ export default function NastaveniPage() {
       </header>
       <div className="app-content settings-page">
         <h1>Nastavení</h1>
-        <p className="app-lead">
+        <p className="app-lead settings-lead">
           Údaje účtu pro návrat do aplikace. Ostré ověření e-mailu a reset hesla
           doplníme s produkční autentizací.
         </p>

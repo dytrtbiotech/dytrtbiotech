@@ -2030,6 +2030,10 @@
   font-weight: 600;
 }
 
+.settings-lead {
+  max-width: none;
+}
+
 .settings-personal {
   width: 100%;
   max-width: none;
@@ -2057,30 +2061,30 @@
 
 .settings-demo {
   margin-top: 14px;
-  padding: 16px 18px;
+  padding: 18px 20px;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 16px;
   background: color-mix(in srgb, var(--bg) 70%, white);
 }
 
 .settings-demo h2 {
-  margin: 0 0 6px;
-  font: 400 18px / 1.25 var(--serif);
-  color: var(--muted);
+  margin: 0 0 8px;
+  font: 400 22px / 1.25 var(--serif);
+  color: var(--ink);
 }
 
 .settings-demo p {
-  margin: 0 0 12px;
+  margin: 0 0 14px;
   color: var(--muted);
-  font-size: 13px;
-  line-height: 1.5;
-  max-width: 52ch;
+  font-size: 14px;
+  line-height: 1.55;
+  max-width: none;
 }
 
 .settings-demo .button.secondary {
-  min-height: 40px;
-  padding: 8px 18px;
-  font-size: 13px;
+  min-height: 44px;
+  padding: 11px 22px;
+  font-size: 14px;
 }
 
 @media (max-width: 720px) {
