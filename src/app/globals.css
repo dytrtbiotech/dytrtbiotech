@@ -183,10 +183,6 @@ summary:focus-visible {
   transform: translateX(-50%) rotate(-45deg);
 }
 
-.nav-backdrop {
-  display: none;
-}
-
 .button {
   display: inline-flex;
   align-items: center;
@@ -1041,7 +1037,7 @@ dialog::backdrop {
     width: calc(100% - 32px);
   }
   .hero-copy {
-    padding: 60px 32px;
+    padding: 60px 32px 54px 16px;
   }
   .hero h1 {
     font-size: 58px;
@@ -1095,7 +1091,7 @@ dialog::backdrop {
     font-size: 48px;
   }
   .hero-copy {
-    padding: 50px 28px 40px 32px;
+    padding: 50px 28px 40px 16px;
   }
   .hero {
     min-height: calc(100svh - 96px);
@@ -1184,60 +1180,64 @@ dialog::backdrop {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    z-index: 50;
+    z-index: 2;
   }
 
-  .nav-backdrop {
-    display: block;
-    position: fixed;
-    inset: 0;
-    z-index: 35;
-    border: 0;
-    padding: 0;
-    margin: 0;
-    background: rgba(32, 52, 59, 0.28);
-    cursor: pointer;
+  .site-header.is-menu-open {
+    background: #fff;
+    box-shadow: 0 1px 0 rgba(32, 52, 59, 0.08);
   }
 
   .header {
-    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 96px auto;
+    align-items: center;
+    height: auto;
+    min-height: 96px;
+    gap: 0;
+  }
+
+  .logo {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .nav-toggle {
+    grid-column: 2;
+    grid-row: 1;
   }
 
   .nav {
-    position: absolute;
-    top: calc(100% - 8px);
-    right: 0;
-    left: 0;
-    z-index: 45;
-    display: flex;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    position: static;
+    display: none;
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
-    padding: 18px 20px 22px;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    background: #fff;
-    box-shadow: 0 16px 40px rgba(32, 52, 59, 0.12);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-6px);
-    transition:
-      opacity 0.2s ease,
-      transform 0.2s ease,
-      visibility 0.2s ease;
-  }
-
-  .nav.is-open {
+    gap: 4px;
+    width: 100%;
+    margin: 0;
+    padding: 4px 0 18px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translateY(0);
+    transform: none;
+    transition: none;
+  }
+
+  .nav.is-open {
+    display: flex;
   }
 
   .nav > a {
     display: block;
-    padding: 12px 4px;
+    padding: 14px 0;
     font-size: 16px;
     font-weight: 500;
   }
@@ -1267,8 +1267,10 @@ dialog::backdrop {
     width: calc(100% - 24px);
   }
   .header {
-    height: 78px;
-    gap: 15px;
+    height: auto;
+    min-height: 78px;
+    grid-template-rows: 78px auto;
+    gap: 0;
   }
   .logo-img {
     height: 32px;
@@ -1279,7 +1281,7 @@ dialog::backdrop {
     min-height: calc(100svh - 78px);
   }
   .hero-copy {
-    padding: 47px 25px 36px;
+    padding: 47px 12px 36px;
     display: block;
   }
   .hero .eyebrow {
@@ -1321,7 +1323,7 @@ dialog::backdrop {
     flex: 1;
     height: auto;
     border-top-left-radius: 75px;
-    margin-left: 25px;
+    margin-left: 12px;
   }
   .hero-image img {
     object-position: 50% 38%;
