@@ -250,8 +250,6 @@ export default function ProfilPage() {
           </div>
           {error ? <p className="app-error">{error}</p> : null}
 
-          <div className="profile-photos-divider" aria-hidden="true" />
-
           {sortedPhotos.length > 0 ? (
             <ul className="profile-photo-grid">
               {sortedPhotos.map((photo) => (
