@@ -70,6 +70,7 @@ export default function LandingPage() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [activeDialog, setActiveDialog] = useState<DialogKey>("login");
   const [headerScrolled, setHeaderScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -80,7 +81,30 @@ export default function LandingPage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    const onResize = () => {
+      if (window.matchMedia("(min-width: 851px)").matches) {
+        setMenuOpen(false);
+      }
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("resize", onResize);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [menuOpen]);
+
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+
   const openDialog = useCallback((key: DialogKey) => {
+    setMenuOpen(false);
     setActiveDialog(key);
     dialogRef.current?.showModal();
   }, []);
@@ -119,7 +143,7 @@ export default function LandingPage() {
       </a>
 
       <header
-        className={`site-header${headerScrolled ? " is-scrolled" : ""}`}
+        className={`site-header${headerScrolled || menuOpen ? " is-scrolled" : ""}${menuOpen ? " is-menu-open" : ""}`}
       >
         <div className="header wrap">
           <a className="logo" href="#" aria-label="FOLLICAD - úvodní stránka">
@@ -132,26 +156,59 @@ export default function LandingPage() {
               priority
             />
           </a>
-          <nav className="nav" aria-label="Hlavní navigace">
-            <a href="#jak-to-funguje">Jak to funguje</a>
+
+          <button
+            className={`nav-toggle${menuOpen ? " is-open" : ""}`}
+            type="button"
+            aria-expanded={menuOpen}
+            aria-controls="main-nav"
+            aria-label={menuOpen ? "Zavřít menu" : "Otevřít menu"}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span className="nav-toggle-bar" aria-hidden="true" />
+            <span className="nav-toggle-bar" aria-hidden="true" />
+          </button>
+
+          <nav
+            id="main-nav"
+            className={`nav${menuOpen ? " is-open" : ""}`}
+            aria-label="Hlavní navigace"
+          >
+            <a href="#jak-to-funguje" onClick={closeMenu}>
+              Jak to funguje
+            </a>
             <a
               href="https://www.stemaesthetic.com"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={closeMenu}
             >
               Reference ↗
             </a>
             <div className="nav-actions">
-              <Link className="button secondary" href="/prihlaseni">
+              <Link
+                className="button secondary"
+                href="/prihlaseni"
+                onClick={closeMenu}
+              >
                 Přihlásit se
               </Link>
-              <Link className="button" href="/dotaznik">
+              <Link className="button" href="/dotaznik" onClick={closeMenu}>
                 Zahájit screening
               </Link>
             </div>
           </nav>
         </div>
       </header>
+
+      {menuOpen ? (
+        <button
+          className="nav-backdrop"
+          type="button"
+          aria-label="Zavřít menu"
+          onClick={closeMenu}
+        />
+      ) : null}
 
       <main id="obsah">
         <section className="hero" aria-labelledby="hero-title">
