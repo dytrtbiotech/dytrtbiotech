@@ -462,8 +462,8 @@ export function getNextTask(order: OrderDraft | null): NextTask {
   // After payment, recommend HairScope while the lab process is still running.
   if (isHairScopeAvailable(order) && hairPending && isWaitingOnLab(order.status)) {
     return {
-      title: "Dokončete analýzu vlasů",
-      body: "Laboratorní vyšetření už běží. Mezitím můžete doplnit obrazovou analýzu vlasů - pomůže k úplnějšímu podkladu pro konzultaci.",
+      title: "Mezitím můžete udělat analýzu vlasů",
+      body: "Laboratorní vyšetření už běží. V mezičase si můžete doplnit digitální AI analýzu vlasů - pomůže k úplnějšímu podkladu pro konzultaci.",
       ctaLabel: "Spustit analýzu vlasů",
       href: "/hairscope",
     };
