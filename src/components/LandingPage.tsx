@@ -201,6 +201,15 @@ export default function LandingPage() {
         </div>
       </header>
 
+      {menuOpen ? (
+        <button
+          className="nav-backdrop"
+          type="button"
+          aria-label="Zavřít menu"
+          onClick={closeMenu}
+        />
+      ) : null}
+
       <main id="obsah">
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-copy">
