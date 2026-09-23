@@ -995,7 +995,6 @@
     margin: 0 0 16px;
     padding: 14px 0;
     border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
   }
 
   .screening-stat {
