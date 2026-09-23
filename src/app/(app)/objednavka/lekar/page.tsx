@@ -132,14 +132,14 @@ export default function DoctorPage() {
         </p>
       ) : null}
 
-      <p className="doctor-choice-notice">
-        Lékaře po předání výsledků už nepůjde změnit. Vyberte ho prosím pečlivě.
-      </p>
-
-      <div className="order-actions">
+      <div className="order-actions order-actions--doctor">
         <Link className="button order-back" href="/objednavka/panel">
           Zpět k panelu
         </Link>
+        <p className="doctor-choice-notice">
+          Lékaře po předání výsledků už nepůjde změnit. Vyberte ho prosím
+          pečlivě.
+        </p>
         <button
           className="button"
           type="button"
