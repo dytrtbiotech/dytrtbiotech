@@ -362,9 +362,23 @@
   white-space: nowrap;
 }
 
-.task-card .button {
+.task-card .button:not(.secondary) {
   background: var(--teal);
   border-color: var(--teal);
+}
+
+.task-card .button.secondary {
+  background: transparent;
+  color: var(--teal);
+  border-color: var(--teal);
+  min-height: 54px;
+  padding: 15px 26px;
+  font-size: inherit;
+}
+
+.task-card .button.secondary:hover {
+  background: var(--teal);
+  color: #fff;
 }
 
 .task-card--wait {
