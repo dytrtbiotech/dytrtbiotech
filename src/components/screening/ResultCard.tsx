@@ -22,7 +22,7 @@ type ResultCardProps = {
 
 const RING = {
   full: { size: 200, stroke: 12 },
-  compact: { size: 132, stroke: 10 },
+  compact: { size: 160, stroke: 11 },
 } as const;
 
 const ANIM_MS = 1800;

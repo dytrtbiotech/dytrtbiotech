@@ -276,8 +276,8 @@
 }
 
 .screening-result-panel.is-compact .screening-result-grid {
-  grid-template-columns: minmax(160px, 200px) minmax(0, 1fr);
-  gap: 28px;
+  grid-template-columns: minmax(200px, 230px) minmax(0, 1fr);
+  gap: 24px;
   align-items: start;
 }
 
@@ -287,16 +287,20 @@
 }
 
 .screening-result-panel.is-compact .screening-score-ring {
-  width: 132px;
-  height: 132px;
+  width: 160px;
+  height: 160px;
 }
 
 .screening-result-panel.is-compact .screening-score-number {
-  font-size: 28px;
+  font-size: 34px;
 }
 
 .screening-result-panel.is-compact .screening-score-unit {
-  font-size: 11px;
+  font-size: 12px;
+}
+
+.screening-result-panel.is-compact .screening-result-badge {
+  white-space: nowrap;
 }
 
 .screening-result-panel.is-compact .screening-result-factors-title {
@@ -305,6 +309,7 @@
 
 .screening-result-panel.is-compact .screening-factors {
   gap: 8px;
+  max-width: 420px;
 }
 
 .screening-result-panel.is-compact .screening-factor-label {
