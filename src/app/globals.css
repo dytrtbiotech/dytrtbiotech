@@ -1282,26 +1282,27 @@ dialog::backdrop {
     min-height: calc(100svh - 78px);
   }
   .hero-copy {
-    padding: 47px var(--page-gutter) 36px;
+    padding: 18px var(--page-gutter) 18px;
     display: block;
+    flex: 0 0 auto;
   }
   .hero .eyebrow {
     font-size: 10px;
     letter-spacing: 1.7px;
-    margin-bottom: 21px;
+    margin-bottom: 14px;
   }
   .hero h1 {
     font-size: clamp(42px, 10.5vw, 58px);
     letter-spacing: -0.9px;
-    margin-bottom: 23px;
+    margin-bottom: 14px;
   }
   .hero-desc {
     font-size: 16px;
     max-width: 460px;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
   }
   .hero-meta {
-    margin-bottom: 22px;
+    margin-bottom: 16px;
   }
   .hero-actions {
     flex-direction: row;
@@ -1316,18 +1317,18 @@ dialog::backdrop {
   }
   .email-note {
     font-size: 12px;
-    margin-top: 19px;
+    margin-top: 14px;
     max-width: 350px;
   }
   .hero-image {
-    min-height: 280px;
-    flex: 1;
+    min-height: 0;
+    flex: 1 1 auto;
     height: auto;
     border-top-left-radius: 75px;
     margin-left: var(--page-gutter);
   }
   .hero-image img {
-    object-position: 50% 38%;
+    object-position: 50% 22%;
   }
   .image-caption {
     bottom: 18px;
