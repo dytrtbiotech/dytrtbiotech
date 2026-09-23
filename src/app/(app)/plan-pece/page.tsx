@@ -201,7 +201,7 @@ export default function PlanPecePage() {
                     {status === "care_paid" && visit.status !== "completed" ? (
                       <div className="flow-actions">
                         <button
-                          className="text-link"
+                          className="button secondary"
                           type="button"
                           onClick={() => {
                             setEditingIndex(visit.index);
@@ -281,7 +281,7 @@ export default function PlanPecePage() {
                             Uložit termín
                           </button>
                           <button
-                            className="text-link"
+                            className="button secondary"
                             type="button"
                             onClick={() => setEditingIndex(null)}
                           >

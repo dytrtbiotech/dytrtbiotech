@@ -113,17 +113,15 @@
 
 .process-exit {
   margin-top: auto;
-  align-self: center;
-  padding-top: 16px;
+  align-self: stretch;
+  width: 100%;
+  box-sizing: border-box;
   text-align: center;
-  font-size: 14px;
-  color: var(--muted);
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  text-decoration: none;
 }
 
 .process-exit:hover {
-  color: var(--teal);
+  text-decoration: none;
 }
 
 @media (max-width: 900px) {

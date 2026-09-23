@@ -320,7 +320,7 @@ export default function ScreeningApp() {
         currentMeta={progressLabel}
         brandHref="/"
         footer={
-          <Link className="process-exit" href="/">
+          <Link className="button secondary process-exit" href="/">
             Zpět na úvod
           </Link>
         }

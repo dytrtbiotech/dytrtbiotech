@@ -79,7 +79,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           currentMeta={processCurrentMeta}
           brandHref="/prehled"
           footer={
-            <Link className="process-exit" href="/prehled">
+            <Link className="button secondary process-exit" href="/prehled">
               Zpět na přehled
             </Link>
           }
