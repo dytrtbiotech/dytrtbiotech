@@ -2401,9 +2401,88 @@
   margin-top: 16px;
 }
 
-.profile-screening-status {
+.profile-section-lead {
+  margin: 0 0 18px !important;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.profile-screening-summary {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 0 0 4px;
+}
+
+.profile-score-ring {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+}
+
+.profile-score-track {
+  stroke: var(--line);
+}
+
+.profile-score-progress {
+  stroke: var(--teal);
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.profile-score-ring.tone-strong .profile-score-progress {
+  stroke: #c47a3a;
+}
+
+.profile-score-value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.profile-score-number {
+  font: 600 22px / 1 var(--sans, inherit);
+  color: var(--ink);
+}
+
+.profile-score-unit {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.profile-screening-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.profile-screening-copy > p {
+  margin: 0 0 6px !important;
+}
+
+.profile-screening-copy > p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.profile-screening-score-label {
+  font-size: 15px !important;
+  font-weight: 600;
+  color: var(--ink) !important;
+}
+
+.profile-screening-profile {
+  font-size: 16px !important;
+  color: var(--ink) !important;
+}
+
+.profile-screening-badge {
   display: inline-block;
-  margin: 0 0 10px !important;
+  margin: 2px 0 8px !important;
   font-size: 11px !important;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -2416,7 +2495,159 @@
 }
 
 .profile-screening-detail {
-  margin-top: 16px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.profile-detail-note {
+  margin: 0 0 14px !important;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.profile-empty {
+  padding: 4px 0 0;
+}
+
+.profile-empty > p {
+  margin: 0 0 8px !important;
+}
+
+.profile-empty--photos {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--soft) 55%, white);
+}
+
+.profile-upload-panel {
+  margin-top: 4px;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.profile-upload-copy h3 {
+  margin: 0 0 6px;
+  font: 400 22px / 1.2 var(--serif);
+  color: var(--ink);
+}
+
+.profile-upload-copy p {
+  margin: 0 0 16px !important;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+  max-width: 52ch;
+}
+
+.profile-upload-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 14px 16px;
+}
+
+.profile-upload-controls .checkout-field {
+  margin: 0;
+  min-width: 180px;
+  max-width: 220px;
+}
+
+.profile-upload-info {
+  margin: 14px 0 0 !important;
+  font-size: 12px !important;
+  color: var(--muted);
+}
+
+.profile-page .photo-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.profile-photo-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  padding: 10px;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.profile-photo-card .photo-card-media {
+  border-radius: 10px;
+}
+
+.profile-photo-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.profile-photo-label {
+  margin: 0 !important;
+  font-size: 13px !important;
+  font-weight: 600;
+  color: var(--ink) !important;
+}
+
+.profile-photo-card .photo-card-date {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-photo-card .photo-card-date-input {
+  width: 100%;
+  text-align: right;
+  font-size: 12px;
+}
+
+.profile-photo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.profile-photo-actions .button.secondary {
+  min-height: 36px;
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+.profile-replace-btn {
+  cursor: pointer;
+}
+
+@media (max-width: 1100px) {
+  .profile-page .photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .profile-screening-summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-page .photo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-upload-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profile-upload-controls .checkout-field {
+    max-width: none;
+  }
 }
 
 @media (max-width: 1100px) {

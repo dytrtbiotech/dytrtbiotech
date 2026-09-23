@@ -486,6 +486,20 @@ export function scorePercent(answers: ScreeningAnswers): number {
   return Math.round((raw / MAX_SCREENING_SCORE) * 100);
 }
 
+/** Screening je hotový, až jsou vyplněné všechny vstupní odpovědi. */
+export function hasCompleteScreening(answers: ScreeningAnswers): boolean {
+  return Boolean(
+    answers.age?.trim() &&
+      answers.sex &&
+      answers.thinning &&
+      answers.duration &&
+      answers.family &&
+      answers.priorCare &&
+      answers.health &&
+      answers.expectation
+  );
+}
+
 export function questionIndexFromStep(step: ScreeningStep): number {
   const idx = QUESTION_STEPS.indexOf(step as QuestionStep);
   return idx;
