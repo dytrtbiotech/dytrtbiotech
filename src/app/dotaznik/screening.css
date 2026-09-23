@@ -853,6 +853,37 @@
   flex-wrap: wrap;
 }
 
+.screening-actions.is-sticky {
+  position: fixed;
+  left: 272px;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  width: auto;
+  margin: 0;
+  padding: 14px 40px calc(14px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+  background: rgba(247, 250, 251, 0.96);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 -10px 28px rgba(32, 52, 59, 0.06);
+  animation: screening-actions-in 0.28s ease-out;
+}
+
+.screening-stage.has-sticky-actions {
+  padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+}
+
+@keyframes screening-actions-in {
+  from {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 .screening-actions .button {
   background: var(--teal);
   border-color: var(--teal);
@@ -1105,6 +1136,25 @@
     align-items: stretch;
     gap: 10px;
     margin-top: 24px;
+  }
+
+  .screening-actions.is-sticky {
+    left: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .screening-actions.is-sticky .button {
+    flex: 1 1 0;
+    width: auto;
+    min-height: 48px;
+  }
+
+  .screening-stage.has-sticky-actions {
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
   }
 
   .screening-actions--intro {

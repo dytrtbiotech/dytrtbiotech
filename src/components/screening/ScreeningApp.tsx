@@ -389,7 +389,17 @@ export default function ScreeningApp() {
           </Link>
         </header>
 
-        <main className="screening-stage">
+        <main
+          className={`screening-stage${
+            canContinue &&
+            step !== "intro" &&
+            step !== "result" &&
+            step !== "register" &&
+            step !== "email"
+              ? " has-sticky-actions"
+              : ""
+          }`}
+        >
           <div className="screening-content">
           {step === "intro" ? (
             <section aria-labelledby="screening-intro-title">
@@ -742,7 +752,11 @@ export default function ScreeningApp() {
           step !== "result" &&
           step !== "register" &&
           step !== "email" ? (
-            <div className="screening-actions">
+            <div
+              className={`screening-actions${
+                canContinue ? " is-sticky" : ""
+              }`}
+            >
               <button
                 className="button screening-back"
                 type="button"
