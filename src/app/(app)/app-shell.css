@@ -925,7 +925,7 @@
   font-size: 14px;
   line-height: 1.45;
   text-align: center;
-  max-width: 34ch;
+  white-space: nowrap;
 }
 
 .order-actions--doctor {
@@ -951,7 +951,7 @@
 
   .order-actions--doctor .doctor-choice-notice {
     order: -1;
-    max-width: none;
+    white-space: normal;
     text-align: left;
   }
 
