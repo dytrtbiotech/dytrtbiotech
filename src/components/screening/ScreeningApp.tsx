@@ -221,6 +221,11 @@ export default function ScreeningApp() {
     setStep(next);
   }, []);
 
+  useEffect(() => {
+    if (!ready) return;
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [step, ready]);
+
   const questionIndex = isQuestionStep(step)
     ? QUESTION_STEPS.indexOf(step)
     : -1;
@@ -389,17 +394,7 @@ export default function ScreeningApp() {
           </Link>
         </header>
 
-        <main
-          className={`screening-stage${
-            canContinue &&
-            step !== "intro" &&
-            step !== "result" &&
-            step !== "register" &&
-            step !== "email"
-              ? " has-sticky-actions"
-              : ""
-          }`}
-        >
+        <main className="screening-stage">
           <div className="screening-content">
           {step === "intro" ? (
             <section aria-labelledby="screening-intro-title">
@@ -752,11 +747,7 @@ export default function ScreeningApp() {
           step !== "result" &&
           step !== "register" &&
           step !== "email" ? (
-            <div
-              className={`screening-actions${
-                canContinue ? " is-sticky" : ""
-              }`}
-            >
+            <div className="screening-actions">
               <button
                 className="button screening-back"
                 type="button"
