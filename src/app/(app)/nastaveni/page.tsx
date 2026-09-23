@@ -7,7 +7,6 @@ import {
 } from "@/lib/screening/storage";
 import { clearOrder, loadOrder, updateOrder } from "@/lib/order/storage";
 import { clearPhotos } from "@/lib/photos/storage";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function splitName(fullName?: string) {
@@ -19,6 +18,8 @@ function splitName(fullName?: string) {
     lastName: parts.slice(1).join(" "),
   };
 }
+
+const SHOW_DEMO_TOOLS = process.env.NODE_ENV === "development";
 
 export default function NastaveniPage() {
   const [ready, setReady] = useState(false);
@@ -52,16 +53,19 @@ export default function NastaveniPage() {
           <p className="app-topbar-title">Nastavení</p>
         </div>
       </header>
-      <div className="app-content">
+      <div className="app-content settings-page">
         <h1>Nastavení</h1>
         <p className="app-lead">
           Údaje účtu pro návrat do aplikace. Ostré ověření e-mailu a reset hesla
           doplníme s produkční autentizací.
         </p>
 
-        <section className="summary-block" aria-labelledby="settings-personal">
+        <section
+          className="summary-block settings-personal"
+          aria-labelledby="settings-personal"
+        >
           <h2 id="settings-personal">Osobní údaje</h2>
-          <div className="checkout-fields">
+          <div className="settings-form-grid">
             <div className="checkout-field">
               <label htmlFor="settings-first-name">Jméno</label>
               <input
@@ -106,7 +110,7 @@ export default function NastaveniPage() {
           </div>
           {error ? <p className="app-error">{error}</p> : null}
           {message ? <p className="settings-ok">{message}</p> : null}
-          <div className="flow-actions">
+          <div className="settings-form-actions">
             <button
               className="button"
               type="button"
@@ -140,13 +144,16 @@ export default function NastaveniPage() {
           </div>
         </section>
 
-        <section className="flow-card">
-          <h2>Demo data</h2>
-          <p>
-            Pro vývoj můžete vymazat objednávky a fotografie. Účet zůstane
-            přihlášený.
-          </p>
-          <div className="flow-actions">
+        {SHOW_DEMO_TOOLS ? (
+          <section
+            className="settings-demo"
+            aria-labelledby="settings-demo-title"
+          >
+            <h2 id="settings-demo-title">Demo data</h2>
+            <p>
+              Pro vývoj můžete vymazat objednávky a fotografie. Účet zůstane
+              přihlášený.
+            </p>
             <button
               className="button secondary"
               type="button"
@@ -158,11 +165,8 @@ export default function NastaveniPage() {
             >
               Vymazat objednávky a fotografie
             </button>
-            <Link className="text-link" href="/prehled">
-              Zpět na přehled
-            </Link>
-          </div>
-        </section>
+          </section>
+        ) : null}
       </div>
     </>
   );

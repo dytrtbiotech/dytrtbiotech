@@ -2030,6 +2030,66 @@
   font-weight: 600;
 }
 
+.settings-personal {
+  width: 100%;
+  max-width: none;
+}
+
+.settings-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 20px;
+  margin-top: 4px;
+}
+
+.settings-form-grid .checkout-field {
+  margin: 0;
+  min-width: 0;
+}
+
+.settings-form-grid .app-input {
+  width: 100%;
+}
+
+.settings-form-actions {
+  margin-top: 22px;
+}
+
+.settings-demo {
+  margin-top: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--bg) 70%, white);
+}
+
+.settings-demo h2 {
+  margin: 0 0 6px;
+  font: 400 18px / 1.25 var(--serif);
+  color: var(--muted);
+}
+
+.settings-demo p {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 52ch;
+}
+
+.settings-demo .button.secondary {
+  min-height: 40px;
+  padding: 8px 18px;
+  font-size: 13px;
+}
+
+@media (max-width: 720px) {
+  .settings-form-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
 .photo-grid-section {
   margin-top: 24px;
 }
