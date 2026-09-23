@@ -10,6 +10,8 @@
   --bg: #f7fafb;
   --serif: var(--font-playfair-display), Georgia, serif;
   --sans: var(--font-inter), Arial, sans-serif;
+  --page-max: 1600px;
+  --page-gutter: 28px;
 }
 
 * {
