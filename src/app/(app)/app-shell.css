@@ -2440,6 +2440,13 @@
   line-height: 1.55;
 }
 
+.profile-photos-helper {
+  margin: 8px 0 0 !important;
+  font-size: 13px !important;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .profile-photos-controls {
   display: flex;
   flex-wrap: wrap;
@@ -2456,13 +2463,6 @@
 
 .profile-photos-date .app-input {
   width: 100%;
-}
-
-.profile-photos-helper {
-  margin: 14px 0 0 !important;
-  font-size: 13px !important;
-  color: var(--muted);
-  line-height: 1.5;
 }
 
 .profile-photos-divider {

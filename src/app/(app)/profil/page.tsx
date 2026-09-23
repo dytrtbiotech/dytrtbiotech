@@ -204,6 +204,11 @@ export default function ProfilPage() {
               <p>
                 Volitelná fotodokumentace pro manuální porovnání v čase.
               </p>
+              <p className="profile-photos-helper">
+                Pro nejlepší porovnání používejte podobný úhel a světlo · JPG,
+                PNG, WEBP · max. {MAX_PHOTOS} fotografií
+                {photos.length > 0 ? ` · nahráno ${photos.length}` : ""}
+              </p>
             </div>
 
             <div className="profile-photos-controls">
@@ -243,12 +248,6 @@ export default function ProfilPage() {
               </button>
             </div>
           </div>
-
-          <p className="profile-photos-helper">
-            Pro nejlepší porovnání používejte podobný úhel a světlo · JPG, PNG,
-            WEBP · max. {MAX_PHOTOS} fotografií
-            {photos.length > 0 ? ` · nahráno ${photos.length}` : ""}
-          </p>
           {error ? <p className="app-error">{error}</p> : null}
 
           <div className="profile-photos-divider" aria-hidden="true" />
