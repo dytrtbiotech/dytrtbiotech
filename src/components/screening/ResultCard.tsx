@@ -6,7 +6,8 @@ import type {
   ScreeningAnswers,
 } from "@/lib/screening/config";
 import { getResultFactors } from "@/lib/screening/config";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import "./result-card.css";
 
 type ResultCardProps = {
   result: ResultCategory;
@@ -15,12 +16,15 @@ type ResultCardProps = {
   titleId?: string;
   /** Placeholder výsledku za zámkem - bez reálných hodnot. */
   masked?: boolean;
+  /** Menší varianta pro Můj profil. */
+  compact?: boolean;
 };
 
-const RING_SIZE = 200;
-const RING_STROKE = 12;
-const RING_RADIUS = (RING_SIZE - RING_STROKE) / 2;
-const RING_CIRC = 2 * Math.PI * RING_RADIUS;
+const RING = {
+  full: { size: 200, stroke: 12 },
+  compact: { size: 132, stroke: 10 },
+} as const;
+
 const ANIM_MS = 1800;
 
 const MASKED_FACTORS: ResultFactor[] = [
@@ -67,42 +71,47 @@ function ScoreRing({
   tone,
   masked,
   animate,
+  compact,
 }: {
   percent: number;
   tone: ResultCategory["id"];
   masked?: boolean;
   animate: boolean;
+  compact?: boolean;
 }) {
+  const { size, stroke } = compact ? RING.compact : RING.full;
+  const radius = (size - stroke) / 2;
+  const circ = 2 * Math.PI * radius;
   const target = masked ? 0 : Math.min(100, Math.max(0, percent));
   const shown = animate ? target : 0;
-  const offset = RING_CIRC * (1 - shown / 100);
+  const offset = circ * (1 - shown / 100);
   const counted = useCountUp(target, !masked && animate);
 
   return (
     <div
       className={`screening-score-ring tone-${masked ? "masked" : tone}${masked ? " is-masked" : ""}`}
     >
-      <svg width={RING_SIZE} height={RING_SIZE} viewBox={`0 0 ${RING_SIZE} ${RING_SIZE}`}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
         <circle
           className="screening-score-track"
-          cx={RING_SIZE / 2}
-          cy={RING_SIZE / 2}
-          r={RING_RADIUS}
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
           fill="none"
-          strokeWidth={RING_STROKE}
+          strokeWidth={stroke}
         />
         {!masked ? (
           <circle
             className="screening-score-progress"
-            cx={RING_SIZE / 2}
-            cy={RING_SIZE / 2}
-            r={RING_RADIUS}
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
             fill="none"
-            strokeWidth={RING_STROKE}
-            strokeDasharray={RING_CIRC}
+            strokeWidth={stroke}
+            strokeDasharray={circ}
             strokeDashoffset={offset}
             strokeLinecap="round"
-            transform={`rotate(-90 ${RING_SIZE / 2} ${RING_SIZE / 2})`}
+            transform={`rotate(-90 ${size / 2} ${size / 2})`}
           />
         ) : null}
       </svg>
@@ -165,8 +174,12 @@ export default function ResultCard({
   answers,
   titleId,
   masked = false,
+  compact = false,
 }: ResultCardProps) {
-  const factors = masked ? MASKED_FACTORS : getResultFactors(answers);
+  const factors = useMemo(
+    () => (masked ? MASKED_FACTORS : getResultFactors(answers)),
+    [answers, masked]
+  );
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
@@ -183,14 +196,16 @@ export default function ResultCard({
 
   return (
     <div
-      className={`screening-result-panel tone-${masked ? "masked" : result.id}${animate ? " is-animated" : ""}`}
+      className={`screening-result-panel tone-${masked ? "masked" : result.id}${animate ? " is-animated" : ""}${compact ? " is-compact" : ""}`}
     >
       <div className="screening-result-panel-head">
         <p className="screening-result-panel-kicker">
-          Fáze 1 dokončena · Orientační skóre
+          {compact
+            ? "Screening · Orientační skóre"
+            : "Fáze 1 dokončena · Orientační skóre"}
         </p>
         <h2 id={titleId} className="screening-result-panel-title">
-          {result.title}
+          {compact ? "Výsledek screeningu" : result.title}
         </h2>
         <p className="screening-result-panel-summary">
           {masked
@@ -206,6 +221,7 @@ export default function ResultCard({
             tone={result.id}
             masked={masked}
             animate={animate}
+            compact={compact}
           />
           <p className="screening-result-profile">
             Profil: <strong>{masked ? "?" : result.profileLabel}</strong>

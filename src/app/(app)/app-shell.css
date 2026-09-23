@@ -2397,7 +2397,8 @@
   color: var(--muted);
 }
 
-.profile-page .summary-block + .summary-block {
+.profile-page .summary-block + .summary-block,
+.profile-page .profile-screening + .summary-block {
   margin-top: 16px;
 }
 
@@ -2405,105 +2406,6 @@
   margin: 0 0 18px !important;
   color: var(--muted);
   line-height: 1.6;
-}
-
-.profile-screening-summary {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  margin: 0 0 4px;
-}
-
-.profile-score-ring {
-  position: relative;
-  width: 88px;
-  height: 88px;
-  flex-shrink: 0;
-}
-
-.profile-score-track {
-  stroke: var(--line);
-}
-
-.profile-score-progress {
-  stroke: var(--teal);
-  transition: stroke-dashoffset 0.6s ease;
-}
-
-.profile-score-ring.tone-strong .profile-score-progress {
-  stroke: #c47a3a;
-}
-
-.profile-score-value {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  pointer-events: none;
-}
-
-.profile-score-number {
-  font: 600 22px / 1 var(--sans, inherit);
-  color: var(--ink);
-}
-
-.profile-score-unit {
-  margin-top: 2px;
-  font-size: 11px;
-  color: var(--muted);
-}
-
-.profile-screening-copy {
-  min-width: 0;
-  flex: 1;
-}
-
-.profile-screening-copy > p {
-  margin: 0 0 6px !important;
-}
-
-.profile-screening-copy > p:last-child {
-  margin-bottom: 0 !important;
-}
-
-.profile-screening-score-label {
-  font-size: 15px !important;
-  font-weight: 600;
-  color: var(--ink) !important;
-}
-
-.profile-screening-profile {
-  font-size: 16px !important;
-  color: var(--ink) !important;
-}
-
-.profile-screening-badge {
-  display: inline-block;
-  margin: 2px 0 8px !important;
-  font-size: 11px !important;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--teal);
-  background: var(--soft);
-  border: 1px solid rgba(40, 120, 138, 0.22);
-  border-radius: 999px;
-  padding: 5px 10px;
-}
-
-.profile-screening-detail {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
-}
-
-.profile-detail-note {
-  margin: 0 0 14px !important;
-  color: var(--muted);
-  line-height: 1.65;
 }
 
 .profile-empty {

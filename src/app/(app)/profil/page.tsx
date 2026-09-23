@@ -1,14 +1,8 @@
 "use client";
 
 import PhotoCompareSlider from "@/components/app/PhotoCompareSlider";
+import ResultCard from "@/components/screening/ResultCard";
 import {
-  DURATION_OPTIONS,
-  EXPECTATION_OPTIONS,
-  FAMILY_OPTIONS,
-  HEALTH_OPTIONS,
-  PRIOR_CARE_OPTIONS,
-  SEX_OPTIONS,
-  THINNING_OPTIONS,
   evaluateResult,
   hasCompleteScreening,
   scorePercent,
@@ -32,45 +26,6 @@ import {
 } from "@/lib/photos/storage";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-
-function optionLabel<T extends string>(
-  options: { id: T; label: string }[],
-  value?: T
-) {
-  if (!value) return "-";
-  return options.find((option) => option.id === value)?.label ?? "-";
-}
-
-function screeningRows(answers: ScreeningAnswers) {
-  return [
-    { label: "Věk", value: answers.age?.trim() || "-" },
-    { label: "Pohlaví", value: optionLabel(SEX_OPTIONS, answers.sex) },
-    {
-      label: "Charakter změn",
-      value: optionLabel(THINNING_OPTIONS, answers.thinning),
-    },
-    {
-      label: "Doba trvání",
-      value: optionLabel(DURATION_OPTIONS, answers.duration),
-    },
-    {
-      label: "Rodinná anamnéza",
-      value: optionLabel(FAMILY_OPTIONS, answers.family),
-    },
-    {
-      label: "Dosavadní péče",
-      value: optionLabel(PRIOR_CARE_OPTIONS, answers.priorCare),
-    },
-    {
-      label: "Zdravotní kontext",
-      value: optionLabel(HEALTH_OPTIONS, answers.health),
-    },
-    {
-      label: "Očekávání",
-      value: optionLabel(EXPECTATION_OPTIONS, answers.expectation),
-    },
-  ];
-}
 
 function formatPhotoDate(iso: string) {
   return new Date(iso).toLocaleDateString("cs-CZ", {
@@ -112,64 +67,12 @@ function resolveScreeningAnswers(): ScreeningAnswers {
   return loadAnswers();
 }
 
-const MINI_RING = 88;
-const MINI_STROKE = 8;
-const MINI_RADIUS = (MINI_RING - MINI_STROKE) / 2;
-const MINI_CIRC = 2 * Math.PI * MINI_RADIUS;
-
-function MiniScoreRing({
-  percent,
-  tone,
-}: {
-  percent: number;
-  tone: ResultCategory["id"];
-}) {
-  const value = Math.min(100, Math.max(0, percent));
-  const offset = MINI_CIRC * (1 - value / 100);
-
-  return (
-    <div className={`profile-score-ring tone-${tone}`} aria-hidden="true">
-      <svg
-        width={MINI_RING}
-        height={MINI_RING}
-        viewBox={`0 0 ${MINI_RING} ${MINI_RING}`}
-      >
-        <circle
-          className="profile-score-track"
-          cx={MINI_RING / 2}
-          cy={MINI_RING / 2}
-          r={MINI_RADIUS}
-          fill="none"
-          strokeWidth={MINI_STROKE}
-        />
-        <circle
-          className="profile-score-progress"
-          cx={MINI_RING / 2}
-          cy={MINI_RING / 2}
-          r={MINI_RADIUS}
-          fill="none"
-          strokeWidth={MINI_STROKE}
-          strokeDasharray={MINI_CIRC}
-          strokeDashoffset={offset}
-          strokeLinecap="round"
-          transform={`rotate(-90 ${MINI_RING / 2} ${MINI_RING / 2})`}
-        />
-      </svg>
-      <div className="profile-score-value">
-        <span className="profile-score-number">{value}</span>
-        <span className="profile-score-unit">/ 100</span>
-      </div>
-    </div>
-  );
-}
-
 export default function ProfilPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [ready, setReady] = useState(false);
   const [answers, setAnswers] = useState<ScreeningAnswers>({});
   const [result, setResult] = useState<ResultCategory | null>(null);
   const [percent, setPercent] = useState(0);
-  const [showScreeningDetail, setShowScreeningDetail] = useState(false);
   const [photos, setPhotos] = useState<CarePhoto[]>([]);
   const [photoDate, setPhotoDate] = useState(todayInputValue);
   const [error, setError] = useState("");
@@ -257,58 +160,25 @@ export default function ProfilPage() {
           Váš screening a fotodokumentace vývoje na jednom místě.
         </p>
 
-        <section
-          className="summary-block profile-screening"
-          aria-labelledby="profile-screening"
-        >
-          <h2 id="profile-screening">Screening / výsledek</h2>
-          <p className="profile-section-lead">
-            Orientační výsledek vstupního screeningu.
-          </p>
-
-          {screeningReady && result ? (
-            <>
-              <div className="profile-screening-summary">
-                <MiniScoreRing percent={percent} tone={result.id} />
-                <div className="profile-screening-copy">
-                  <p className="profile-screening-score-label">
-                    {percent} / 100
-                  </p>
-                  <p className="profile-screening-profile">
-                    Profil: <strong>{result.profileLabel}</strong>
-                  </p>
-                  <p className="profile-screening-badge">{result.badge}</p>
-                  <p>{result.summary}</p>
-                </div>
-              </div>
-
-              <div className="flow-actions">
-                <button
-                  className="button secondary"
-                  type="button"
-                  onClick={() => setShowScreeningDetail((open) => !open)}
-                >
-                  {showScreeningDetail
-                    ? "Skrýt detail výsledku"
-                    : "Zobrazit detail výsledku"}
-                </button>
-              </div>
-
-              {showScreeningDetail ? (
-                <div className="profile-screening-detail">
-                  <p className="profile-detail-note">{result.interpretation}</p>
-                  <dl className="journey-meta">
-                    {screeningRows(answers).map((row) => (
-                      <div key={row.label}>
-                        <dt>{row.label}</dt>
-                        <dd>{row.value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              ) : null}
-            </>
-          ) : (
+        {screeningReady && result ? (
+          <section className="profile-screening" aria-labelledby="profile-screening">
+            <ResultCard
+              compact
+              result={result}
+              percent={percent}
+              answers={answers}
+              titleId="profile-screening"
+            />
+          </section>
+        ) : (
+          <section
+            className="summary-block profile-screening"
+            aria-labelledby="profile-screening"
+          >
+            <h2 id="profile-screening">Screening / výsledek</h2>
+            <p className="profile-section-lead">
+              Orientační výsledek vstupního screeningu.
+            </p>
             <div className="profile-empty">
               <p>Výsledek screeningu zatím není dostupný.</p>
               <p className="meta-line">
@@ -321,8 +191,8 @@ export default function ProfilPage() {
                 </Link>
               </div>
             </div>
-          )}
-        </section>
+          </section>
+        )}
 
         <section
           className="summary-block profile-photos"
