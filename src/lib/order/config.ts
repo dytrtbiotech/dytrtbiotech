@@ -549,8 +549,8 @@ export function getNextTask(order: OrderDraft | null): NextTask {
   if (order.status === "results_with_doctor") {
     const doctor = getDoctor(order.doctorId);
     return {
-      title: "Domluvte si konzultaci",
-      body: "Výsledky jsou u lékaře. Objednejte se přes rezervační systém ordinace a v aplikaci označte, že máte rezervaci.",
+      title: "Výsledky jsou u lékaře",
+      body: "Domluvte si konzultaci přes rezervační systém ordinace a v aplikaci označte, že máte rezervaci.",
       detail: doctor ? `${doctor.name} · ${doctor.city}` : undefined,
       ctaLabel: "Pokračovat ke konzultaci",
       href: "/konzultace",

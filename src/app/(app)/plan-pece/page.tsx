@@ -129,7 +129,7 @@ export default function PlanPecePage() {
 
             <div className="order-actions">
               <Link className="button secondary" href="/prehled">
-                Zpět
+                Zpět na přehled
               </Link>
               <button
                 className="button"
@@ -298,9 +298,14 @@ export default function PlanPecePage() {
                 Volitelná fotodokumentace s náhledem a manuálním porovnáním
                 snímků. Nahrání není podmínkou péče.
               </p>
-              <Link className="button" href="/fotografie">
-                Otevřít fotografie
-              </Link>
+              <div className="flow-actions">
+                <Link className="button" href="/fotografie">
+                  Otevřít fotografie
+                </Link>
+                <Link className="button secondary" href="/prehled">
+                  Zpět na přehled
+                </Link>
+              </div>
             </section>
           </>
         ) : null}

@@ -1616,6 +1616,10 @@
   margin-bottom: 0 !important;
 }
 
+.consult-doctor--booked .consult-doctor-line:last-of-type {
+  margin-bottom: 0 !important;
+}
+
 .consult-doctor-actions {
   margin-top: 18px;
 }
