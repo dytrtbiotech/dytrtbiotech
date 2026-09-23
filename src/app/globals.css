@@ -59,7 +59,7 @@ summary:focus-visible {
 }
 
 .wrap {
-  width: min(1600px, calc(100% - 56px));
+  width: min(var(--page-max), calc(100% - (var(--page-gutter) * 2)));
   margin-inline: auto;
 }
 
@@ -247,7 +247,8 @@ summary:focus-visible {
 }
 
 .hero-copy {
-  padding: 78px 56px 54px max(28px, calc((100vw - 1600px) / 2));
+  padding: 78px 56px 54px
+    max(var(--page-gutter), calc((100vw - var(--page-max)) / 2));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1037,11 +1038,11 @@ dialog::backdrop {
 }
 
 @media (max-width: 1150px) {
-  .wrap {
-    width: calc(100% - 32px);
+  :root {
+    --page-gutter: 16px;
   }
   .hero-copy {
-    padding: 60px 32px;
+    padding: 60px 32px 60px var(--page-gutter);
   }
   .hero h1 {
     font-size: 58px;
@@ -1095,7 +1096,7 @@ dialog::backdrop {
     font-size: 48px;
   }
   .hero-copy {
-    padding: 50px 28px 40px 32px;
+    padding: 50px 28px 40px var(--page-gutter);
   }
   .hero {
     min-height: calc(100svh - 96px);
@@ -1263,8 +1264,8 @@ dialog::backdrop {
   html {
     scroll-padding-top: 25px;
   }
-  .wrap {
-    width: calc(100% - 24px);
+  :root {
+    --page-gutter: 12px;
   }
   .header {
     height: 78px;
@@ -1279,7 +1280,7 @@ dialog::backdrop {
     min-height: calc(100svh - 78px);
   }
   .hero-copy {
-    padding: 47px 25px 36px;
+    padding: 47px var(--page-gutter) 36px;
     display: block;
   }
   .hero .eyebrow {
@@ -1321,7 +1322,7 @@ dialog::backdrop {
     flex: 1;
     height: auto;
     border-top-left-radius: 75px;
-    margin-left: 25px;
+    margin-left: var(--page-gutter);
   }
   .hero-image img {
     object-position: 50% 38%;
