@@ -128,34 +128,41 @@
 .login-modal-actions .button {
   flex: 0 0 auto;
   width: auto;
-  min-width: 0;
-  min-height: 48px;
-  padding: 12px 26px;
-  font-size: 15px;
+  min-height: 54px;
+  padding: 15px 26px;
+  font-size: inherit;
   font-weight: 500;
+}
+
+.login-modal-actions .button.login-modal-back {
+  background: transparent;
+  border-color: var(--accent, var(--teal));
+  color: var(--accent, var(--teal));
+}
+
+.login-modal-actions .button.login-modal-back:hover {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #fff;
 }
 
 .login-modal-alt {
-  display: grid;
-  justify-items: center;
-  gap: 12px;
-  margin-top: 28px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
+  margin: 28px 0 0;
   text-align: center;
-}
-
-.login-modal-alt p {
-  margin: 0;
   font-size: 14px;
+  line-height: 1.5;
   color: var(--muted);
 }
 
-.login-modal-alt .button {
-  min-height: 48px;
-  padding: 12px 26px;
-  font-size: 15px;
-  font-weight: 500;
+.login-modal-alt a {
+  color: var(--teal);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.login-modal-alt a:hover {
+  color: #1e6272;
 }
 
 .login-page {

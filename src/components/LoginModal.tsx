@@ -157,7 +157,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
 
         <div className="login-modal-actions">
           <button
-            className="button secondary"
+            className="button login-modal-back"
             type="button"
             onClick={onClose}
           >
@@ -168,16 +168,12 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
           </button>
         </div>
 
-        <div className="login-modal-alt">
-          <p>Ještě nemáte účet?</p>
-          <Link
-            className="button secondary"
-            href="/dotaznik"
-            onClick={onClose}
-          >
+        <p className="login-modal-alt">
+          Ještě nemáte účet?{" "}
+          <Link href="/dotaznik" onClick={onClose}>
             Zahájit screening
           </Link>
-        </div>
+        </p>
       </div>
     </div>
   );
