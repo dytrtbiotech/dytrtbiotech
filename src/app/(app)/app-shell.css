@@ -578,10 +578,15 @@
 
 .care-progress-step.is-current .care-progress-marker::after {
   content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 10px;
   height: 10px;
+  margin: 0;
   border-radius: 50%;
   background: var(--teal);
+  transform: translate(-50%, -50%);
 }
 
 .care-progress-label {
@@ -1241,11 +1246,15 @@
 
 .journey-step.is-current .journey-dot::after {
   content: "";
-  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 7px;
   height: 7px;
+  margin: 0;
   border-radius: 50%;
   background: var(--teal);
+  transform: translate(-50%, -50%);
 }
 
 .journey-step.is-waiting .journey-dot {
