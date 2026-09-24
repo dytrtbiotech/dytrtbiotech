@@ -1,6 +1,7 @@
 "use client";
 
 import AppHeader from "@/components/app/AppHeader";
+import AppSidebar from "@/components/app/AppSidebar";
 import ProcessSidebar from "@/components/app/ProcessSidebar";
 import {
   getLabOrderSubstep,
@@ -12,6 +13,7 @@ import {
   clearAuthUser,
   hydrateScreeningForUser,
   loadAuthUser,
+  loadEmail,
   type AuthUser,
 } from "@/lib/screening/storage";
 import type { OrderDraft } from "@/lib/order/config";
@@ -25,6 +27,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [user, setUser] = useState<AuthUser | null>(null);
   const [ready, setReady] = useState(false);
+  const [email, setEmail] = useState("");
   const [order, setOrder] = useState<OrderDraft | null>(null);
 
   useEffect(() => {
@@ -35,6 +38,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     }
     hydrateScreeningForUser(auth.email);
     setUser(auth);
+    setEmail(loadEmail() || auth.email);
     setOrder(loadOrder());
     setReady(true);
   }, [router, pathname]);
@@ -42,6 +46,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   if (!ready || !user) {
     return <div className="app-loading">Načítání…</div>;
   }
+
+  const displayName =
+    user.fullName?.trim() ||
+    email.split("@")[0] ||
+    "Klient";
+
+  const initials = displayName
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toLocaleUpperCase("cs-CZ") ?? "")
+    .join("");
 
   const logout = () => {
     clearAuthUser();
@@ -57,7 +73,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     : undefined;
 
   return (
-    <div className={`app-shell${processMode ? " is-process" : " is-header"}`}>
+    <div className={`app-shell${processMode ? " is-process" : " is-nav"}`}>
       {processMode ? (
         <ProcessSidebar
           phases={processPhases}
@@ -70,7 +86,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           }
         />
       ) : (
-        <AppHeader pathname={pathname} onLogout={logout} />
+        <>
+          <AppSidebar
+            pathname={pathname}
+            displayName={displayName}
+            email={email}
+            initials={initials}
+            onLogout={logout}
+          />
+          <AppHeader pathname={pathname} onLogout={logout} />
+        </>
       )}
       <div className="app-main">{children}</div>
     </div>

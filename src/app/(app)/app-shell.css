@@ -6,9 +6,24 @@
   color: var(--ink);
 }
 
-.app-shell.is-header {
-  grid-template-columns: 1fr;
+.app-shell.is-nav {
+  grid-template-columns: 272px minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
+}
+
+.app-shell.is-nav > .app-aside {
+  grid-row: 1 / -1;
+}
+
+.app-shell.is-nav > .app-header {
+  display: none;
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.app-shell.is-nav > .app-main {
+  grid-column: 2;
+  grid-row: 1 / -1;
 }
 
 .app-header.site-header {
@@ -2729,8 +2744,28 @@
 
 @media (max-width: 860px) {
   .app-shell,
-  .app-shell.is-process {
+  .app-shell.is-process,
+  .app-shell.is-nav {
     grid-template-columns: 1fr;
+  }
+
+  .app-shell.is-nav {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .app-shell.is-nav > .app-aside {
+    display: none;
+  }
+
+  .app-shell.is-nav > .app-header {
+    display: block;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .app-shell.is-nav > .app-main {
+    grid-column: 1;
+    grid-row: 2;
   }
 
   .app-aside {
