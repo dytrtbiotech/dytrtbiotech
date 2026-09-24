@@ -539,7 +539,29 @@ export default function LandingPage() {
             © 2026 FOLLICAD. Informace na této stránce slouží k orientaci a
             nenahrazují osobní konzultaci s lékařem.
           </p>
-          <span className="demo-label">Pracovní náhled stránky</span>
+          <a
+            className="rezit-signature"
+            href="https://www.rezit.cz"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Rezit"
+          >
+            <Image
+              className="rezit-signature-img rezit-signature-img--default"
+              src="/rezitsignature1dark.webp"
+              alt=""
+              width={160}
+              height={40}
+            />
+            <Image
+              className="rezit-signature-img rezit-signature-img--hover"
+              src="/rezitsignature2dark.webp"
+              alt=""
+              width={160}
+              height={40}
+              aria-hidden="true"
+            />
+          </a>
         </div>
       </footer>
 
