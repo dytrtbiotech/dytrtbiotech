@@ -157,6 +157,14 @@
     var(--bg, #f7fafb);
 }
 
+.login-page-loading {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  color: var(--muted, #6b7c83);
+  font-size: 15px;
+}
+
 @media (max-width: 900px) {
   .login-modal-layer {
     padding: 0;

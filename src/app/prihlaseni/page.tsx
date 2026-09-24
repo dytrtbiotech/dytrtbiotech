@@ -4,6 +4,7 @@ import LoginModal from "@/components/LoginModal";
 import { loadAuthUser } from "@/lib/screening/storage";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import "@/components/login-modal.css";
 
 export default function PrihlaseniPage() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function PrihlaseniPage() {
   }, [router]);
 
   if (!ready) {
-    return <div className="app-loading">Načítání…</div>;
+    return <div className="login-page-loading">Načítání…</div>;
   }
 
   return (
