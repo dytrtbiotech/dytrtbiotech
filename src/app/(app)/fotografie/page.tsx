@@ -64,10 +64,15 @@ export default function FotografiePage() {
       </header>
       <div className="app-content">
         <h1>Moje fotografie</h1>
-        <p className="app-lead">
+        <p className="app-lead app-lead--nowrap">
           Volitelná fotodokumentace pro manuální porovnání. Nenahrazuje
           potvrzení návštěvy a neslibuje procentuální zlepšení.
         </p>
+        <div className="app-page-actions">
+          <Link className="button secondary" href="/plan-pece">
+            Zpět do programu
+          </Link>
+        </div>
 
         {!careReady ? (
           <section className="flow-card">
