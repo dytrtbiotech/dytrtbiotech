@@ -770,7 +770,7 @@ p {
 }
 
 .faq-intro {
-  max-width: 28rem;
+  max-width: none;
   position: sticky;
   top: 120px;
 }
@@ -784,8 +784,8 @@ p {
   color: var(--muted);
   margin: 0;
   line-height: 1.65;
-  text-wrap: pretty;
-  max-width: 26rem;
+  max-width: none;
+  white-space: nowrap;
 }
 
 .faq-list {
@@ -1168,8 +1168,12 @@ dialog::backdrop {
     gap: 25px;
   }
   .faq-intro {
-    max-width: 520px;
+    max-width: none;
     position: static;
+  }
+
+  .faq-intro p {
+    white-space: normal;
   }
   .profile-banner {
     padding: 34px;
