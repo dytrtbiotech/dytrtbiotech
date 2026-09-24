@@ -1,6 +1,7 @@
 "use client";
 
 import FaqSection from "@/components/FaqSection";
+import LoginModal from "@/components/LoginModal";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -11,26 +12,12 @@ import {
   type ReactNode,
 } from "react";
 
-type DialogKey = "login" | "privacy";
+type DialogKey = "privacy";
 
 const dialogContents: Record<
   DialogKey,
   { title: string; body: ReactNode }
 > = {
-  login: {
-    title: "Vítejte zpátky.",
-    body: (
-      <>
-        <p>
-          Přihlášení vás v aplikaci vrátí k uloženému profilu, objednávkám a
-          dalším krokům péče.
-        </p>
-        <p>
-          Tento náhled ještě neobsahuje přihlášení ani uživatelské účty.
-        </p>
-      </>
-    ),
-  },
   privacy: {
     title: "Vaše soukromí.",
     body: (
@@ -68,9 +55,10 @@ function TickIcon() {
 
 export default function LandingPage() {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const [activeDialog, setActiveDialog] = useState<DialogKey>("login");
+  const [activeDialog, setActiveDialog] = useState<DialogKey>("privacy");
   const [headerScrolled, setHeaderScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -102,6 +90,7 @@ export default function LandingPage() {
   }, [menuOpen]);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const closeLogin = useCallback(() => setLoginOpen(false), []);
 
   const openDialog = useCallback((key: DialogKey) => {
     setMenuOpen(false);
@@ -186,13 +175,16 @@ export default function LandingPage() {
               Reference ↗
             </a>
             <div className="nav-actions">
-              <Link
+              <button
                 className="button secondary"
-                href="/prihlaseni"
-                onClick={closeMenu}
+                type="button"
+                onClick={() => {
+                  closeMenu();
+                  setLoginOpen(true);
+                }}
               >
                 Přihlásit se
-              </Link>
+              </button>
               <Link className="button" href="/dotaznik" onClick={closeMenu}>
                 Zahájit screening
               </Link>
@@ -575,6 +567,8 @@ export default function LandingPage() {
           </button>
         </div>
       </dialog>
+
+      <LoginModal open={loginOpen} onClose={closeLogin} />
     </>
   );
 }
