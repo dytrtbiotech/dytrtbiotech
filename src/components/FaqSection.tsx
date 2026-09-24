@@ -104,12 +104,8 @@ export default function FaqSection() {
       <div className="faq-layout">
         <div className="faq-intro">
           <span className="eyebrow">Než začnete</span>
-          <h2 id="faq-title">
-            Co by vás
-            <br />
-            mohlo zajímat
-          </h2>
-          <p>Krátké odpovědi, které se hodí znát před prvním krokem.</p>
+          <h2 id="faq-title">Co by vás mohlo zajímat</h2>
+          <p>Krátké odpovědi, které se hodí znát před prvním&nbsp;krokem.</p>
         </div>
         <div className="faq-list">
           {FAQ_ITEMS.map((item, index) => (
